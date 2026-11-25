@@ -1,7 +1,7 @@
 {
-  "name": "신규채용자 준수사항 · 전주오성대우 주택재건축 정비사업",
+  "name": "신규채용자 준수사항 · 전주 오성대우 주택재건축 정비사업",
   "short_name": "신규채용서류",
-  "description": "IPARK 전주오성대우 주택재건축 정비사업 신규채용자 준수사항 온라인 작성",
+  "description": "IPARK 전주 오성대우 주택재건축 정비사업 신규채용자 준수사항 온라인 작성",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
