@@ -1,0 +1,13 @@
+{
+  "name": "전주오성대우 주택재건축 정비사업",
+  "codePrefix": "JOS",
+  "idDomain": "hdc-jeonju-osung.site",
+  "firebase": {
+    "apiKey": "여기에_새_apiKey",
+    "authDomain": "여기에_새_authDomain",
+    "projectId": "여기에_새_projectId",
+    "storageBucket": "여기에_새_storageBucket",
+    "messagingSenderId": "여기에_새_messagingSenderId",
+    "appId": "여기에_새_appId"
+  }
+}

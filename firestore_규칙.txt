@@ -1,0 +1,84 @@
+rules_version = '2';
+// ─────────────────────────────────────────────────────────────
+// 신규채용자 준수사항 · Firestore 보안 규칙
+// Firebase 콘솔 → Firestore Database → 규칙 탭에 이 내용을 통째로
+// 붙여넣고 [게시]를 누르세요.
+//
+//  · 근로자 : 로그인 없이 자기 서류를 제출(쓰기)만 할 수 있음. 남의 서류는 못 봄
+//  · 협력사 : 원청이 승인하면 자기 회사 근로자 서류만 볼 수 있음
+//  · 원청   : 모든 서류 열람 · 삭제 · 협력사 등록 · 계정 승인
+// ─────────────────────────────────────────────────────────────
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function profPath() { return /databases/$(database)/documents/users/$(request.auth.uid); }
+    function hasProf()  { return signedIn() && exists(profPath()); }
+    function prof()     { return get(profPath()).data; }
+    function isGC()     { return hasProf() && prof().role == 'gc'  && prof().approved == true; }
+    function isSub()    { return hasProf() && prof().role == 'sub' && prof().approved == true; }
+    function myCo()     { return prof().company; }
+    function ownCo(co)  { return isSub() && co == myCo(); }
+
+    // 원청 계정 자리 (최초 1명만)
+    match /meta/bootstrap {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // 로그인 계정 정보
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isGC());
+      allow create: if signedIn() && request.auth.uid == uid && (
+          // 원청: 원청 자리를 잡은 본인만
+          (request.resource.data.role == 'gc'
+            && get(/databases/$(database)/documents/meta/bootstrap).data.uid == request.auth.uid)
+          // 협력사: 승인 전 상태 + 원청이 준 고유번호가 맞아야 함
+          || (request.resource.data.role == 'sub'
+            && request.resource.data.approved == false
+            && exists(/databases/$(database)/documents/cocodes/$(request.resource.data.company.replace('/', '／')))
+            && get(/databases/$(database)/documents/cocodes/$(request.resource.data.company.replace('/', '／'))).data.code
+               == request.resource.data.code)
+        );
+      allow update, delete: if isGC();
+    }
+
+    // 협력사 고유번호 (원청 전용)
+    match /cocodes/{id} {
+      allow read, write: if isGC();
+    }
+
+    // 제출 서류 (문서 번호는 근로자 폰이 만든 무작위 번호라 추측 불가)
+    match /records/{id} {
+      allow read: if isGC() || (isSub() && resource.data.company == myCo());
+      allow create, update: if true;
+      allow delete: if isGC();
+    }
+
+    // 서류 사진 (신분증 · 이수증 · 혈압)
+    match /photos/{id} {
+      allow read: if isGC() || (isSub() && resource.data.company == myCo());
+      allow create, update: if true;
+      allow delete: if isGC();
+    }
+
+    // 삭제 기록 (원청 전용)
+    match /deleted/{id} {
+      allow read, write: if isGC();
+    }
+
+    // 투입 예정자 명단
+    match /roster/{id} {
+      allow read: if isGC() || (isSub() && resource.data.company == myCo());
+      allow create: if isGC() || ownCo(request.resource.data.company);
+      allow update, delete: if isGC() || ownCo(resource.data.company);
+    }
+
+    // 설정값 (양식 · 협력사 이름 목록 · 관리번호 순번 · 연결 진단)
+    match /kv/{key} {
+      allow read: if true;
+      allow write: if isGC() || key.matches('seq-.*') || key == '__diag';
+    }
+  }
+}
