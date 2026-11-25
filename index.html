@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<meta name="theme-color" content="#15171C">
+<meta name="theme-color" content="#ffffff">
 <title>신규채용자 준수사항 · 아이파크무등산스카이포레</title>
 
 <!-- 홈 화면 아이콘 · 설치형 앱 정보 (파일은 index.html 과 같은 폴더) -->
@@ -1013,6 +1013,43 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:0 0 0
 .admtabs button{border-color:var(--line)}
 
 @media (prefers-reduced-motion:reduce){ *{transition:none !important;animation:none !important} }
+
+/* ══ 디자인 개편 (E안 · 스텝 진행형) ══════════════════════════════
+   흰 머리글 + IPARK 레드 단계 표시 + 빨간 [다음] 버튼, 밝은 회색 바탕 */
+:root{ --ink:#212121; --steel:#5E5E5E; --mute:#8C8C8C; --line:#DADAD7; --line-2:#E7E7E5;
+  --field:#F5F5F4; --signal:#E01226; --signal-8:#FDECEE; --brandred:#F01428; }
+header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
+.brand img{background:none;padding:0}
+.brand span{color:var(--steel)}
+.admlink{border:0;background:#F2F2F0;color:var(--ink)}
+.admlink:hover{background:#E7E7E5}
+.hbar em{color:var(--steel);font-family:var(--sans);font-weight:600}
+.prog{position:relative;justify-content:space-between;align-items:center;gap:0;padding:2px 0 14px}
+.prog::before{content:"";position:absolute;left:12px;right:12px;top:13px;height:2px;background:var(--line)}
+.prog i{position:relative;z-index:1;flex:none;width:24px;height:24px;border-radius:50%;box-sizing:border-box;
+  border:2px solid var(--line);background:#fff;font-style:normal;font-size:.7rem;font-weight:700;color:var(--mute);
+  display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.prog i.on{background:var(--brandred);border-color:var(--brandred);color:#fff}
+.prog i.done{background:var(--ink);border-color:var(--ink);color:#fff}
+#btnNext{background:var(--signal);border-color:var(--signal);color:#fff}
+#btnNext:hover{background:#C40F22;border-color:#C40F22}
+.appToast{background:var(--ink)}
+/* 협력회사 검색 · 선택 */
+.coPick{display:block !important;margin-bottom:8px}
+.coPick.hidden{display:none !important}
+.coBox{background:#fff;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
+.coSearch{display:flex;align-items:center;gap:10px;padding:0 14px;border-bottom:1px solid var(--line-2)}
+.coSearch svg{flex:none}
+.coSearch input[type=search]{flex:1;min-width:0;border:0;min-height:52px;padding:0;background:transparent;border-radius:0;outline:none}
+.coList{max-height:300px;overflow-y:auto}
+.coItem{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:10px 14px;
+  border:0;border-top:1px solid var(--line-2);background:#fff;text-align:left;font-size:1.06rem;font-weight:600;cursor:pointer}
+.coItem:first-child{border-top:0}
+.coItem[aria-pressed=true]{background:var(--signal-8);color:#B00E20}
+.coItem .ck{visibility:hidden;flex:none}
+.coItem[aria-pressed=true] .ck{visibility:visible}
+.coItem b{color:#B00E20}
+.coEmpty{padding:16px 14px;font-size:.9rem;color:var(--steel)}
 </style>
 </head>
 <body>
@@ -1880,6 +1917,7 @@ const SITE = {
     appId: "1:25468549460:web:40319941a387f45f6830c1"
   }
 };
+SITE.companies = SITE.companies || [];   // site.json 의 기본 협력회사 (관리자 등록 없이도 목록에 뜬다)
 const FIREBASE_CONFIG = SITE.firebase;   // 아래 코드는 이 이름을 쓴다 (site.json 적용 시 내용이 바뀐다)
 async function loadSiteConfig(){
   try{
@@ -1889,6 +1927,7 @@ async function loadSiteConfig(){
     if(j.name) SITE.name = String(j.name);
     if(j.codePrefix) SITE.codePrefix = String(j.codePrefix).replace(/[^A-Za-z0-9]/g, "").toUpperCase() || SITE.codePrefix;
     if(j.idDomain) SITE.idDomain = String(j.idDomain);
+    if(Array.isArray(j.companies)) SITE.companies = j.companies.map(x => String(x||"").trim()).filter(Boolean);
     if(j.firebase && j.firebase.projectId){ Object.keys(FIREBASE_CONFIG).forEach(k => delete FIREBASE_CONFIG[k]); Object.assign(FIREBASE_CONFIG, j.firebase); }
     return true;
   }catch(e){ return false; }
@@ -2240,6 +2279,7 @@ function applyLang(){
     if(d != null) el.innerHTML = d;
   });
   document.documentElement.lang = LANG;
+  try{ const cp = document.getElementById("coPick"); if(cp && !cp.classList.contains("hidden")) renderCoPick(); }catch(e){}   // 검색칸 안내문을 언어에 맞게
   const sums = {
     ko:"",
     vi:"Tóm tắt: đồng ý đội đồ bảo hộ, báo cáo rủi ro, quyền dừng công việc nguy hiểm, tuân thủ quy tắc an toàn, và cho phép thu thập thông tin cá nhân. (Xem đầy đủ ở bản tiếng Hàn phía trên)",
@@ -2561,7 +2601,7 @@ const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySel
 const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ""; };
 
 const progEl = $("#prog");
-for(let i=0;i<FLOW.length;i++) progEl.appendChild(document.createElement("i"));
+for(let i=0;i<FLOW.length;i++){ const d = document.createElement("i"); d.textContent = String(i+1); progEl.appendChild(d); }
 
 function paint(){
   $("main").style.display = "";
@@ -2982,7 +3022,7 @@ function applyDraft(d){
     if(t && im && PHOTO[key]){ im.src = PHOTO[key]; t.classList.remove("hidden"); }
   });
   step = FLOW.includes(d.step) ? d.step : 0;
-  coManual = false; renderCoPick();
+  coManual = false; coQuery = ""; renderCoPick();
   paint();
   setTimeout(() => {
     Object.keys(d.sigs||{}).forEach(k => { if(PADS[k]) PADS[k].restore(d.sigs[k]); });
@@ -6541,7 +6581,44 @@ function splitSteps(){
    글자로 치게 하면 "태흥건설/태흥특수"처럼 비슷한 이름을 잘못 고르고,
    안드로이드에서 한글 자동완성이 엉키는 일도 있다. 등록된 회사는 버튼으로 고르고,
    목록에 없을 때만 직접 친다. */
-let coManual = false;
+let coManual = false, coQuery = "";
+const CO_TXT = {
+  ko:{ q:"회사명 검색", none:"검색 결과가 없어요. 아래 '목록에 없어요'를 눌러 직접 적어 주세요." },
+  vi:{ q:"Tìm tên công ty", none:"Không tìm thấy. Hãy bấm nút bên dưới để tự nhập." },
+  zh:{ q:"搜索公司名称", none:"没有找到，请点击下方按钮直接输入。" },
+  th:{ q:"ค้นหาชื่อบริษัท", none:"ไม่พบ กรุณากดปุ่มด้านล่างเพื่อพิมพ์เอง" }
+};
+function coTxt(k){ return ((CO_TXT[LANG] || CO_TXT.ko)[k]) || CO_TXT.ko[k]; }
+const CO_ICON_SEARCH = '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="#8C8C8C" stroke-width="1.8" fill="none"/><path d="M12.2 12.2l4 4" stroke="#8C8C8C" stroke-width="1.8"/></svg>';
+const CO_ICON_CHECK  = '<svg class="ck" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 10.5l4.2 4.2 8.8-9.4" stroke="#B00E20" stroke-width="2.4" fill="none"/></svg>';
+/* 회사 고르기 — 검색칸 + 목록.
+   글자로 치게만 하면 비슷한 이름을 잘못 적는 일이 생기므로, 등록된 회사는 목록에서 누르고
+   (검색어로 좁힐 수 있다) 목록에 없을 때만 직접 친다. */
+function renderCoList(){
+  const box = $("#coPick"), inp = $("#company");
+  const list = box && box.querySelector(".coList");
+  if(!list) return;
+  const names = coNames();
+  const q = coKeyOf(coQuery);
+  const hits = q ? names.filter(n => coKeyOf(n).includes(q)) : names;
+  const cur = inp.value.trim();
+  const mark = n => {
+    if(!coQuery.trim()) return esc(n);
+    const at = n.toLowerCase().indexOf(coQuery.trim().toLowerCase());
+    return at < 0 ? esc(n) : esc(n.slice(0,at)) + "<b>" + esc(n.slice(at, at+coQuery.trim().length)) + "</b>" + esc(n.slice(at+coQuery.trim().length));
+  };
+  list.innerHTML = hits.map(n =>
+    '<button type="button" class="coItem" data-co="'+esc(n)+'" aria-pressed="'+(coKeyOf(n)===coKeyOf(cur))+'"><span>'+mark(n)+'</span>'+CO_ICON_CHECK+'</button>').join("");
+  box.querySelector(".coEmpty").classList.toggle("hidden", hits.length > 0);
+  list.querySelectorAll(".coItem").forEach(b => b.addEventListener("click", () => {
+    inp.value = b.dataset.co; coManual = false;
+    list.querySelectorAll(".coItem").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    inp.classList.add("hidden");
+    $("#coOther").textContent = (I18N[LANG]||{})["co.other"] || "목록에 없어요 · 직접 입력";
+    inp.dispatchEvent(new Event("input", { bubbles:true }));
+    clearErr(inp.closest(".f"));
+  }));
+}
 function renderCoPick(){
   const box = $("#coPick"), other = $("#coOther"), inp = $("#company");
   if(!box || !inp) return;
@@ -6553,22 +6630,21 @@ function renderCoPick(){
   const hit = names.find(n => coKeyOf(n) === coKeyOf(cur));
   if(hit && inp.value !== hit) inp.value = hit;
   box.classList.remove("hidden"); other.classList.remove("hidden");
-  box.innerHTML = names.map(n => '<button type="button" class="opt" data-co="'+esc(n)+'" aria-pressed="'+(hit===n)+'">'+esc(n)+'</button>').join("");
+  box.innerHTML = '<div class="coBox"><label class="coSearch">' + CO_ICON_SEARCH
+    + '<input type="search" id="coQ" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="'+esc(coTxt("q"))+'" aria-label="'+esc(coTxt("q"))+'"></label>'
+    + '<div class="coList" role="list"></div><div class="coEmpty hidden">'+esc(coTxt("none"))+'</div></div>';
+  const q = box.querySelector("#coQ");
+  q.value = coQuery;
+  q.addEventListener("input", () => { coQuery = q.value; renderCoList(); });
+  renderCoList();
   const manual = coManual || (!!cur && !hit);
   inp.classList.toggle("hidden", !manual);
   other.textContent = manual ? ((I18N[LANG]||{})["co.list"] || "목록에서 고르기") : ((I18N[LANG]||{})["co.other"] || "목록에 없어요 · 직접 입력");
-  box.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
-    inp.value = b.dataset.co; coManual = false;
-    box.querySelectorAll(".opt").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-    inp.classList.add("hidden");
-    other.textContent = (I18N[LANG]||{})["co.other"] || "목록에 없어요 · 직접 입력";
-    inp.dispatchEvent(new Event("input", { bubbles:true }));
-    clearErr(inp.closest(".f"));
-  }));
 }
 $("#coOther").addEventListener("click", () => {
   const inp = $("#company");
   coManual = !coManual;
+  coQuery = "";
   if(coManual){ inp.value = ""; renderCoPick(); setTimeout(() => inp.focus(), 50); }
   else { inp.value = ""; renderCoPick(); }
 });
@@ -6576,7 +6652,12 @@ $("#coOther").addEventListener("click", () => {
 /* 원청사가 등록해 둔 협력사 목록을 내려받아 고를 수 있게 한다 */
 async function loadCompanyList(){
   try{
-    const list = normCompanies(await Store.load("companies", null));
+    let list = [];
+    try{ list = normCompanies(await Store.load("companies", null)); }catch(e){}
+    // site.json 의 기본 협력회사를 더한다 (이미 등록된 이름은 건너뜀)
+    (SITE.companies || []).forEach(n => {
+      if(!list.some(c => coKeyOf(c.name) === coKeyOf(n))) list.push({ name:n, code:"" });
+    });
     COMPANIES = list;   // 저장할 때 등록된 이름으로 맞추는 데 쓴다
     renderCoPick();
   }catch(e){}
