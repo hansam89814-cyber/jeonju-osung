@@ -1175,19 +1175,9 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div class="opts grid2 sm" data-pick="rh" style="margin-top:8px">
         <button class="opt" type="button" data-v="Rh+" data-i18n="opt.rhP">Rh+</button><button class="opt" type="button" data-v="Rh-" data-i18n="opt.rhN">Rh−</button></div></div>
   </div>
-  <div class="card"><h3 data-i18n="card.idPhoto">신분증 또는 외국인등록증 사진</h3>
-    <p style="margin:-6px 0 12px;font-size:.84rem;color:var(--steel)" data-i18n="hint.idPhoto">관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.</p>
-    <div class="photoRow" id="idPhotoRow">
-      <input type="file" accept="image/*" capture="environment" id="idPhotoCam" class="hidden">
-      <input type="file" accept="image/*" id="idPhotoPick" class="hidden">
-      <input type="file" id="idPhotoFile" class="hidden">
-      <div class="sampleSlot" data-for="idPhoto"></div>
-      <div class="photoBtns" id="idPhotoBtn">
-        <label for="idPhotoCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label>
-        <label for="idPhotoPick" class="photoBtn" data-i18n="photo.gallery">🖼 사진첩</label>
-        <label for="idPhotoFile" class="photoBtn" data-i18n="photo.file">📁 파일</label>
-      </div>
-      <div class="photoThumb hidden" id="idPhotoThumb"><img id="idPhotoImg"><button type="button" class="photoDel" id="idPhotoDel">✕</button></div>
+  <div class="card"><h3 data-i18n="card.idPhoto">신분증 또는 외국인등록증 사진 <span class="req">*</span></h3>
+    <p style="margin:-6px 0 12px;font-size:.84rem;color:var(--steel)" data-i18n="hint.idPhoto">관리자 확인용입니다. 사진 첨부는 필수입니다.</p>
+    <div class="photoRow" id="idPhotoRow"><div class="sampleSlot" data-for="idPhoto"></div><div class="chkPages" id="chkIdPages"></div><div class="chkMsg hidden" id="chkIdMsg"></div><div class="photoBtns" id="chkIdBtn"><input type="file" accept="image/*" capture="environment" id="chkIdCam" class="hidden"><input type="file" accept="image/*" multiple id="chkIdFile" class="hidden"><label for="chkIdCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label><label for="chkIdFile" class="photoBtn" data-i18n="photo.gallery">🖼 사진첩</label></div><p class="fsub" data-i18n="upload.four">최대 4장 · 최소 1장 필수</p><div class="err" data-i18n="upload.required">사진을 첨부해 주세요.</div>
     </div></div>
   <div class="card"><h3 data-i18n="card.contact">연락처</h3>
     <div class="f"><label data-i18n="field.phone">본인 연락처 <span class="req">*</span></label>
@@ -1229,19 +1219,9 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div class="when" id="wEduY">
         <div class="f"><label data-i18n="field.eduOrg">교육업체</label><input type="text" id="eduOrg" placeholder="예) 대한산업안전협회"></div>
         <div class="f"><label data-i18n="field.eduDate">이수일</label><input type="date" id="eduDate"></div>
-        <div class="f" style="margin:0"><label data-i18n="card.eduPhoto">이수증 사진 <span class="hint" data-i18n="hint.optional2">선택</span></label>
-          <div class="photoRow" id="eduPhotoRow">
-            <input type="file" accept="image/*" capture="environment" id="eduPhotoCam" class="hidden">
-            <input type="file" accept="image/*" id="eduPhotoPick" class="hidden">
-            <input type="file" id="eduPhotoFile" class="hidden">
-            <div class="sampleSlot" data-for="eduPhoto"></div>
-            <div class="photoBtns" id="eduPhotoBtn">
-              <label for="eduPhotoCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label>
-              <label for="eduPhotoPick" class="photoBtn" data-i18n="photo.gallery">🖼 사진첩</label>
-              <label for="eduPhotoFile" class="photoBtn" data-i18n="photo.file">📁 파일</label>
-            </div>
-            <div class="photoThumb hidden" id="eduPhotoThumb"><img id="eduPhotoImg"><button type="button" class="photoDel" id="eduPhotoDel">✕</button></div>
-          </div></div></div>
+        </div><div class="f" style="margin:0"><label data-i18n="card.eduPhoto">이수증 사진 <span class="req">*</span></label>
+          <div class="photoRow" id="eduPhotoRow"><div class="sampleSlot" data-for="eduPhoto"></div><div class="chkPages" id="chkEduPages"></div><div class="chkMsg hidden" id="chkEduMsg"></div><div class="photoBtns" id="chkEduBtn"><input type="file" accept="image/*" capture="environment" id="chkEduCam" class="hidden"><input type="file" accept="image/*" multiple id="chkEduFile" class="hidden"><label for="chkEduCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label><label for="chkEduFile" class="photoBtn" data-i18n="photo.gallery">🖼 사진첩</label></div><p class="fsub" data-i18n="upload.four">최대 4장 · 최소 1장 필수</p><div class="err" data-i18n="upload.required">사진을 첨부해 주세요.</div>
+          </div></div>
       <div class="when" id="wEduN"><div class="note warn" style="margin:0" data-i18n="note.eduX">미이수자는 <b>현장 출입이 제한</b>됩니다. 안전관리자에게 알려 주세요.</div></div>
       <div class="err" data-i18n="err.eduDone">이수 여부를 선택해 주세요.</div></div></div>
   <div class="card"><h3 data-i18n="card.prevSite">직전 근무지</h3>
@@ -1310,25 +1290,35 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
         <button class="opt" type="button" data-v="건강" data-i18n="opt.v1">건강</button><button class="opt" type="button" data-v="보통" data-i18n="opt.v2">보통</button>
         <button class="opt" type="button" data-v="주의" data-i18n="opt.v3">주의</button><button class="opt" type="button" data-v="요주의" data-i18n="opt.v4">요주의</button>
         <button class="opt" type="button" data-v="진단요망이상" data-i18n="opt.v5">진단요망이상</button></div></div>
-    <div class="f chkUp"><label data-i18n="field.chkGen">일반건강진단 결과지 <span class="hint">선택</span></label>
+    <div class="f chkUp"><label data-i18n="field.chkGen">일반건강진단 결과지 <span class="req">*</span></label>
       <p class="fsub" data-i18n="hint.chkUp">결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.</p>
       <div class="chkPages" id="chkGenPages"></div>
-      <div class="chkMsg hidden" id="chkGenMsg" role="status"></div>
+      <div class="chkMsg hidden" id="chkGenMsg" role="status"></div><div class="err" data-i18n="upload.required">첨부해 주세요.</div>
       <div class="photoBtns" id="chkGenBtn">
         <input type="file" accept="image/*" capture="environment" id="chkGenCam" class="hidden">
         <input type="file" accept="image/*,application/pdf,.pdf" id="chkGenFile" class="hidden">
         <label for="chkGenCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label>
         <label for="chkGenFile" class="photoBtn" data-i18n="chk.file">📁 파일 (PDF·사진)</label>
       </div></div>
-    <div class="f chkUp" style="margin-bottom:0"><label data-i18n="field.chkPre">배치전건강진단 결과지 <span class="hint">선택</span></label>
+    <div class="f chkUp"><label data-i18n="field.chkPre">배치전건강진단 결과지 <span class="req">*</span></label>
       <p class="fsub" data-i18n="hint.chkUp">결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.</p>
       <div class="chkPages" id="chkPrePages"></div>
-      <div class="chkMsg hidden" id="chkPreMsg" role="status"></div>
+      <div class="chkMsg hidden" id="chkPreMsg" role="status"></div><div class="err" data-i18n="upload.required">첨부해 주세요.</div>
       <div class="photoBtns" id="chkPreBtn">
         <input type="file" accept="image/*" capture="environment" id="chkPreCam" class="hidden">
         <input type="file" accept="image/*,application/pdf,.pdf" id="chkPreFile" class="hidden">
         <label for="chkPreCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label>
         <label for="chkPreFile" class="photoBtn" data-i18n="chk.file">📁 파일 (PDF·사진)</label>
+      </div></div>
+    <div class="f chkUp" style="margin-bottom:0"><label data-i18n="field.chkOpinion">의사소견서 <span class="hint">선택</span></label>
+      <p class="fsub" data-i18n="hint.chkUp">결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.</p>
+      <div class="chkPages" id="chkOpinionPages"></div>
+      <div class="chkMsg hidden" id="chkOpinionMsg" role="status"></div>
+      <div class="photoBtns" id="chkOpinionBtn">
+        <input type="file" accept="image/*" capture="environment" id="chkOpinionCam" class="hidden">
+        <input type="file" accept="image/*,application/pdf,.pdf" id="chkOpinionFile" class="hidden">
+        <label for="chkOpinionCam" class="photoBtn" data-i18n="photo.cam">📷 사진 찍기</label>
+        <label for="chkOpinionFile" class="photoBtn" data-i18n="chk.file">📁 파일 (PDF·사진)</label>
       </div></div></div>
   <div class="card"><h3 data-i18n="card.disease">개인 지병</h3>
     <div class="f"><label data-i18n="field.hasDisease">앓고 있는 질병 <span class="req">*</span></label>
@@ -2061,7 +2051,7 @@ ko:{ "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</s
 "card.job":"담당 업무","field.trade":'공종 <span class="req">*</span>',"err.trade":"공종을 선택해 주세요.","opt.select":"선택하세요",
 "field.career":'해당 공종 경력 <span class="req">*</span>',"err.career":"경력을 입력해 주세요.","unit.year":"년","unit.month":"개월","unit.day":"일",
 "field.tradeEtc":"공종 직접입력",
-"hint.idPhoto":"관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.",
+"hint.idPhoto":"관리자 확인용입니다. 사진 첨부는 필수입니다.",
 "card.eduPhoto":"이수증 사진","hint.optional2":"선택","photo.take":"사진 촬영 · 선택",
 "lead.2.h":"교육 이수 및<br>직전 근무지","lead.2.p":"이수증이 있으면 보고 입력해 주세요.",
 "card.basicEdu":"건설업 기초안전보건교육","field.eduDone":'이수 여부 <span class="req">*</span>',
@@ -2398,6 +2388,22 @@ const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào t�
 const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
 function stepName(st){ const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
 let LANG = "ko";
+
+Object.assign(I18N.ko, {"upload.four": "최대 4장 · 최소 1장 필수", "upload.required": "첨부해 주세요.", "field.chkOpinion": "의사소견서 <span class=\"hint\">선택</span>", "hint.idPhoto": "관리자 확인용입니다. 사진 첨부는 필수입니다."});
+for(const k of ["field.chkGen","field.chkPre"]) I18N.ko[k]=I18N.ko[k].replace(/<span.*$/, '<span class="req">* 필수</span>');
+for(const k of ["card.idPhoto","card.eduPhoto"]) I18N.ko[k]+=' <span class="req">*</span>';
+Object.assign(I18N.vi, {"upload.four": "Tối đa 4 ảnh, ít nhất 1 ảnh", "upload.required": "Vui lòng đính kèm.", "field.chkOpinion": "Ý kiến bác sĩ <span class=\"hint\">Không bắt buộc</span>", "hint.idPhoto": "Ảnh bắt buộc để xác minh."});
+for(const k of ["field.chkGen","field.chkPre"]) I18N.vi[k]=I18N.vi[k].replace(/<span.*$/, '<span class="req">* Bắt buộc</span>');
+for(const k of ["card.idPhoto","card.eduPhoto"]) I18N.vi[k]+=' <span class="req">*</span>';
+Object.assign(I18N.zh, {"upload.four": "最多4张，至少1张", "upload.required": "请上传附件。", "field.chkOpinion": "医生意见书 <span class=\"hint\">选填</span>", "hint.idPhoto": "必须上传照片供核验。"});
+for(const k of ["field.chkGen","field.chkPre"]) I18N.zh[k]=I18N.zh[k].replace(/<span.*$/, '<span class="req">* 必填</span>');
+for(const k of ["card.idPhoto","card.eduPhoto"]) I18N.zh[k]+=' <span class="req">*</span>';
+Object.assign(I18N.th, {"upload.four": "สูงสุด 4 รูป อย่างน้อย 1 รูป", "upload.required": "กรุณาแนบไฟล์", "field.chkOpinion": "ใบความเห็นแพทย์ <span class=\"hint\">ไม่บังคับ</span>", "hint.idPhoto": "ต้องแนบรูปเพื่อการตรวจสอบ"});
+for(const k of ["field.chkGen","field.chkPre"]) I18N.th[k]=I18N.th[k].replace(/<span.*$/, '<span class="req">* จำเป็น</span>');
+for(const k of ["card.idPhoto","card.eduPhoto"]) I18N.th[k]+=' <span class="req">*</span>';
+Object.assign(I18N.ru, {"upload.four": "До 4 фото, минимум 1", "upload.required": "Прикрепите файл.", "field.chkOpinion": "Заключение врача <span class=\"hint\">Необязательно</span>", "hint.idPhoto": "Фото обязательно для проверки."});
+for(const k of ["field.chkGen","field.chkPre"]) I18N.ru[k]=I18N.ru[k].replace(/<span.*$/, '<span class="req">* Обязательно</span>');
+for(const k of ["card.idPhoto","card.eduPhoto"]) I18N.ru[k]+=' <span class="req">*</span>';
 function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const k = el.dataset.i18n, d = (I18N[LANG] && I18N[LANG][k]) || I18N.ko[k];
@@ -2603,7 +2609,7 @@ const Store = (() => {
           // 건강진단 결과지는 결과지마다 문서 하나 (photos/{id}~chkGen, ~chkPre)
           const cd = rec.__chkData;
           if(cd){
-            for(const ck of ["chkGen","chkPre"]){
+            for(const ck of ["chkGen","chkPre","chkId","chkEdu","chkOpinion"]){
               if(!cd[ck] || !cd[ck].length) continue;
               if(JSON.stringify(cd[ck]).length > 950000)
                 throw new Error("건강진단 결과지 용량이 너무 큽니다. 장 수를 줄여 다시 올려 주세요.");
@@ -2698,7 +2704,7 @@ const Store = (() => {
             }catch(e){ console.warn("삭제 기록 실패:", e); }
             await db.collection("records").doc(id).delete();
             try{ await db.collection("photos").doc(id).delete(); }catch(e){}   // 사진 문서도 함께
-            for(const ck of ["chkGen","chkPre"]){ try{ await db.collection("photos").doc(id + "~" + ck).delete(); }catch(e){} }
+            for(const ck of ["chkGen","chkPre","chkId","chkEdu","chkOpinion"]){ try{ await db.collection("photos").doc(id + "~" + ck).delete(); }catch(e){} }
           }
           ok = true;
         }catch(e){ firstErr = { where:"Firebase", message:(e && e.message) || String(e) }; }
@@ -2797,9 +2803,10 @@ document.addEventListener("click", e => {
    사진(JPG·PNG 등) 또는 PDF 를 받아 장마다 그림으로 만든다.
    글씨를 알아보기 어려운지(해상도·흔들림·어두움·흐림) 미리 살펴서, 문제가 있으면
    다시 올리라고 안내한다. PDF 는 글자가 들어 있는 파일이면 그대로 통과시킨다. */
-const CHK = { gen:[], pre:[] };
+const CHK = { gen:[], pre:[], id:[], edu:[], opinion:[] };
 const CHK_MAX = 3;
-const CHK_PENDING = { gen:null, pre:null };
+const chkLimit = k => ["id","edu"].includes(k) ? 4 : CHK_MAX;
+const CHK_PENDING = { gen:null, pre:null, id:null, edu:null, opinion:null };
 function chkT(k, n){ const t = (I18N[LANG] && I18N[LANG][k]) || I18N.ko[k] || k; return n == null ? t : t.replace("{n}", n); }
 let __pdfjsP = null;
 function loadPdfJs(){
@@ -2915,37 +2922,40 @@ function chkMsg(kind, cls, html){
   const f = m.querySelector(".chkForce");
   if(f) f.addEventListener("click", () => {
     const pend = CHK_PENDING[kind]; CHK_PENDING[kind] = null;
-    if(pend) CHK[kind] = CHK[kind].concat(pend).slice(0, CHK_MAX);
+    if(pend) CHK[kind] = CHK[kind].concat(pend).slice(0, chkLimit(kind));
     renderChk(kind); chkMsg(kind, "ok", esc(chkT("chk.ok", CHK[kind].length))); saveDraft();
   });
 }
 function renderChk(kind){
   const K = kind[0].toUpperCase() + kind.slice(1);
   const box = document.getElementById("chk" + K + "Pages"); if(!box) return;
+  if(["id","edu"].includes(kind) && CHK[kind].length) PHOTO[kind]=CHK[kind][0]||"";
   box.innerHTML = CHK[kind].map((src, i) =>
     '<div class="chkThumb"><img src="' + src + '" alt="' + (i+1) + '"><i>' + (i+1) + '</i>'
     + '<button type="button" class="chkDel" data-i="' + i + '" aria-label="삭제">✕</button></div>').join("");
   box.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
   box.querySelectorAll(".chkDel").forEach(b => b.addEventListener("click", () => {
-    CHK[kind].splice(+b.dataset.i, 1); renderChk(kind); chkMsg(kind, "", ""); saveDraft();
+    CHK[kind].splice(+b.dataset.i, 1); if(["id","edu"].includes(kind)) PHOTO[kind]=CHK[kind][0]||""; renderChk(kind); chkMsg(kind, "", ""); saveDraft();
   }));
   const btns = document.getElementById("chk" + K + "Btn");
-  if(btns) btns.classList.toggle("hidden", CHK[kind].length >= CHK_MAX);
+  if(btns) btns.classList.toggle("hidden", CHK[kind].length >= chkLimit(kind));
 }
 function wireChk(kind){
   const K = kind[0].toUpperCase() + kind.slice(1);
   ["Cam","File"].forEach(t => {
     const inp = document.getElementById("chk" + K + t); if(!inp) return;
     inp.addEventListener("change", async () => {
-      const f = inp.files[0]; inp.value = ""; if(!f) return;
-      const room = CHK_MAX - CHK[kind].length;
-      if(room <= 0){ chkMsg(kind, "bad", esc(chkT("chk.full"))); return; }
+      const files = Array.from(inp.files); inp.value = ""; if(!files.length) return;
+      if(inp.dataset.busy) return; inp.dataset.busy="1";
+      try { for(const f of files){
+      const room = chkLimit(kind) - CHK[kind].length;
+      if(room <= 0){ chkMsg(kind, "bad", esc(["id","edu"].includes(kind) ? T("upload.four") : chkT("chk.full"))); return; }
       const isPdf = /pdf/i.test(f.type || "") || /\.pdf$/i.test(f.name || "");
       const isImg = /^image\//.test(f.type || "") || /\.(jpe?g|png|heic|heif|webp|gif|bmp)$/i.test(f.name || "");
       if(!isPdf && !isImg){ chkMsg(kind, "bad", esc(chkT("chk.type"))); return; }
       chkMsg(kind, "busy", esc(chkT("chk.busy")));
       let res;
-      try{ res = isPdf ? await chkFromPdf(f, room) : await chkFromImage(f); }
+      try{ res = ["id","edu"].includes(kind) ? {pages:[await compressImage(f,1000,190000)]} : isPdf ? await chkFromPdf(f, room) : await chkFromImage(f); }
       catch(e){ chkMsg(kind, "bad", "<b>" + esc(chkT("chk.bad.read")) + "</b>" + esc(chkT("chk.retry"))); return; }
       if(!res || !res.pages.length){ chkMsg(kind, "bad", "<b>" + esc(chkT("chk.bad.read")) + "</b>" + esc(chkT("chk.retry"))); return; }
       if(res.bad){
@@ -2954,23 +2964,24 @@ function wireChk(kind){
           + '<br><button type="button" class="chkForce">' + esc(chkT("chk.force")) + '</button>');
         return;
       }
-      CHK[kind] = CHK[kind].concat(res.pages).slice(0, CHK_MAX);
+      CHK[kind] = CHK[kind].concat(res.pages).slice(0, chkLimit(kind));
       renderChk(kind); saveDraft();
-      chkMsg(kind, "ok", esc(chkT("chk.ok", CHK[kind].length)) + (res.more ? "<br>" + esc(chkT("chk.full")) : ""));
+      chkMsg(kind, "ok", esc(chkT("chk.ok", CHK[kind].length)) + (res.more ? "<br>" + esc(["id","edu"].includes(kind) ? T("upload.four") : chkT("chk.full")) : ""));
+      } } finally { delete inp.dataset.busy; }
     });
   });
   renderChk(kind);
 }
-wireChk("gen"); wireChk("pre");
+wireChk("gen"); wireChk("pre"); wireChk("id"); wireChk("edu"); wireChk("opinion");
 
 /* 관리자 화면: 결과지 불러와 보여 주기 */
 async function loadChkPages(r){
   if(r.__chk) return r.__chk;
-  const out = { chkGen:[], chkPre:[] };
-  if(r.__chkData){ out.chkGen = r.__chkData.chkGen || []; out.chkPre = r.__chkData.chkPre || []; }
-  else if(fbEnabled() && (r.chkGenPages || r.chkPrePages)){
+  const out = { chkGen:[], chkPre:[], chkId:[], chkEdu:[], chkOpinion:[] };
+  if(r.__chkData){ for(const k of Object.keys(out)) out[k]=r.__chkData[k]||[]; }
+  else if(fbEnabled() && (r.chkGenPages || r.chkPrePages || r.chkIdPages || r.chkEduPages || r.chkOpinionPages)){
     const db = await loadFirebase();
-    for(const ck of ["chkGen","chkPre"]){
+    for(const ck of ["chkGen","chkPre","chkId","chkEdu","chkOpinion"]){
       if(!r[ck + "Pages"]) continue;
       const d = await db.collection("photos").doc(docId(r) + "~" + ck).get();
       if(d.exists) out[ck] = ((d.data() || {}).pages || []).filter(isPhotoData);
@@ -2981,7 +2992,7 @@ async function loadChkPages(r){
 }
 async function fillChkAdmin(r){
   const el = document.getElementById("chkAdmin"); if(!el) return;
-  if(!r || !(r.chkGenPages || r.chkPrePages)){ el.innerHTML = ""; return; }
+  if(!r || !(r.chkGenPages || r.chkPrePages || r.chkIdPages || r.chkEduPages || r.chkOpinionPages)){ el.innerHTML = ""; return; }
   el.innerHTML = '<div class="chkAdminBox"><div class="photoPanelTitle">건강진단 결과지 <span>불러오는 중…</span></div></div>';
   let c;
   try{ c = await loadChkPages(r); }
@@ -2991,7 +3002,7 @@ async function fillChkAdmin(r){
       + arr.map((src, i) => '<div class="chkThumb"><img src="' + src + '" alt="' + lab + ' ' + (i+1) + '"><i>' + (i+1) + '</i></div>').join("") + '</div></div>'
     : '';
   el.innerHTML = '<div class="chkAdminBox"><div class="photoPanelTitle">건강진단 결과지 <span>근로자가 올린 결과지입니다. 눌러서 크게 보세요. 인쇄 양식에는 들어가지 않습니다.</span></div>'
-    + part("일반건강진단", c.chkGen) + part("배치전건강진단", c.chkPre) + '</div>';
+    + part("일반건강진단", c.chkGen) + part("배치전건강진단", c.chkPre) + part("의사소견서", c.chkOpinion) + part("신분증", c.chkId) + part("이수증", c.chkEdu) + '</div>';
   el.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
 }
 
@@ -3097,8 +3108,7 @@ function wirePhoto(prefix, key){
   del.addEventListener("click", () => { PHOTO[key] = ""; thumb.classList.add("hidden"); });
   img.addEventListener("click", () => openLightbox(PHOTO[key]));
 }
-wirePhoto("idPhoto","id");
-wirePhoto("eduPhoto","edu");
+for(const prefix of ["idPhoto","eduPhoto"]){ const slot=document.querySelector('.sampleSlot[data-for="'+prefix+'"]'); if(slot){slot.innerHTML=sampleFor(prefix); const b=slot.querySelector(".sampleBtn"); if(b)b.onclick=()=>openLightbox(SAMPLE_IMG[b.dataset.sample]);} }
 wirePhoto("bpPhoto","bp");
 function openLightbox(src){
   if(!src) return;
@@ -3240,6 +3250,7 @@ function validate(){
 
   if(step===0){ need("company"); need("name"); }
   if(step===1){
+    CHK.id.length ? setErr($("#idPhotoRow"),false) : fail($("#idPhotoRow"));
     const b=$("#birth"); /^\d{6}$/.test(b.value.trim()) ? setErr(b.closest(".f"),false) : fail(b.closest(".f"));
     needPick("gender",'[data-pick=gender]'); needPick("nation",'[data-pick=nation]');
     need("phone"); need("guardian"); need("address");
@@ -3250,10 +3261,12 @@ function validate(){
     const cy=$("#carY").closest(".f"); (val("carY")!==""||val("carM")!=="") ? setErr(cy,false) : fail(cy);
   }
   if(step===2){
+    CHK.edu.length && pick.basicEdu==="O" ? setErr($("#eduPhotoRow"),false) : fail($("#eduPhotoRow"));
     needPick("basicEdu",'[data-pick=basicEdu]'); needPick("heatPrev",'[data-pick=heatPrev]');
     if(!$("#cInterview").classList.contains("hidden")) needPick("interview",'[data-pick=interview]');
   }
   if(step===3){
+    for(const k of ["Gen","Pre"]) {const f=$("#chk"+k+"Pages").closest(".f"); CHK[k.toLowerCase()].length ? setErr(f,false) : fail(f);}
     ["injury","accident","surgery","hasDisease"].forEach(k => needPick(k,'[data-pick='+k+']'));
     const cf=$('[data-multi=checkup]').closest(".f");
     (multi.checkup||[]).length ? setErr(cf,false) : fail(cf);
@@ -3314,7 +3327,7 @@ function collectDraft(){
   DRAFT_FIELDS.forEach(id => { const el = document.getElementById(id); if(el) f[id] = el.value; });
   const sigs = {};
   Object.keys(PADS).forEach(k => { try{ if(PADS[k].inked) sigs[k] = PADS[k].data(); }catch(e){} });
-  return { v:2, at:Date.now(), step, lang:LANG, f, chk:{ gen:CHK.gen.slice(), pre:CHK.pre.slice() },
+  return { v:2, at:Date.now(), step, lang:LANG, f, chk:Object.fromEntries(Object.entries(CHK).map(([k,v])=>[k,v.slice()])),
            pick:Object.assign({},pick), multi:JSON.parse(JSON.stringify(multi)),
            photo:Object.assign({},PHOTO), sigs };
 }
@@ -3353,7 +3366,7 @@ function applyDraft(d){
   // 이걸 빼먹으면 숨겨야 할 필수 칸이 열린 채 남아 다음 단계로 못 넘어간다.
   Object.keys(pick).forEach(k => { try{ onPick(k, pick[k]); }catch(e){} });
   Object.keys(d.photo||{}).forEach(k => { PHOTO[k] = d.photo[k]; });
-  if(d.chk){ CHK.gen = (d.chk.gen||[]).filter(isPhotoData); CHK.pre = (d.chk.pre||[]).filter(isPhotoData); try{ renderChk("gen"); renderChk("pre"); }catch(e){} }
+  for(const k of Object.keys(CHK)){ CHK[k]=((d.chk||{})[k]||(["id","edu"].includes(k)&&PHOTO[k]?[PHOTO[k]]:[])).filter(isPhotoData).slice(0,chkLimit(k)); renderChk(k); }
   // 화면의 선택 버튼·사진 미리보기를 저장된 값에 맞춘다
   $$("[data-pick]").forEach(w => {
     const v = pick[w.dataset.pick];
@@ -3422,8 +3435,8 @@ function buildRecord(){
          sigHelmet:PADS.sHelmetPad.data(), sigShoes:PADS.sShoesPad.data(), sigBelt:PADS.sBeltPad.data(), sigEtc:PADS.sEtcPad.data()}
   };
   // 건강진단 결과지: 장 수만 기록에 남기고, 그림은 따로 저장한다 (JSON 에는 안 들어가게 숨김 속성)
-  rec.chkGenPages = CHK.gen.length; rec.chkPrePages = CHK.pre.length;
-  Object.defineProperty(rec, "__chkData", { value:{ chkGen:CHK.gen.slice(), chkPre:CHK.pre.slice() }, enumerable:false, writable:true });
+  for(const k of Object.keys(CHK)) rec["chk"+k[0].toUpperCase()+k.slice(1)+"Pages"]=CHK[k].length;
+  Object.defineProperty(rec, "__chkData", { value:Object.fromEntries(Object.entries(CHK).map(([k,v])=>["chk"+k[0].toUpperCase()+k.slice(1),v.slice()])), enumerable:false, writable:true });
   return rec;
 }
 function flags(r){
@@ -3525,6 +3538,7 @@ $("#btnPrev").addEventListener("click", () => { if(step>0){ step = prevStep(step
 $("#btnNext").addEventListener("click", async () => {
   if(!validate()) return;
   if(step===8){
+    for(const [k,st] of [["id",1],["edu",2],["gen",3],["pre",3]]){if(!CHK[k].length || (k==="edu" && pick.basicEdu!=="O")){step=st;paint();validate();return;}}
     const btn = $("#btnNext");
     btn.disabled = true; const oldTxt = btn.textContent; btn.textContent = "저장 중…";
     try{ saveDraftNow(); }catch(e){}       // 전송 중 앱이 꺼져도 적은 내용은 남는다
@@ -4479,7 +4493,7 @@ function renderFind(){
     +   (r.flag && r.flag.type === "company" ? '<span class="fl warn">소속 확인 요청</span>' : '')
     +   (r.prevCode ? '<span class="fl">재제출</span>' : '')
     +   ((r.checkupUrl || r.preCheckupUrl) ? '<span class="fl">검진 링크</span>' : '')
-    +   ((r.chkGenPages || r.chkPrePages) ? '<span class="fl">검진 결과지</span>' : '')
+    +   ((r.chkGenPages || r.chkPrePages || r.chkIdPages || r.chkEduPages || r.chkOpinionPages) ? '<span class="fl">검진 결과지</span>' : '')
     +   (isRisk(r) ? '<span class="fl risky">취약'+(riskIsAuto(r)?" 자동":"")+'</span>'
                    : (r.riskOverride ? '<span class="fl warn">해지됨</span>' : ''))
     +   (bpDone(r) ? '<span class="fl done">'+esc(r.bp.sys1)+'/'+esc(r.bp.dia1)+'</span>'
@@ -6798,6 +6812,7 @@ function renderFinPhoto(){
     { key:"id",  lab:"신분증",  prefix:"idPhoto" },
     { key:"edu", lab:"이수증",  prefix:"eduPhoto" },
   ].filter(x => !PHOTO[x.key]);
+  card.classList.add("hidden"); return;
   card.classList.toggle("hidden", !miss.length);
   if(!miss.length) return;
   row.innerHTML = miss.map(x =>
