@@ -2937,7 +2937,7 @@ function renderChk(kind){
     + '<button type="button" class="chkDel" data-i="' + i + '" aria-label="삭제">✕</button></div>').join("");
   box.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
   box.querySelectorAll(".chkDel").forEach(b => b.addEventListener("click", () => {
-    CHK[kind].splice(+b.dataset.i, 1); if(["id","edu"].includes(kind)) PHOTO[kind]=CHK[kind][0]||""; renderChk(kind); chkMsg(kind, "", ""); saveDraft();
+    if(["id","edu"].includes(kind)) ocrOriginals.delete(CHK[kind][+b.dataset.i]); CHK[kind].splice(+b.dataset.i, 1); if(["id","edu"].includes(kind)) PHOTO[kind]=CHK[kind][0]||""; renderChk(kind); chkMsg(kind, "", ""); saveDraft();
   }));
   const btns = document.getElementById("chk" + K + "Btn");
   if(btns) btns.classList.toggle("hidden", CHK[kind].length >= chkLimit(kind));
@@ -2966,6 +2966,7 @@ function wireChk(kind){
           + '<br><button type="button" class="chkForce">' + esc(chkT("chk.force")) + '</button>');
         return;
       }
+      if(["id","edu"].includes(kind)) ocrOriginals.set(res.pages[0],f);
       CHK[kind] = CHK[kind].concat(res.pages).slice(0, chkLimit(kind));
       renderChk(kind); saveDraft();
       chkMsg(kind, "ok", esc(chkT("chk.ok", CHK[kind].length)) + (res.more ? "<br>" + esc(["id","edu"].includes(kind) ? T("upload.four") : chkT("chk.full")) : ""));
@@ -3390,40 +3391,50 @@ function applyDraft(d){
   }, 120);
 }
 
-// OCR: browser-only, retain comparison status, not recognized text.
+// OCR: browser-only; never persist recognized text or original OCR images.
+const ocrOriginals = new Map();
 function ocrNorm(v){return String(v||'').normalize('NFKC').toUpperCase().replace(/[^\p{L}\p{N}]/gu,'');}
 function ocrCompare(text,name,birth){
- const names=[], dates=[];
- for(const line of text.normalize('NFKC').split(/\n/)){
-  const n=line.match(/(?:성\s*명|이\s*름|\bNAME\b)\s*[:：]?\s*([\p{L}][\p{L} .'-]{1,65})/iu);
-  if(n) names.push(ocrNorm(n[1]));
+ const names=[], dates=[], lines=String(text||'').normalize('NFKC').split(/\n/).map(x=>x.trim()).filter(Boolean);
+ const validName=x=>/^(?:[가-힣]{2,8}|[A-Za-z][A-Za-z .'-]{1,65})$/.test(x.trim()) && !/^(성명|이름|주민등록증|운전면허증|외국인등록증|이수증|대한민국|NAME|KOREA|CERTIFICATE)$/i.test(x.trim());
+ const addName=x=>{x=x.trim().replace(/\s*\([^)]*\)\s*$/,'').trim();if(validName(x))names.push(ocrNorm(x));};
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i];
+  const n=line.match(/^(?:성\s*명|이\s*름|\bNAME\b)\s*[:：]?\s*(.*)$/iu);
+  if(n){if(n[1])addName(n[1].split(/\s{2,}|생년월일|DATE OF BIRTH/i)[0]);else if(lines[i+1])addName(lines[i+1]);}
+  if(/^(?:주민등록증|외국인등록증|운전면허증|RESIDENCE CARD)\s*$/i.test(line)&&lines[i+1])addName(lines[i+1]);
   const d=line.match(/(?:생\s*년\s*월\s*일|DATE OF BIRTH|\bDOB\b|주민등록번호|외국인등록번호)\s*[:：]?\s*(\d{4}[. /년-]\s*\d{1,2}[. /월-]\s*\d{1,2}|\d{8}|\d{6})/i);
-  if(d){const parts=d[1].match(/\d+/g); dates.push(parts.length===3?parts[0].slice(-2)+parts[1].padStart(2,'0')+parts[2].padStart(2,'0'):parts[0].slice(-6));}
-  const id=line.match(/(?:^|\s)(\d{6})\s*-\s*\d{7}(?:\s|$)/); if(id) dates.push(id[1]);
+  if(d){const parts=d[1].match(/\d+/g);dates.push(parts.length===3?parts[0].slice(-2)+parts[1].padStart(2,'0')+parts[2].padStart(2,'0'):parts[0].slice(-6));}
+  const id=line.match(/(?:^|\s)(\d{6})\s*[-–]\s*\d{7}(?:\s|$)/);if(id)dates.push(id[1]);
  }
- const target=ocrNorm(name);
- const nameHit=names.includes(target)||text.split(/\n/).some(l=>ocrNorm(l)===target);
- const field=(arr,hit)=>hit?(arr.some(x=>x!==arr[0])?'review':'match'):arr.length?'mismatch':'review';
- return {name:field(names,nameHit),birth:field(dates,dates.includes(birth))};
+ const field=(arr,target)=>!arr.length||!target?'review':arr.some(x=>x!==target)?'mismatch':'match';
+ return {name:field(names,ocrNorm(name)),birth:field(dates,ocrNorm(birth))};
 }
 function ocrPending(r){return !!(r.ocr && !r.ocr.manual && r.ocr.status!=='match');}
-function ocrLabel(r){return r.ocr.status==='mismatch'?'OCR 불일치 · 수정 요청':'OCR 관리자 확인 필요';}
+function ocrLabel(r){return r.ocr.status==='mismatch'?'OCR 불일치 의심 · 수정 요청':'OCR 인식 미확정 · 관리자 확인 필요';}
+async function ocrCanvas(src,enhance){
+ const im=new Image();await new Promise((ok,bad)=>{im.onload=ok;im.onerror=bad;im.src=src;});
+ const scale=Math.min(2.5,2200/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));const ctx=c.getContext('2d');if(enhance)ctx.filter='grayscale(1) contrast(1.45)';ctx.drawImage(im,0,0,c.width,c.height);return c;
+}
 async function scanIdentity(){
- let worker, timer, expired=false;
- const fallback={name:'review',birth:'review'};
- const result={id:{...fallback},edu:{...fallback},status:'review'};
+ let worker,timer,expired=false;const fallback={name:'review',birth:'review'};const result={id:{...fallback},edu:{...fallback},status:'review',version:2};
+ const name=val('name'),birth=val('birth');
  const task=async()=>{
-  if(!window.Tesseract) await new Promise((resolve,reject)=>{const el=document.createElement('script');el.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';el.onload=resolve;el.onerror=reject;document.head.appendChild(el);});
-  if(expired)return;
-  worker=await Tesseract.createWorker('kor+eng',1);
-  if(expired){await worker.terminate();return;}
+  if(!window.Tesseract)await new Promise((resolve,reject)=>{const el=document.createElement('script');el.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';el.onload=resolve;el.onerror=reject;document.head.appendChild(el);});
+  if(expired)return;worker=await Tesseract.createWorker('kor+eng',1);if(expired){await worker.terminate();return;}
   for(const k of ['id','edu']){
-   const readings=[];
-   for(const img of CHK[k]){if(expired)return;const x=await worker.recognize(img);if(x.data.confidence>=65)readings.push(ocrCompare(x.data.text,val('name'),val('birth')));}
-   for(const f of ['name','birth']){const a=readings.map(x=>x[f]);result[k][f]=a.includes('match')?(a.includes('mismatch')?'review':'match'):a.includes('mismatch')?'mismatch':'review';}
+   for(const img of CHK[k]){
+    if(expired)return;const original=ocrOriginals.get(img);const src=original?URL.createObjectURL(original):img;
+    try{for(const [psm,enhance] of [['11',false],['6',true]]){
+     if(expired)return;await worker.setParameters({tessedit_pageseg_mode:psm});const cv=await ocrCanvas(src,enhance);const x=await worker.recognize(cv);if(expired)return;
+     const reading=ocrCompare(x.data.text,name,birth);
+     for(const f of ['name','birth']){const prev=result[k][f],next=reading[f];if(next==='mismatch'||prev==='mismatch')result[k][f]='mismatch';else if(next==='match')result[k][f]='match';}
+     if(result[k].name==='match'&&result[k].birth==='match')break;
+    }}catch(e){}finally{if(original)URL.revokeObjectURL(src);}
+   }
   }
  };
- try{await Promise.race([task(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('OCR timeout')),90000);})]);}catch(e){}finally{expired=true;clearTimeout(timer);if(worker)worker.terminate().catch(()=>{});}
+ try{await Promise.race([task(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('OCR timeout')),150000);})]);}catch(e){}finally{expired=true;clearTimeout(timer);if(worker)worker.terminate().catch(()=>{});ocrOriginals.clear();}
  const all=[...Object.values(result.id),...Object.values(result.edu)];result.status=all.includes('mismatch')?'mismatch':all.every(x=>x==='match')?'match':'review';return result;
 }
 function buildRecord(){
@@ -3583,7 +3594,7 @@ $("#btnNext").addEventListener("click", async () => {
     const slow = setTimeout(() => { btn.textContent = "아직 전송 중… 신호를 확인해 주세요"; }, 7000);
     btn.textContent = "첨부 서류 문자 확인 중…";
     const ocr = await scanIdentity();
-    if(ocr.status === "mismatch" && !confirm("입력 정보와 첨부 서류가 일치하지 않을 수 있습니다. 확인 후 수정하려면 취소, 관리자 확인 요청으로 제출하려면 확인을 누르세요.")){
+    if(ocr.status !== "match" && !confirm((ocr.status === "mismatch" ? "입력 정보와 첨부 서류가 일치하지 않을 수 있습니다." : "첨부 서류의 성명 또는 생년월일을 확정하지 못했습니다.")+" 수정하려면 취소, 관리자 확인 요청으로 제출하려면 확인을 누르세요.")){
       clearTimeout(slow); btn.disabled=false; btn.textContent=oldTxt; step=0; paint(); return;
     }
     current = buildRecord(); current.ocr=ocr;
@@ -4487,7 +4498,7 @@ function renderFind(){
     + stat("bp", nNoBp, "혈압 미측정", nNoBp>0)
     + stat("miss", nMiss, "서류 미비", nMiss>0)
     + stat("risk", nRisk, "취약 검토", nRisk>0)
-    + (nOcr ? stat("ocr", nOcr, "서류 검증 알림", true) : "")
+    + stat("ocr", nOcr, "서류 검증 알림", nOcr>0)
     + (nFlag ? stat("flag", nFlag, "소속 확인", true) : "")
     + (dupCount ? stat("dup", dupCount, "중복 의심", true) : "");
   $$("#statRow .stat").forEach(b => b.addEventListener("click", () => {
@@ -4852,7 +4863,7 @@ function renderOcrNote(r){
  const el=$("#sheetOcr"); el.classList.toggle("hidden",!r.ocr); el.innerHTML=""; if(!r.ocr)return;
  const o=r.ocr, label={match:"일치",mismatch:"불일치 의심",review:"수동 확인"};
  el.innerHTML='<div class="flagBox"><b>첨부 서류 OCR 검증</b><span>신분증: 성명 '+label[o.id.name]+' / 생년월일 '+label[o.id.birth]+'<br>이수증: 성명 '+label[o.edu.name]+' / 생년월일 '+label[o.edu.birth]+'</span><span>'+ (o.manual?'관리자 확인 완료 · '+esc(o.manual.reason):o.status==='match'?'자동 일치 (진위 확인 아님)':ocrLabel(r))+'</span>'+(!o.manual && canJudgeRisk()?'<div class="riskBtns"><button type="button" class="btn small padd" id="ocrDone">수동 확인 완료</button></div>':'')+'</div>';
- const b=$("#ocrDone"); if(b)b.onclick=async()=>{const reason=prompt("원본 서류와 입력 정보를 직접 대조한 결과 및 조치 내용을 입력하세요.");if(!reason||!reason.trim())return;const rec=submissions.find(x=>docId(x)===docId(r))||r;const old=rec.ocr;rec.ocr={...old,manual:{reason:reason.trim(),at:new Date().toISOString(),by:(AUTH.profile&&AUTH.profile.name)||"관리자"}};b.disabled=true;const res=await Store.saveRecord(rec,submissions);if(!res||!res.ok){rec.ocr=old;b.disabled=false;alert("저장하지 못했습니다.");return;}r.ocr=rec.ocr;renderOcrNote(r);};
+ const b=$("#ocrDone"); if(b)b.onclick=async()=>{const reason=prompt("원본 서류와 입력 정보를 직접 대조한 결과 및 조치 내용을 입력하세요.");if(!reason||!reason.trim())return;const rec=submissions.find(x=>docId(x)===docId(r))||r;const old=rec.ocr;rec.ocr={...old,manual:{reason:reason.trim(),at:new Date().toISOString(),by:(AUTH.profile&&AUTH.profile.name)||"관리자"}};b.disabled=true;const res=await Store.saveRecord(rec,submissions);if(!res||!res.ok){rec.ocr=old;b.disabled=false;alert("저장하지 못했습니다.");return;}r.ocr=rec.ocr;renderOcrNote(r);if(lastAdmTab === "find") renderFind();};
 }
 function renderFlagNote(r){
   renderOcrNote(r);
