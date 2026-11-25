@@ -3,11 +3,14 @@
   "codePrefix": "JOS",
   "idDomain": "hdc-jeonju-osung.site",
   "firebase": {
-    "apiKey": "여기에_새_apiKey",
-    "authDomain": "여기에_새_authDomain",
-    "projectId": "여기에_새_projectId",
-    "storageBucket": "여기에_새_storageBucket",
-    "messagingSenderId": "여기에_새_messagingSenderId",
-    "appId": "여기에_새_appId"
-  }
+    "apiKey": "AIzaSyDXLnYaDbKOGyFoOtNdJwTiwpmzASVRcTU",
+    "authDomain": "jeonju-osung-ipark.firebaseapp.com",
+    "projectId": "jeonju-osung-ipark",
+    "storageBucket": "jeonju-osung-ipark.firebasestorage.app",
+    "messagingSenderId": "14870179787",
+    "appId": "1:14870179787:web:3a4c7f6a6e6b903ffa104e"
+  },
+  "companies": [
+    "센트로건설(주)"
+  ]
 }
