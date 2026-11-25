@@ -1105,7 +1105,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
     <div style="font-size:.97rem;line-height:2">
       <span data-i18n="start.prep1">· 신분증 (생년월일·국적 확인)</span><br>
       <span data-i18n="start.prep2">· 기초안전보건교육 이수증</span></div>
-    <div class="note info" style="margin:12px 0 0" data-i18n="start.bpNote">혈압 측정은 <b>안전교육장에서 안전보건담당자 입회하에</b> 측정합니다.<br>미리 측정하지 마세요.</div></div>
+    <div class="note info" style="margin:12px 0 0;word-break:keep-all" data-i18n="start.bpNote">혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.</div></div>
   <div class="note info" data-i18n="start.note">작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.</div>
   <div class="card">
     <div class="f"><label data-i18n="field.company">협력회사 <span class="req">*</span></label>
@@ -1997,7 +1997,7 @@ function loadFirebase(){
 }
 
 const I18N = {
-ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자 입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
+ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
 "start.title":"안전교육 전<br>작성해 주세요","start.sub":"약 5분 걸립니다. 다 쓰면 저장 버튼을 누르세요.",
 "resume.title":"쓰다 만 내용이 있습니다","resume.go":"이어서 쓰기","resume.new":"처음부터","resume.at":"{n}단계까지 쓰셨습니다","already.title":"이미 제출하셨습니다","already.new":"다른 사람 것 작성하기","already.at":"제출 완료 · 현장에서 담당자가 확인합니다","already.again":"다른 업체로 다시 제출 (내용 그대로)","co.other":"목록에 없어요 · 직접 입력","co.list":"목록에서 고르기","photo.cam":"📷 사진 찍기","photo.gallery":"🖼 사진첩","photo.file":"📁 파일","addphoto.title":"사진을 나중에 올릴 수 있습니다","addphoto.desc":"신분증·이수증 사진을 지금 찍어 올리면 현장에서 바로 확인됩니다.","finphoto.title":"사진이 아직 없습니다","finphoto.desc":"지금 넣어 두면 현장에서 확인이 훨씬 빠릅니다. 나중에 올려도 됩니다.","consent.blockTitle":"현장에서 근무할 수 없습니다","consent.blockWhich":"에 동의하지 않으셨습니다.","consent.blockWhy":"이 정보는 산업안전보건법에 따라 근로자 안전 관리에 반드시 필요합니다. 동의하지 않으시면 <b>현장 출입과 근무가 불가능</b>합니다.","consent.blockAsk":"동의하시겠습니까? 궁금한 점은 소속 회사 담당자에게 문의해 주세요.","consent.blockClose":"닫기","consent.blockFix":"동의로 바꾸기","field.checkupUrl":"일반건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","hint.checkupUrl":"병원·검진기관에서 받은 결과 조회 링크를 붙여 넣으세요. 담당자만 확인하며, 인쇄 양식에는 들어가지 않습니다.","err.checkupUrl":"주소는 http:// 또는 https:// 로 시작해야 합니다.","field.preCheckupUrl":"배치전건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","photo.sample":"예시 보기","start.prepTitle":"준비물","start.prep1":"· 신분증 (생년월일·국적 확인)","start.prep2":"· 기초안전보건교육 이수증","start.prep3":"· 혈압 측정 결과",
 "start.note":"작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.",
