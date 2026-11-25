@@ -1132,17 +1132,33 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
     <div class="f"><label data-i18n="field.nation">국적 <span class="req">*</span></label>
       <div class="opts grid2 sm" data-pick="nation">
         <button class="opt" type="button" data-v="대한민국" data-i18n="opt.kr">대한민국</button><button class="opt" type="button" data-v="중국" data-i18n="opt.cn">중국</button>
-        <button class="opt" type="button" data-v="베트남" data-i18n="opt.vn">베트남</button><button class="opt" type="button" data-v="기타" data-i18n="opt.etc">기타</button></div>
-      <div class="when" id="wNation"><div class="row">
-        <div class="f" style="margin:0"><label data-i18n="field.nationEtc">국적</label><input type="text" id="nationEtc" placeholder="예) 우즈베키스탄"></div>
-        <div class="f" style="margin:0"><label data-i18n="field.visa">체류자격</label><input type="text" id="visa" placeholder="예) E-9"></div></div></div>
+        <button class="opt" type="button" data-v="베트남" data-i18n="opt.vn">베트남</button><button class="opt" type="button" data-v="태국" data-i18n="opt.th">태국</button>
+        <button class="opt" type="button" data-v="러시아" data-i18n="opt.ru">러시아</button><button class="opt" type="button" data-v="기타" data-i18n="opt.etc">기타</button></div>
+      <div class="when" id="wNation">
+        <div class="f hidden" id="wNationEtc"><label data-i18n="field.nationEtc">국적</label><input type="text" id="nationEtc" placeholder="예) 우즈베키스탄"></div>
+        <div class="f"><label for="visa" data-i18n="field.visa">체류자격</label>
+          <select id="visa">
+            <option value="" data-i18n="opt.select">선택하세요</option>
+            <option value="E-9" data-i18n="visa.E9">E-9 비전문취업</option>
+            <option value="H-2" data-i18n="visa.H2">H-2 방문취업</option>
+            <option value="F-4" data-i18n="visa.F4">F-4 재외동포</option>
+            <option value="F-2" data-i18n="visa.F2">F-2 거주</option>
+            <option value="F-5" data-i18n="visa.F5">F-5 영주</option>
+            <option value="F-6" data-i18n="visa.F6">F-6 결혼이민</option>
+            <option value="E-7" data-i18n="visa.E7">E-7 특정활동 (숙련기능 E-7-4 포함)</option>
+            <option value="기타" data-i18n="visa.etc">기타 (직접 입력)</option>
+          </select></div>
+        <div class="f hidden" id="wVisaEtc"><label for="visaEtc" data-i18n="field.visaEtc">체류자격 직접 입력</label><input type="text" id="visaEtc" placeholder="예) G-1"></div>
+      </div>
       <div class="err" data-i18n="err.nation">국적을 선택해 주세요.</div></div>
     <div class="f" style="margin-bottom:0"><label data-i18n="field.blood">혈액형</label>
       <div class="opts grid4 sm" data-pick="blood">
         <button class="opt" type="button" data-v="A">A</button><button class="opt" type="button" data-v="B">B</button>
-        <button class="opt" type="button" data-v="O">O</button><button class="opt" type="button" data-v="AB">AB</button></div></div>
+        <button class="opt" type="button" data-v="O">O</button><button class="opt" type="button" data-v="AB">AB</button></div>
+      <div class="opts grid2 sm" data-pick="rh" style="margin-top:8px">
+        <button class="opt" type="button" data-v="Rh+" data-i18n="opt.rhP">Rh+</button><button class="opt" type="button" data-v="Rh-" data-i18n="opt.rhN">Rh−</button></div></div>
   </div>
-  <div class="card"><h3 data-i18n="card.idPhoto">신분증 사진</h3>
+  <div class="card"><h3 data-i18n="card.idPhoto">신분증 또는 외국인등록증 사진</h3>
     <p style="margin:-6px 0 12px;font-size:.84rem;color:var(--steel)" data-i18n="hint.idPhoto">관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.</p>
     <div class="photoRow" id="idPhotoRow">
       <input type="file" accept="image/*" capture="environment" id="idPhotoCam" class="hidden">
@@ -1997,7 +2013,7 @@ function loadFirebase(){
 }
 
 const I18N = {
-ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
+ko:{ "opt.th":"태국", "opt.ru":"러시아", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"신분증 또는 외국인등록증 사진", "visa.E9":"E-9 비전문취업", "visa.H2":"H-2 방문취업", "visa.F4":"F-4 재외동포", "visa.F2":"F-2 거주", "visa.F5":"F-5 영주", "visa.F6":"F-6 결혼이민", "visa.E7":"E-7 특정활동 (숙련기능 E-7-4 포함)", "visa.etc":"기타 (직접 입력)", "field.visaEtc":"체류자격 직접 입력", "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
 "start.title":"안전교육 전<br>작성해 주세요","start.sub":"약 5분 걸립니다. 다 쓰면 저장 버튼을 누르세요.",
 "resume.title":"쓰다 만 내용이 있습니다","resume.go":"이어서 쓰기","resume.new":"처음부터","resume.at":"{n}단계까지 쓰셨습니다","already.title":"이미 제출하셨습니다","already.new":"다른 사람 것 작성하기","already.at":"제출 완료 · 현장에서 담당자가 확인합니다","already.again":"다른 업체로 다시 제출 (내용 그대로)","co.other":"목록에 없어요 · 직접 입력","co.list":"목록에서 고르기","photo.cam":"📷 사진 찍기","photo.gallery":"🖼 사진첩","photo.file":"📁 파일","addphoto.title":"사진을 나중에 올릴 수 있습니다","addphoto.desc":"신분증·이수증 사진을 지금 찍어 올리면 현장에서 바로 확인됩니다.","finphoto.title":"사진이 아직 없습니다","finphoto.desc":"지금 넣어 두면 현장에서 확인이 훨씬 빠릅니다. 나중에 올려도 됩니다.","consent.blockTitle":"현장에서 근무할 수 없습니다","consent.blockWhich":"에 동의하지 않으셨습니다.","consent.blockWhy":"이 정보는 산업안전보건법에 따라 근로자 안전 관리에 반드시 필요합니다. 동의하지 않으시면 <b>현장 출입과 근무가 불가능</b>합니다.","consent.blockAsk":"동의하시겠습니까? 궁금한 점은 소속 회사 담당자에게 문의해 주세요.","consent.blockClose":"닫기","consent.blockFix":"동의로 바꾸기","field.checkupUrl":"일반건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","hint.checkupUrl":"병원·검진기관에서 받은 결과 조회 링크를 붙여 넣으세요. 담당자만 확인하며, 인쇄 양식에는 들어가지 않습니다.","err.checkupUrl":"주소는 http:// 또는 https:// 로 시작해야 합니다.","field.preCheckupUrl":"배치전건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","photo.sample":"예시 보기","start.prepTitle":"준비물","start.prep1":"· 신분증 (생년월일·국적 확인)","start.prep2":"· 기초안전보건교육 이수증","start.prep3":"· 혈압 측정 결과",
 "start.note":"작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.",
@@ -2015,7 +2031,7 @@ ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담�
 "card.job":"담당 업무","field.trade":'공종 <span class="req">*</span>',"err.trade":"공종을 선택해 주세요.","opt.select":"선택하세요",
 "field.career":'해당 공종 경력 <span class="req">*</span>',"err.career":"경력을 입력해 주세요.","unit.year":"년","unit.month":"개월","unit.day":"일",
 "field.tradeEtc":"공종 직접입력",
-"card.idPhoto":"신분증 사진","hint.idPhoto":"관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.",
+"hint.idPhoto":"관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.",
 "card.eduPhoto":"이수증 사진","hint.optional2":"선택","photo.take":"사진 촬영 · 선택",
 "lead.2.h":"교육 이수 및<br>직전 근무지","lead.2.p":"이수증이 있으면 보고 입력해 주세요.",
 "card.basicEdu":"건설업 기초안전보건교육","field.eduDone":'이수 여부 <span class="req">*</span>',
@@ -2067,7 +2083,7 @@ ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담�
 "lead.9.h":"저장되었습니다","lead.9.p":"안전관리자에게 알려 주세요. 출력은 사무실 컴퓨터에서 합니다.",
 "btn.newOne":"다른 사람 작성 시작","btn.prev":"이전","btn.next":"다음" },
 
-vi:{ "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
+vi:{ "opt.th":"Thái Lan", "opt.ru":"Nga", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài", "visa.E9":"E-9 Lao động phổ thông", "visa.H2":"H-2 Lao động thăm thân", "visa.F4":"F-4 Kiều bào", "visa.F2":"F-2 Cư trú", "visa.F5":"F-5 Thường trú", "visa.F6":"F-6 Kết hôn", "visa.E7":"E-7 Hoạt động đặc định (gồm E-7-4)", "visa.etc":"Khác (tự nhập)", "field.visaEtc":"Nhập loại visa", "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
 "start.title":"Điền trước khi<br>huấn luyện an toàn","start.sub":"Mất khoảng 5 phút. Điền xong hãy nhấn Lưu.",
 "resume.title":"Bạn có phần chưa viết xong","resume.go":"Viết tiếp","resume.new":"Bắt đầu lại","resume.at":"Đã viết đến bước {n}","already.title":"Bạn đã nộp rồi","already.new":"Viết cho người khác","already.at":"Đã nộp · Cán bộ sẽ kiểm tra tại công trường","already.again":"Nộp lại cho công ty khác (giữ nội dung)","co.other":"Không có trong danh sách · Tự nhập","co.list":"Chọn từ danh sách","photo.cam":"📷 Chụp ảnh","photo.gallery":"🖼 Thư viện","photo.file":"📁 Tệp","addphoto.title":"Có thể tải ảnh lên sau","addphoto.desc":"Chụp và tải ảnh giấy tờ, chứng chỉ ngay bây giờ để công trường xác nhận nhanh.","finphoto.title":"Chưa có ảnh","finphoto.desc":"Thêm ngay sẽ được xác nhận nhanh hơn tại công trường. Cũng có thể tải lên sau.","consent.blockTitle":"Không thể làm việc tại công trường","consent.blockWhich":" — bạn chưa đồng ý.","consent.blockWhy":"Thông tin này là bắt buộc theo Luật An toàn vệ sinh lao động để quản lý an toàn người lao động. Nếu không đồng ý, bạn <b>không thể vào và làm việc tại công trường</b>.","consent.blockAsk":"Bạn có đồng ý không? Nếu có thắc mắc, vui lòng hỏi người phụ trách của công ty bạn.","consent.blockClose":"Đóng","consent.blockFix":"Chuyển sang đồng ý","field.checkupUrl":"Địa chỉ tra cứu kết quả khám sức khỏe <span class=\"hint\">tùy chọn</span>","hint.checkupUrl":"Dán đường link tra cứu kết quả do bệnh viện/cơ sở khám cung cấp. Chỉ người phụ trách xem, không in vào biểu mẫu.","err.checkupUrl":"Địa chỉ phải bắt đầu bằng http:// hoặc https://.","field.preCheckupUrl":"Địa chỉ tra cứu kết quả khám trước bố trí <span class=\"hint\">tùy chọn</span>","photo.sample":"Xem mẫu","start.prepTitle":"Cần chuẩn bị","start.prep1":"· Giấy tờ tùy thân (ngày sinh, quốc tịch)","start.prep2":"· Chứng chỉ đào tạo an toàn cơ bản","start.prep3":"· Kết quả đo huyết áp",
 "start.note":"Nội dung chỉ <b>Đội an toàn công trường</b> được xem, lưu 3 năm sau khi hoàn công rồi hủy.",
@@ -2085,7 +2101,7 @@ vi:{ "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo a
 "card.job":"Công việc","field.trade":'Loại công việc <span class="req">*</span>',"err.trade":"Vui lòng chọn loại công việc.","opt.select":"Chọn",
 "field.career":'Kinh nghiệm <span class="req">*</span>',"err.career":"Vui lòng nhập kinh nghiệm.","unit.year":"năm","unit.month":"tháng","unit.day":"ngày",
 "field.tradeEtc":"Nhập loại công việc",
-"card.idPhoto":"Ảnh giấy tờ tùy thân","hint.idPhoto":"Dùng để quản lý xác nhận. Không bắt buộc nhưng nên có để xác nhận nhanh hơn.",
+"hint.idPhoto":"Dùng để quản lý xác nhận. Không bắt buộc nhưng nên có để xác nhận nhanh hơn.",
 "card.eduPhoto":"Ảnh chứng chỉ","hint.optional2":"Không bắt buộc","photo.take":"Chụp ảnh · Chọn ảnh",
 "lead.2.h":"Đào tạo &<br>Nơi làm trước đây","lead.2.p":"Nếu có chứng chỉ hãy xem rồi nhập.",
 "card.basicEdu":"Đào tạo an toàn cơ bản","field.eduDone":'Đã hoàn thành? <span class="req">*</span>',
@@ -2137,7 +2153,7 @@ vi:{ "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo a
 "lead.9.h":"Đã lưu thành công","lead.9.p":"Hãy báo cho quản lý an toàn. Việc in sẽ thực hiện ở máy tính văn phòng.",
 "btn.newOne":"Bắt đầu cho người khác","btn.prev":"Trước","btn.next":"Tiếp theo" },
 
-zh:{ "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
+zh:{ "opt.th":"泰国", "opt.ru":"俄罗斯", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"身份证或外国人登录证照片", "visa.E9":"E-9 非专业就业", "visa.H2":"H-2 访问就业", "visa.F4":"F-4 在外同胞", "visa.F2":"F-2 居住", "visa.F5":"F-5 永久居留", "visa.F6":"F-6 结婚移民", "visa.E7":"E-7 特定活动（含E-7-4）", "visa.etc":"其他（直接输入）", "field.visaEtc":"直接输入签证类型", "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
 "start.title":"请在安全教育前<br>填写此表","start.sub":"大约需要5分钟。填完后请点击保存。",
 "resume.title":"有未填完的内容","resume.go":"继续填写","resume.new":"重新开始","resume.at":"已填写到第 {n} 步","already.title":"您已提交","already.new":"为他人填写","already.at":"已提交 · 现场负责人会确认","already.again":"以其他公司身份再次提交（内容不变）","co.other":"列表中没有 · 手动输入","co.list":"从列表中选择","photo.cam":"📷 拍照","photo.gallery":"🖼 相册","photo.file":"📁 文件","addphoto.title":"照片可以稍后上传","addphoto.desc":"现在拍摄并上传身份证、结业证照片，现场可立即确认。","finphoto.title":"还没有照片","finphoto.desc":"现在添加，现场确认会快很多。也可以稍后上传。","consent.blockTitle":"无法在现场工作","consent.blockWhich":"—您未同意。","consent.blockWhy":"根据《产业安全保健法》，这些信息是劳动者安全管理的必需项。若不同意，<b>将无法进入현场并工作</b>。","consent.blockAsk":"您同意吗？如有疑问，请咨询所属公司负责人。","consent.blockClose":"关闭","consent.blockFix":"改为同意","field.checkupUrl":"体检结果查询网址 <span class=\"hint\">选填</span>","hint.checkupUrl":"粘贴医院/体检机构提供的结果查询链接。仅负责人查看，不会打印到表格中。","err.checkupUrl":"网址须以 http:// 或 https:// 开头。","field.preCheckupUrl":"岗前体检结果查询网址 <span class=\"hint\">选填</span>","photo.sample":"查看示例","start.prepTitle":"准备事项","start.prep1":"· 身份证件（确认出生日期、国籍）","start.prep2":"· 基础安全保健教育结业证","start.prep3":"· 血压测量结果",
 "start.note":"填写内容仅供<b>现场安全保健组</b>查阅，竣工后保存3年后销毁。",
@@ -2155,7 +2171,7 @@ zh:{ "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人�
 "card.job":"负责工种","field.trade":'工种 <span class="req">*</span>',"err.trade":"请选择工种。","opt.select":"请选择",
 "field.career":'该工种经验 <span class="req">*</span>',"err.career":"请输入工作经验。","unit.year":"年","unit.month":"个月","unit.day":"天",
 "field.tradeEtc":"直接输入工种",
-"card.idPhoto":"身份证照片","hint.idPhoto":"供管理员确认使用。非必填，但登记后确认更快。",
+"hint.idPhoto":"供管理员确认使用。非必填，但登记后确认更快。",
 "card.eduPhoto":"结业证照片","hint.optional2":"选填","photo.take":"拍照 · 选择照片",
 "lead.2.h":"教育结业及<br>此前工作单位","lead.2.p":"如有结业证请对照填写。",
 "card.basicEdu":"建筑业基础安全保健教育","field.eduDone":'是否结业 <span class="req">*</span>',
@@ -2207,7 +2223,7 @@ zh:{ "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人�
 "lead.9.h":"已保存","lead.9.p":"请告知安全管理员。打印将在办公室电脑上进行。",
 "btn.newOne":"开始为下一位填写","btn.prev":"上一步","btn.next":"下一步" },
 
-th:{ "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
+th:{ "opt.th":"ไทย", "opt.ru":"รัสเซีย", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"รูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ", "visa.E9":"E-9 แรงงานทั่วไป", "visa.H2":"H-2 เยี่ยมเยือนเพื่อทำงาน", "visa.F4":"F-4 ชาวเกาหลีโพ้นทะเล", "visa.F2":"F-2 ผู้พำนักอาศัย", "visa.F5":"F-5 ผู้พำนักถาวร", "visa.F6":"F-6 สมรสกับคนเกาหลี", "visa.E7":"E-7 กิจกรรมเฉพาะ (รวม E-7-4)", "visa.etc":"อื่น ๆ (พิมพ์เอง)", "field.visaEtc":"พิมพ์ประเภทวีซ่า", "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
 "start.title":"กรุณากรอกก่อน<br>อบรมความปลอดภัย","start.sub":"ใช้เวลาประมาณ 5 นาที เมื่อกรอกเสร็จให้กดบันทึก",
 "resume.title":"มีข้อมูลที่กรอกค้างไว้","resume.go":"กรอกต่อ","resume.new":"เริ่มใหม่","resume.at":"กรอกถึงขั้นตอนที่ {n}","already.title":"คุณส่งแล้ว","already.new":"กรอกให้คนอื่น","already.at":"ส่งแล้ว · เจ้าหน้าที่จะตรวจสอบที่หน่วยงาน","already.again":"ส่งใหม่ในนามบริษัทอื่น (เนื้อหาเดิม)","co.other":"ไม่มีในรายการ · พิมพ์เอง","co.list":"เลือกจากรายการ","photo.cam":"📷 ถ่ายรูป","photo.gallery":"🖼 อัลบั้ม","photo.file":"📁 ไฟล์","addphoto.title":"อัปโหลดรูปภายหลังได้","addphoto.desc":"ถ่ายและอัปโหลดรูปบัตรประชาชนและใบรับรองตอนนี้ เพื่อให้ตรวจสอบได้ทันที","finphoto.title":"ยังไม่มีรูป","finphoto.desc":"ใส่ตอนนี้จะตรวจสอบได้เร็วขึ้นที่หน่วยงาน หรือจะอัปโหลดภายหลังก็ได้","consent.blockTitle":"ไม่สามารถทำงานที่หน่วยงานได้","consent.blockWhich":" — คุณยังไม่ได้ยินยอม","consent.blockWhy":"ข้อมูลนี้จำเป็นตามกฎหมายความปลอดภัยฯ เพื่อดูแลความปลอดภัยของคนงาน หากไม่ยินยอม <b>จะเข้าและทำงานที่หน่วยงานไม่ได้</b>","consent.blockAsk":"คุณยินยอมหรือไม่? หากมีข้อสงสัยกรุณาสอบถามผู้รับผิดชอบของบริษัท","consent.blockClose":"ปิด","consent.blockFix":"เปลี่ยนเป็นยินยอม","field.checkupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพ <span class=\"hint\">ไม่บังคับ</span>","hint.checkupUrl":"วางลิงก์ดูผลตรวจที่ได้จากโรงพยาบาล/สถานตรวจ เจ้าหน้าที่เท่านั้นที่ดู และจะไม่พิมพ์ลงในแบบฟอร์ม","err.checkupUrl":"ที่อยู่ต้องขึ้นต้นด้วย http:// หรือ https://","field.preCheckupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพก่อนเข้างาน <span class=\"hint\">ไม่บังคับ</span>","photo.sample":"ดูตัวอย่าง","start.prepTitle":"สิ่งที่ต้องเตรียม","start.prep1":"· บัตรประจำตัว (วันเกิด/สัญชาติ)","start.prep2":"· ใบรับรองอบรมความปลอดภัยขั้นพื้นฐาน","start.prep3":"· ผลตรวจวัดความดันโลหิต",
 "start.note":"ข้อมูลที่กรอกจะเปิดให้เฉพาะ<b>ทีมความปลอดภัยของไซต์งาน</b>ดู จะเก็บไว้ 3 ปีหลังงานเสร็จแล้วทำลาย",
@@ -2225,7 +2241,7 @@ th:{ "start.bpNote":"การวัดความดันโลหิตจ�
 "card.job":"งานที่รับผิดชอบ","field.trade":'ประเภทงาน <span class="req">*</span>',"err.trade":"กรุณาเลือกประเภทงาน","opt.select":"กรุณาเลือก",
 "field.career":'ประสบการณ์ในงานนี้ <span class="req">*</span>',"err.career":"กรุณากรอกประสบการณ์","unit.year":"ปี","unit.month":"เดือน","unit.day":"วัน",
 "field.tradeEtc":"ระบุประเภทงานเอง",
-"card.idPhoto":"รูปบัตรประจำตัว","hint.idPhoto":"ใช้สำหรับผู้ดูแลตรวจสอบ ไม่บังคับแต่หากลงทะเบียนไว้จะตรวจสอบได้เร็วขึ้น",
+"hint.idPhoto":"ใช้สำหรับผู้ดูแลตรวจสอบ ไม่บังคับแต่หากลงทะเบียนไว้จะตรวจสอบได้เร็วขึ้น",
 "card.eduPhoto":"รูปใบรับรอง","hint.optional2":"ไม่บังคับ","photo.take":"ถ่ายรูป · เลือกรูป",
 "lead.2.h":"การอบรมและ<br>ที่ทำงานก่อนหน้า","lead.2.p":"หากมีใบรับรองกรุณาดูแล้วกรอก",
 "card.basicEdu":"อบรมความปลอดภัยขั้นพื้นฐานงานก่อสร้าง","field.eduDone":'ผ่านการอบรมหรือไม่ <span class="req">*</span>',
@@ -2276,7 +2292,7 @@ th:{ "start.bpNote":"การวัดความดันโลหิตจ�
 "lead.8.h":"ตรวจสอบขั้นสุดท้าย","lead.8.p":"กรุณาตรวจสอบอีกครั้งก่อนบันทึก",
 "lead.9.h":"บันทึกเรียบร้อยแล้ว","lead.9.p":"กรุณาแจ้งเจ้าหน้าที่ความปลอดภัย การพิมพ์จะทำที่คอมพิวเตอร์สำนักงาน",
 "btn.newOne":"เริ่มกรอกให้คนถัดไป","btn.prev":"ก่อนหน้า","btn.next":"ถัดไป" },
-ru:{ "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
+ru:{ "opt.th":"Таиланд", "opt.ru":"Россия", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Фото удостоверения личности или ID-карты иностранца", "visa.E9":"E-9 Неквалиф. труд", "visa.H2":"H-2 Визит с работой", "visa.F4":"F-4 Соотечественники", "visa.F2":"F-2 Проживание", "visa.F5":"F-5 ПМЖ", "visa.F6":"F-6 Брак с корейцем", "visa.E7":"E-7 Особая деят. (E-7-4)", "visa.etc":"Другое (ввести вручную)", "field.visaEtc":"Введите тип визы", "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
 "start.title":"Заполните до<br>инструктажа по охране труда","start.sub":"Займёт около 5 минут. В конце нажмите кнопку «Сохранить».",
 "resume.title":"Есть незаконченная анкета","resume.go":"Продолжить","resume.new":"Начать заново","resume.at":"Заполнено до шага {n}","already.title":"Вы уже отправили анкету","already.new":"Заполнить для другого человека","already.at":"Отправлено · ответственный проверит на объекте","already.again":"Отправить ещё раз от другой компании (те же данные)","co.other":"Нет в списке · ввести вручную","co.list":"Выбрать из списка","photo.cam":"📷 Сфотографировать","photo.gallery":"🖼 Галерея","photo.file":"📁 Файл","addphoto.title":"Фото можно добавить позже","addphoto.desc":"Если сейчас сфотографировать удостоверение личности и свидетельство об обучении, их сразу проверят на объекте.","finphoto.title":"Фото ещё не добавлены","finphoto.desc":"Если добавить их сейчас, проверка на объекте пройдёт гораздо быстрее. Можно загрузить и позже.","consent.blockTitle":"Вы не сможете работать на объекте","consent.blockWhich":": вы не дали согласие.","consent.blockWhy":"Эти данные обязательны для обеспечения безопасности работников по Закону об охране труда. Без согласия <b>вход на объект и работа невозможны</b>.","consent.blockAsk":"Дать согласие? С вопросами обращайтесь к ответственному в вашей компании.","consent.blockClose":"Закрыть","consent.blockFix":"Изменить на «Согласен»","field.checkupUrl":"Ссылка на результаты общего медосмотра <span class=\"hint\">необязательно</span>","hint.checkupUrl":"Вставьте ссылку на результаты из больницы или медцентра. Её видит только ответственный, в печатную форму она не попадает.","err.checkupUrl":"Ссылка должна начинаться с http:// или https://","field.preCheckupUrl":"Ссылка на результаты медосмотра перед допуском <span class=\"hint\">необязательно</span>","photo.sample":"Посмотреть пример","start.prepTitle":"Что нужно иметь при себе","start.prep1":"· Удостоверение личности (дата рождения, гражданство)","start.prep2":"· Свидетельство о базовом обучении по охране труда","start.prep3":"· Результат измерения давления",
 "start.note":"Заполненные данные видит <b>только отдел охраны труда объекта</b>. Они хранятся 3 года после сдачи объекта, затем уничтожаются.",
@@ -2294,7 +2310,7 @@ ru:{ "start.bpNote":"Давление измеряют <b>в классе по �
 "card.job":"Выполняемая работа","field.trade":'Вид работ <span class="req">*</span>',"err.trade":"Выберите вид работ.","opt.select":"Выберите",
 "field.career":'Опыт по этому виду работ <span class="req">*</span>',"err.career":"Укажите опыт работы.","unit.year":"лет","unit.month":"мес.","unit.day":"дн.",
 "field.tradeEtc":"Вид работ (вручную)",
-"card.idPhoto":"Фото удостоверения личности","hint.idPhoto":"Для проверки ответственным. Необязательно, но с фото проверка идёт быстрее.",
+"hint.idPhoto":"Для проверки ответственным. Необязательно, но с фото проверка идёт быстрее.",
 "card.eduPhoto":"Фото свидетельства об обучении","hint.optional2":"необязательно","photo.take":"Сфотографировать · необязательно",
 "lead.2.h":"Обучение и<br>предыдущее место работы","lead.2.p":"Если есть свидетельство, заполняйте по нему.",
 "card.basicEdu":"Базовое обучение по охране труда в строительстве","field.eduDone":'Пройдено ли обучение <span class="req">*</span>',
@@ -2347,7 +2363,7 @@ ru:{ "start.bpNote":"Давление измеряют <b>в классе по �
 "btn.newOne":"Заполнить для следующего человека","btn.prev":"Назад","btn.next":"Далее" }
 };
 /* 입력칸 안내글 · 단계 이름 · 마지막 버튼도 언어에 맞게 */
-const PH_I18N = {"company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
+const PH_I18N = {"visaEtc": {"ko": "예) G-1", "vi": "VD: G-1", "zh": "例：G-1", "th": "เช่น G-1", "ru": "Напр.: G-1"}, "company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
 const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào tạo · Kinh nghiệm", "Phỏng vấn sức khỏe", "Thói quen sinh hoạt", "Đo huyết áp", "Cam kết · Đồng ý", "Nhận đồ bảo hộ", "Kiểm tra cuối", "Hoàn tất"], "zh": ["开始", "个人信息", "培训·经历", "健康面谈", "生活习惯", "测量血压", "承诺·同意", "领取防护用品", "最终确认", "完成"], "th": ["เริ่มต้น", "ข้อมูลส่วนตัว", "การอบรม·ประสบการณ์", "สัมภาษณ์สุขภาพ", "พฤติกรรมสุขภาพ", "วัดความดัน", "คำมั่น·ยินยอม", "รับอุปกรณ์ป้องกัน", "ตรวจสอบครั้งสุดท้าย", "เสร็จสิ้น"], "ru": ["Начало", "Личные данные", "Обучение · опыт", "Беседа о здоровье", "Образ жизни", "Давление", "Обязательство · согласие", "Получение СИЗ", "Проверка", "Готово"]};
 const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
 function stepName(st){ const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
@@ -2736,8 +2752,10 @@ document.addEventListener("click", e => {
   clearErr(b.closest(".f"));
 });
 function show(id,on){ const el=document.getElementById(id); if(el) el.classList.toggle("on",!!on); }
+document.getElementById("visa").addEventListener("change", e => { document.getElementById("wVisaEtc").classList.toggle("hidden", e.target.value!=="기타"); });
 function onPick(k,v){
-  if(k==="nation"){ show("wNation", !!v && v!=="대한민국"); $("#cInterview").classList.toggle("hidden", !v || v==="대한민국"); }
+  if(k==="nation"){ show("wNation", !!v && v!=="대한민국"); $("#cInterview").classList.toggle("hidden", !v || v==="대한민국");
+    const ne = document.getElementById("wNationEtc"); if(ne) ne.classList.toggle("hidden", v!=="기타"); }
   if(k==="basicEdu"){ show("wEduY", v==="O"); show("wEduN", v==="X"); }
   if(k==="interview") show("wItv", v==="불가능");
   if(k==="injury") show("wInjury", v==="유");
@@ -3051,7 +3069,7 @@ function hasLocalStorage(){
 }
 const DRAFT_KEY = "hd4_draft";
 const DRAFT_FIELDS = ["company","name","birth","phone","guardian","address","trade","tradeEtc","checkupUrl","preCheckupUrl",
-  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName"];
+  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName","nationEtc","visa","visaEtc"];
 
 function collectDraft(){
   const f = {};
@@ -3137,7 +3155,7 @@ function buildRecord(){
     checkupUrl: normUrl(val("checkupUrl")), preCheckupUrl: normUrl(val("preCheckupUrl")),
     prevCode: RESUBMIT_PREV ? String(RESUBMIT_PREV.code||"") : "",
     prevCompany: RESUBMIT_PREV ? String(RESUBMIT_PREV.company||"") : "",
-    birth: val("birth"), gender: pick.gender||"", nation, visa: val("visa"), blood: pick.blood||"",
+    birth: val("birth"), gender: pick.gender||"", nation, visa: (pick.nation && pick.nation!=="대한민국") ? (val("visa")==="기타" ? (val("visaEtc")||"기타") : val("visa")) : "", blood: pick.blood||"", rh: pick.rh||"",
     phone: val("phone"), guardian: val("guardian"), address: val("address"),
     trade: ($("#trade").value==="기타" ? (val("tradeEtc")||"기타") : $("#trade").value),
     careerY: val("carY")||"0", careerM: val("carM")||"0",
@@ -3424,7 +3442,7 @@ function fillDefault(r){
   setCell("B5", g("address"));
   setCell("I5", g("nation") + " / " + (g("visa") || (g("nation")==="대한민국" ? "-" : "")));
   setCell("B6", g("phone")); setCell("F6", g("guardian"));
-  setCell("I6", g("blood") ? g("blood")+"형" : "");
+  setCell("I6", (g("blood") ? g("blood")+"형" : "") + (g("rh") ? " "+g("rh") : ""));
   const eduOK = g("basicEdu")==="O";
   markCell("D7", eduOK); markCell("E7", !eduOK);
   setCell("G7", g("eduOrg")); setCell("I7", g("eduDate"));
@@ -3492,7 +3510,7 @@ function valuesFor(r){
     company:g("company"), trade:g("trade"), career:g("careerY")+"년 "+g("careerM")+"개월",
     name:g("name"), birth:g("birth")+" (앞자리)", gender:g("gender"), address:g("address"),
     nation:g("nation")+(g("visa")?(" / "+g("visa")):""), phone:g("phone"), guardian:g("guardian"),
-    blood:g("blood")?g("blood")+"형":"", eduO:g("basicEdu")==="O"?CH:UN, eduX:g("basicEdu")==="X"?CH:UN,
+    blood:(g("blood")?g("blood")+"형":"")+(g("rh")?" "+g("rh"):""), eduO:g("basicEdu")==="O"?CH:UN, eduX:g("basicEdu")==="X"?CH:UN,
     eduOrg:g("eduOrg"), eduDate:g("eduDate"), interview:g("interview"), interviewReason:g("interviewReason"),
     prevSite:g("prevSite"), prevWork:g("prevWork"), prevDays:g("prevY")+"년 "+g("prevM")+"개월 "+g("prevD")+"일",
     heat:g("heatPrev"), injury:histStr(r.injury), accident:histStr(r.accident), surgery:histStr(r.surgery),
@@ -4328,6 +4346,7 @@ const EDIT_FIELDS = [
   { k:"nation",   label:"국적" },
   { k:"visa",     label:"체류자격" },
   { k:"blood",    label:"혈액형", opts:["A","B","O","AB"] },
+  { k:"rh",       label:"Rh 혈액형", opts:["Rh+","Rh-"] },
   { k:"phone",    label:"본인 연락처" },
   { k:"guardian", label:"비상 연락처" },
   { k:"address",  label:"주소", wide:true },
@@ -6181,7 +6200,7 @@ function doExportCsv(){
   const list = sc.list;
   if(!list.length) return alert("내보낼 자료가 없습니다.\n\n지금 화면에 보이는 근로자가 없습니다. 날짜나 검색 조건을 확인해 주세요.");
   const cols = [["관리번호","code"],["성명","name"],["협력회사","company"],["공종","trade"],["생년월일","birth"],
-    ["성별","gender"],["국적","nation"],["체류자격","visa"],["혈액형","blood"],["연락처","phone"],["비상연락처","guardian"],
+    ["성별","gender"],["국적","nation"],["체류자격","visa"],["혈액형","blood"],["Rh","rh"],["연락처","phone"],["비상연락처","guardian"],
     ["주소","address"],["경력년","careerY"],["경력월","careerM"],["기초안전교육","basicEdu"],["교육업체","eduOrg"],
     ["교육이수일","eduDate"],["직전근무지","prevSite"],["온열질환경험","heatPrev"],["복용약물","drug"],
     ["흡연","smoke"],["음주일수","drinkDays"],["개인정보동의","consentPersonal"],["고유식별동의","consentUnique"],["민감정보동의","consentSensitive"]];
