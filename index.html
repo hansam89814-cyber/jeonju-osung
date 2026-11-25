@@ -1050,6 +1050,10 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
 .coItem[aria-pressed=true] .ck{visibility:visible}
 .coItem b{color:#B00E20}
 .coEmpty{padding:16px 14px;font-size:.9rem;color:var(--steel)}
+/* 언어 5개가 한 줄에 들어가도록 */
+.langbar{gap:6px}
+.langbar button{flex:1 1 0;min-width:0;padding:0 4px;font-size:.9rem;line-height:1.2}
+.stepAside .langbar{grid-template-columns:repeat(3,minmax(0,1fr))}
 </style>
 </head>
 <body>
@@ -1069,6 +1073,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
     <button type="button" data-lang="vi">Tiếng Việt</button>
     <button type="button" data-lang="zh">中文</button>
     <button type="button" data-lang="th">ไทย</button>
+    <button type="button" data-lang="ru">Русский</button>
   </div>
   <div class="xlrow">
     <span data-i18n="bigtext">글씨 크게 보기</span>
@@ -1100,7 +1105,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
     <div style="font-size:.97rem;line-height:2">
       <span data-i18n="start.prep1">· 신분증 (생년월일·국적 확인)</span><br>
       <span data-i18n="start.prep2">· 기초안전보건교육 이수증</span></div>
-    <div class="note info" style="margin:12px 0 0">혈압은 <b>현장에 오시면 담당자가 측정</b>합니다. 미리 재실 필요 없습니다.</div></div>
+    <div class="note info" style="margin:12px 0 0" data-i18n="start.bpNote">혈압 측정은 <b>안전교육장에서 안전보건담당자 입회하에</b> 측정합니다.<br>미리 측정하지 마세요.</div></div>
   <div class="note info" data-i18n="start.note">작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.</div>
   <div class="card">
     <div class="f"><label data-i18n="field.company">협력회사 <span class="req">*</span></label>
@@ -1160,7 +1165,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <input type="tel" id="guardian" inputmode="numeric" placeholder="010-0000-0000">
       <div class="err" data-i18n="err.guardian">비상 연락처를 입력해 주세요.</div></div>
     <div class="f" style="margin-bottom:0"><label data-i18n="field.address">주소 <span class="req">*</span></label>
-      <input type="text" id="address" placeholder="예) 광주광역시 동구 학동 123-4" autocomplete="street-address">
+      <input type="text" id="address" placeholder="예) 전주시 완산구 삼천동 123-4" autocomplete="street-address">
       <div class="err" data-i18n="err.address">주소를 입력해 주세요.</div></div>
   </div>
   <div class="card"><h3 data-i18n="card.job">담당 업무</h3>
@@ -1992,7 +1997,7 @@ function loadFirebase(){
 }
 
 const I18N = {
-ko:{ "bigtext":"글씨 크게 보기",
+ko:{ "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자 입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
 "start.title":"안전교육 전<br>작성해 주세요","start.sub":"약 5분 걸립니다. 다 쓰면 저장 버튼을 누르세요.",
 "resume.title":"쓰다 만 내용이 있습니다","resume.go":"이어서 쓰기","resume.new":"처음부터","resume.at":"{n}단계까지 쓰셨습니다","already.title":"이미 제출하셨습니다","already.new":"다른 사람 것 작성하기","already.at":"제출 완료 · 현장에서 담당자가 확인합니다","already.again":"다른 업체로 다시 제출 (내용 그대로)","co.other":"목록에 없어요 · 직접 입력","co.list":"목록에서 고르기","photo.cam":"📷 사진 찍기","photo.gallery":"🖼 사진첩","photo.file":"📁 파일","addphoto.title":"사진을 나중에 올릴 수 있습니다","addphoto.desc":"신분증·이수증 사진을 지금 찍어 올리면 현장에서 바로 확인됩니다.","finphoto.title":"사진이 아직 없습니다","finphoto.desc":"지금 넣어 두면 현장에서 확인이 훨씬 빠릅니다. 나중에 올려도 됩니다.","consent.blockTitle":"현장에서 근무할 수 없습니다","consent.blockWhich":"에 동의하지 않으셨습니다.","consent.blockWhy":"이 정보는 산업안전보건법에 따라 근로자 안전 관리에 반드시 필요합니다. 동의하지 않으시면 <b>현장 출입과 근무가 불가능</b>합니다.","consent.blockAsk":"동의하시겠습니까? 궁금한 점은 소속 회사 담당자에게 문의해 주세요.","consent.blockClose":"닫기","consent.blockFix":"동의로 바꾸기","field.checkupUrl":"일반건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","hint.checkupUrl":"병원·검진기관에서 받은 결과 조회 링크를 붙여 넣으세요. 담당자만 확인하며, 인쇄 양식에는 들어가지 않습니다.","err.checkupUrl":"주소는 http:// 또는 https:// 로 시작해야 합니다.","field.preCheckupUrl":"배치전건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","photo.sample":"예시 보기","start.prepTitle":"준비물","start.prep1":"· 신분증 (생년월일·국적 확인)","start.prep2":"· 기초안전보건교육 이수증","start.prep3":"· 혈압 측정 결과",
 "start.note":"작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.",
@@ -2062,7 +2067,7 @@ ko:{ "bigtext":"글씨 크게 보기",
 "lead.9.h":"저장되었습니다","lead.9.p":"안전관리자에게 알려 주세요. 출력은 사무실 컴퓨터에서 합니다.",
 "btn.newOne":"다른 사람 작성 시작","btn.prev":"이전","btn.next":"다음" },
 
-vi:{ "bigtext":"Phóng to chữ",
+vi:{ "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
 "start.title":"Điền trước khi<br>huấn luyện an toàn","start.sub":"Mất khoảng 5 phút. Điền xong hãy nhấn Lưu.",
 "resume.title":"Bạn có phần chưa viết xong","resume.go":"Viết tiếp","resume.new":"Bắt đầu lại","resume.at":"Đã viết đến bước {n}","already.title":"Bạn đã nộp rồi","already.new":"Viết cho người khác","already.at":"Đã nộp · Cán bộ sẽ kiểm tra tại công trường","already.again":"Nộp lại cho công ty khác (giữ nội dung)","co.other":"Không có trong danh sách · Tự nhập","co.list":"Chọn từ danh sách","photo.cam":"📷 Chụp ảnh","photo.gallery":"🖼 Thư viện","photo.file":"📁 Tệp","addphoto.title":"Có thể tải ảnh lên sau","addphoto.desc":"Chụp và tải ảnh giấy tờ, chứng chỉ ngay bây giờ để công trường xác nhận nhanh.","finphoto.title":"Chưa có ảnh","finphoto.desc":"Thêm ngay sẽ được xác nhận nhanh hơn tại công trường. Cũng có thể tải lên sau.","consent.blockTitle":"Không thể làm việc tại công trường","consent.blockWhich":" — bạn chưa đồng ý.","consent.blockWhy":"Thông tin này là bắt buộc theo Luật An toàn vệ sinh lao động để quản lý an toàn người lao động. Nếu không đồng ý, bạn <b>không thể vào và làm việc tại công trường</b>.","consent.blockAsk":"Bạn có đồng ý không? Nếu có thắc mắc, vui lòng hỏi người phụ trách của công ty bạn.","consent.blockClose":"Đóng","consent.blockFix":"Chuyển sang đồng ý","field.checkupUrl":"Địa chỉ tra cứu kết quả khám sức khỏe <span class=\"hint\">tùy chọn</span>","hint.checkupUrl":"Dán đường link tra cứu kết quả do bệnh viện/cơ sở khám cung cấp. Chỉ người phụ trách xem, không in vào biểu mẫu.","err.checkupUrl":"Địa chỉ phải bắt đầu bằng http:// hoặc https://.","field.preCheckupUrl":"Địa chỉ tra cứu kết quả khám trước bố trí <span class=\"hint\">tùy chọn</span>","photo.sample":"Xem mẫu","start.prepTitle":"Cần chuẩn bị","start.prep1":"· Giấy tờ tùy thân (ngày sinh, quốc tịch)","start.prep2":"· Chứng chỉ đào tạo an toàn cơ bản","start.prep3":"· Kết quả đo huyết áp",
 "start.note":"Nội dung chỉ <b>Đội an toàn công trường</b> được xem, lưu 3 năm sau khi hoàn công rồi hủy.",
@@ -2132,7 +2137,7 @@ vi:{ "bigtext":"Phóng to chữ",
 "lead.9.h":"Đã lưu thành công","lead.9.p":"Hãy báo cho quản lý an toàn. Việc in sẽ thực hiện ở máy tính văn phòng.",
 "btn.newOne":"Bắt đầu cho người khác","btn.prev":"Trước","btn.next":"Tiếp theo" },
 
-zh:{ "bigtext":"放大字体",
+zh:{ "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
 "start.title":"请在安全教育前<br>填写此表","start.sub":"大约需要5分钟。填完后请点击保存。",
 "resume.title":"有未填完的内容","resume.go":"继续填写","resume.new":"重新开始","resume.at":"已填写到第 {n} 步","already.title":"您已提交","already.new":"为他人填写","already.at":"已提交 · 现场负责人会确认","already.again":"以其他公司身份再次提交（内容不变）","co.other":"列表中没有 · 手动输入","co.list":"从列表中选择","photo.cam":"📷 拍照","photo.gallery":"🖼 相册","photo.file":"📁 文件","addphoto.title":"照片可以稍后上传","addphoto.desc":"现在拍摄并上传身份证、结业证照片，现场可立即确认。","finphoto.title":"还没有照片","finphoto.desc":"现在添加，现场确认会快很多。也可以稍后上传。","consent.blockTitle":"无法在现场工作","consent.blockWhich":"—您未同意。","consent.blockWhy":"根据《产业安全保健法》，这些信息是劳动者安全管理的必需项。若不同意，<b>将无法进入현场并工作</b>。","consent.blockAsk":"您同意吗？如有疑问，请咨询所属公司负责人。","consent.blockClose":"关闭","consent.blockFix":"改为同意","field.checkupUrl":"体检结果查询网址 <span class=\"hint\">选填</span>","hint.checkupUrl":"粘贴医院/体检机构提供的结果查询链接。仅负责人查看，不会打印到表格中。","err.checkupUrl":"网址须以 http:// 或 https:// 开头。","field.preCheckupUrl":"岗前体检结果查询网址 <span class=\"hint\">选填</span>","photo.sample":"查看示例","start.prepTitle":"准备事项","start.prep1":"· 身份证件（确认出生日期、国籍）","start.prep2":"· 基础安全保健教育结业证","start.prep3":"· 血压测量结果",
 "start.note":"填写内容仅供<b>现场安全保健组</b>查阅，竣工后保存3年后销毁。",
@@ -2202,7 +2207,7 @@ zh:{ "bigtext":"放大字体",
 "lead.9.h":"已保存","lead.9.p":"请告知安全管理员。打印将在办公室电脑上进行。",
 "btn.newOne":"开始为下一位填写","btn.prev":"上一步","btn.next":"下一步" },
 
-th:{ "bigtext":"ขยายตัวอักษร",
+th:{ "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
 "start.title":"กรุณากรอกก่อน<br>อบรมความปลอดภัย","start.sub":"ใช้เวลาประมาณ 5 นาที เมื่อกรอกเสร็จให้กดบันทึก",
 "resume.title":"มีข้อมูลที่กรอกค้างไว้","resume.go":"กรอกต่อ","resume.new":"เริ่มใหม่","resume.at":"กรอกถึงขั้นตอนที่ {n}","already.title":"คุณส่งแล้ว","already.new":"กรอกให้คนอื่น","already.at":"ส่งแล้ว · เจ้าหน้าที่จะตรวจสอบที่หน่วยงาน","already.again":"ส่งใหม่ในนามบริษัทอื่น (เนื้อหาเดิม)","co.other":"ไม่มีในรายการ · พิมพ์เอง","co.list":"เลือกจากรายการ","photo.cam":"📷 ถ่ายรูป","photo.gallery":"🖼 อัลบั้ม","photo.file":"📁 ไฟล์","addphoto.title":"อัปโหลดรูปภายหลังได้","addphoto.desc":"ถ่ายและอัปโหลดรูปบัตรประชาชนและใบรับรองตอนนี้ เพื่อให้ตรวจสอบได้ทันที","finphoto.title":"ยังไม่มีรูป","finphoto.desc":"ใส่ตอนนี้จะตรวจสอบได้เร็วขึ้นที่หน่วยงาน หรือจะอัปโหลดภายหลังก็ได้","consent.blockTitle":"ไม่สามารถทำงานที่หน่วยงานได้","consent.blockWhich":" — คุณยังไม่ได้ยินยอม","consent.blockWhy":"ข้อมูลนี้จำเป็นตามกฎหมายความปลอดภัยฯ เพื่อดูแลความปลอดภัยของคนงาน หากไม่ยินยอม <b>จะเข้าและทำงานที่หน่วยงานไม่ได้</b>","consent.blockAsk":"คุณยินยอมหรือไม่? หากมีข้อสงสัยกรุณาสอบถามผู้รับผิดชอบของบริษัท","consent.blockClose":"ปิด","consent.blockFix":"เปลี่ยนเป็นยินยอม","field.checkupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพ <span class=\"hint\">ไม่บังคับ</span>","hint.checkupUrl":"วางลิงก์ดูผลตรวจที่ได้จากโรงพยาบาล/สถานตรวจ เจ้าหน้าที่เท่านั้นที่ดู และจะไม่พิมพ์ลงในแบบฟอร์ม","err.checkupUrl":"ที่อยู่ต้องขึ้นต้นด้วย http:// หรือ https://","field.preCheckupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพก่อนเข้างาน <span class=\"hint\">ไม่บังคับ</span>","photo.sample":"ดูตัวอย่าง","start.prepTitle":"สิ่งที่ต้องเตรียม","start.prep1":"· บัตรประจำตัว (วันเกิด/สัญชาติ)","start.prep2":"· ใบรับรองอบรมความปลอดภัยขั้นพื้นฐาน","start.prep3":"· ผลตรวจวัดความดันโลหิต",
 "start.note":"ข้อมูลที่กรอกจะเปิดให้เฉพาะ<b>ทีมความปลอดภัยของไซต์งาน</b>ดู จะเก็บไว้ 3 ปีหลังงานเสร็จแล้วทำลาย",
@@ -2270,8 +2275,82 @@ th:{ "bigtext":"ขยายตัวอักษร",
 "note.ppe":"ยืนยันว่าได้รับอุปกรณ์ป้องกันข้างต้นใน<b>สภาพปกติ</b> จะแจ้งขอเปลี่ยนทันทีหากชำรุดหรือสูญหาย",
 "lead.8.h":"ตรวจสอบขั้นสุดท้าย","lead.8.p":"กรุณาตรวจสอบอีกครั้งก่อนบันทึก",
 "lead.9.h":"บันทึกเรียบร้อยแล้ว","lead.9.p":"กรุณาแจ้งเจ้าหน้าที่ความปลอดภัย การพิมพ์จะทำที่คอมพิวเตอร์สำนักงาน",
-"btn.newOne":"เริ่มกรอกให้คนถัดไป","btn.prev":"ก่อนหน้า","btn.next":"ถัดไป" }
+"btn.newOne":"เริ่มกรอกให้คนถัดไป","btn.prev":"ก่อนหน้า","btn.next":"ถัดไป" },
+ru:{ "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
+"start.title":"Заполните до<br>инструктажа по охране труда","start.sub":"Займёт около 5 минут. В конце нажмите кнопку «Сохранить».",
+"resume.title":"Есть незаконченная анкета","resume.go":"Продолжить","resume.new":"Начать заново","resume.at":"Заполнено до шага {n}","already.title":"Вы уже отправили анкету","already.new":"Заполнить для другого человека","already.at":"Отправлено · ответственный проверит на объекте","already.again":"Отправить ещё раз от другой компании (те же данные)","co.other":"Нет в списке · ввести вручную","co.list":"Выбрать из списка","photo.cam":"📷 Сфотографировать","photo.gallery":"🖼 Галерея","photo.file":"📁 Файл","addphoto.title":"Фото можно добавить позже","addphoto.desc":"Если сейчас сфотографировать удостоверение личности и свидетельство об обучении, их сразу проверят на объекте.","finphoto.title":"Фото ещё не добавлены","finphoto.desc":"Если добавить их сейчас, проверка на объекте пройдёт гораздо быстрее. Можно загрузить и позже.","consent.blockTitle":"Вы не сможете работать на объекте","consent.blockWhich":": вы не дали согласие.","consent.blockWhy":"Эти данные обязательны для обеспечения безопасности работников по Закону об охране труда. Без согласия <b>вход на объект и работа невозможны</b>.","consent.blockAsk":"Дать согласие? С вопросами обращайтесь к ответственному в вашей компании.","consent.blockClose":"Закрыть","consent.blockFix":"Изменить на «Согласен»","field.checkupUrl":"Ссылка на результаты общего медосмотра <span class=\"hint\">необязательно</span>","hint.checkupUrl":"Вставьте ссылку на результаты из больницы или медцентра. Её видит только ответственный, в печатную форму она не попадает.","err.checkupUrl":"Ссылка должна начинаться с http:// или https://","field.preCheckupUrl":"Ссылка на результаты медосмотра перед допуском <span class=\"hint\">необязательно</span>","photo.sample":"Посмотреть пример","start.prepTitle":"Что нужно иметь при себе","start.prep1":"· Удостоверение личности (дата рождения, гражданство)","start.prep2":"· Свидетельство о базовом обучении по охране труда","start.prep3":"· Результат измерения давления",
+"start.note":"Заполненные данные видит <b>только отдел охраны труда объекта</b>. Они хранятся 3 года после сдачи объекта, затем уничтожаются.",
+"field.company":'Компания-подрядчик <span class="req">*</span>',"err.company":"Укажите название компании.",
+"field.name":'ФИО <span class="req">*</span>',"err.name":"Укажите ФИО.",
+"lead.1.h":"Личные данные","lead.1.p":"Заполните так, как указано в удостоверении личности.",
+"field.birth":'Дата рождения <span class="req">*</span>',"hint.birth":"6 цифр: ГГММДД","err.birth":"Введите 6 цифр.",
+"field.gender":'Пол <span class="req">*</span>',"err.gender":"Выберите пол.","opt.m":"Муж.","opt.f":"Жен.",
+"field.nation":'Гражданство <span class="req">*</span>',"err.nation":"Выберите гражданство.",
+"opt.kr":"Корея","opt.cn":"Китай","opt.vn":"Вьетнам","opt.etc":"Другое",
+"field.nationEtc":"Гражданство","field.visa":"Тип визы","field.blood":"Группа крови",
+"card.contact":"Контакты","field.phone":'Ваш телефон <span class="req">*</span>',"err.phone":"Укажите номер телефона.",
+"field.guardian":'Экстренный контакт <span class="req">*</span>',"hint.guardian":"Номер родственника, бригадира и т. п.","err.guardian":"Укажите экстренный контакт.",
+"field.address":'Адрес <span class="req">*</span>',"err.address":"Укажите адрес.",
+"card.job":"Выполняемая работа","field.trade":'Вид работ <span class="req">*</span>',"err.trade":"Выберите вид работ.","opt.select":"Выберите",
+"field.career":'Опыт по этому виду работ <span class="req">*</span>',"err.career":"Укажите опыт работы.","unit.year":"лет","unit.month":"мес.","unit.day":"дн.",
+"field.tradeEtc":"Вид работ (вручную)",
+"card.idPhoto":"Фото удостоверения личности","hint.idPhoto":"Для проверки ответственным. Необязательно, но с фото проверка идёт быстрее.",
+"card.eduPhoto":"Фото свидетельства об обучении","hint.optional2":"необязательно","photo.take":"Сфотографировать · необязательно",
+"lead.2.h":"Обучение и<br>предыдущее место работы","lead.2.p":"Если есть свидетельство, заполняйте по нему.",
+"card.basicEdu":"Базовое обучение по охране труда в строительстве","field.eduDone":'Пройдено ли обучение <span class="req">*</span>',
+"opt.eduO":"Пройдено","opt.eduX":"Не пройдено","field.eduOrg":"Учебный центр","field.eduDate":"Дата окончания",
+"note.eduX":"Без обучения <b>вход на объект ограничен</b>. Сообщите инженеру по охране труда.","err.eduDone":"Укажите, пройдено ли обучение.",
+"card.prevSite":"Предыдущее место работы","field.prevSite":"Название объекта/компании","field.prevWork":"Выполняемая работа","field.prevDays":"Период работы",
+"field.heatPrev":'Были ли у вас симптомы теплового удара? <span class="req">*</span>',"hint.heatPrev":"головокружение, рвота, обморок и т. п.",
+"opt.yes":"Да","opt.no":"Нет","err.pick":"Сделайте выбор.",
+"card.interview":"Беседа с иностранным работником","field.interview":'Возможность общения <span class="req">*</span>',"hint.interview":"Проверяет ответственный",
+"opt.yn1":"Возможно","opt.yn0":"Невозможно","field.itvReason":"Причина и меры",
+"lead.3.h":"Беседа о здоровье","lead.3.p":"Отвечайте честно — так мы сможем безопасно распределить работу.",
+"card.history":"Прошлые случаи","field.injury":'Производственные травмы <span class="req">*</span>',"field.when":"Когда","field.part":"Часть тела","field.cause":"Причина",
+"field.accident":'Другие несчастные случаи <span class="req">*</span>',"hint.accident":"ДТП и др., кроме производственных",
+"field.surgery":'Операции <span class="req">*</span>',
+"card.checkup":"Медосмотр","field.checkup":'Пройденные медосмотры <span class="req">*</span>',"hint.multi":"можно выбрать несколько",
+"opt.chk1":"Общий","opt.chk2":"При приёме","opt.chk3":"Перед допуском","opt.chk4":"Специальный","opt.chk5":"Заключение врача","err.checkup":"Выберите хотя бы один.",
+"field.fitGeneral":"Заключение общего медосмотра","opt.fit3":"Подозрение на общее заболевание","opt.fit4":"Подозрение на гипертонию/диабет","opt.fit5":"Есть заболевание",
+"field.fitPre":"Заключение медосмотра перед допуском","field.vascular":"Проверка состояния сосудов",
+"opt.v1":"Здоров","opt.v2":"Норма","opt.v3":"Внимание","opt.v4":"Повышенное внимание","opt.v5":"Нужна диагностика",
+"card.disease":"Хронические заболевания","field.hasDisease":'Имеющиеся заболевания <span class="req">*</span>',"field.diseaseTags":"Название заболевания",
+"opt.d1":"Гипертония","opt.d2":"Диабет","opt.d3":"Болезни сердца","opt.d4":"Сосуды головного мозга","opt.d5":"Болезни печени","opt.d6":"Болезни почек","opt.d7":"Органы дыхания","opt.d8":"Опорно-двигательный аппарат",
+"field.drug":"Принимаемые лекарства","field.symptoms":"Где есть боль или дискомфорт","hint.symptoms":"выберите всё, что подходит",
+"opt.s1":"Шея","opt.s2":"Поясница","opt.s3":"Рука","opt.s4":"Запястье","opt.s5":"Колено","opt.s6":"Лодыжка","opt.s7":"Тазобедренный сустав","opt.s8":"Нет",
+"lead.4.h":"Образ жизни","lead.4.p":"Используется только для консультаций по здоровью.",
+"card.smoke":"Курение","opt.sm1":"Не курю","opt.sm2":"Курил(а) раньше","opt.sm3":"Курю сейчас","unit.yearsSuffix":"лет","unit.cigDay":"сигарет/день",
+"card.drink":"Алкоголь","field.drinkDays":'Сколько дней в неделю вы пьёте? <span class="req">*</span>',
+"opt.day0":"0 дн.","opt.day1":"1 дн.","opt.day2":"2 дн.","opt.day3":"3 дн.","opt.day4":"4 дн.","opt.day5":"5 дн.","opt.day6":"6 дн.","opt.day7":"7 дн.",
+"field.drinkGlass":"Сколько рюмок обычно за раз?","unit.glass":"рюм.",
+"lead.5.h":"Измерение давления","lead.5.p":"Введите цифры с экрана тонометра.",
+"card.bp1":"1-е измерение","field.sys":"Систолическое (верхнее)","field.dia":"Диастолическое (нижнее)","field.pulse":"Пульс","hint.optional":"необязательно","unit.bpm":"уд/мин","err.bp":"Введите давление.",
+"card.bp2":"2-е измерение","card.bp2b":"· после 5 минут покоя",
+"card.bpBy":"Кто измерял","field.bpBy":'Способ измерения <span class="req">*</span>',"opt.bpBy1":"Измерил(а) сам(а)","opt.bpBy2":"Измерил медработник",
+"card.bpPhoto":"Фото результата измерения","hint.bpPhoto":"Фото экрана тонометра или бумажного результата ускорит проверку. Необязательно.",
+"lead.6.h":"Обязательство и согласие","lead.6.p":"Прочитайте до конца, затем распишитесь.",
+"note.legalKo":"Юридическую силу имеет текст обязательства и согласия на корейском языке.",
+"card.pledge":"Обязательство соблюдать правила","pledge.scroll":"Прокрутите вниз и прочитайте всё","pledge.agree":"Я прочитал(а) все 17 пунктов и обязуюсь их соблюдать","err.pledge":"Подтвердите обязательство.",
+"card.consent":"Согласие на сбор и использование (3 вида)",
+"consent.period":'Срок хранения и использования — <b>3 года после сдачи объекта</b>. Вы вправе отказаться, но тогда невозможно проверить личность и состояние здоровья, что может повлиять на приём на работу.',
+"consent.personal":"Персональные данные","consent.unique":"Идентификационные данные","consent.sensitive":"Чувствительные данные",
+"opt.agree":"Согласен","opt.disagree":"Не согласен","err.consent":"Сделайте выбор по всем 3 пунктам.",
+"card.signPledge":"Подпись давшего обязательство","sign.pledgeHelp":"Эта подпись относится только к обязательству выше. Подпись за получение СИЗ — на следующем экране.",
+"sign.here":"Распишитесь здесь","sign.tip":"Можно пальцем, стилусом или мышью","sign.clear":"Стереть и расписаться заново","err.sign":"Поставьте подпись.",
+"lead.7.h":"Выдача и получение<br>средств защиты","lead.7.p":"Проверьте количество каждого средства защиты и распишитесь.",
+"ppe.helmet":"Каска","ppe.helmetSub":"с подбородочным ремнём","ppe.shoes":"Защитная обувь","ppe.shoesSub":"защита подъёма стопы и лодыжки",
+"ppe.belt":"Страховочный пояс","ppe.beltSub":"привязь и строп","ppe.etc":"Другое","ppe.etcSub":"гетры, защитные очки и т. п.",
+"ppe.signReq":"Подпись о получении *","field.etcName":"Название (другое)",
+"note.ppe":"Подтверждаю, что получил(а) указанные средства защиты <b>в исправном состоянии</b>, и при поломке или утере сразу попрошу замену.",
+"lead.8.h":"Последняя проверка","lead.8.p":"Ещё раз проверьте всё перед сохранением.",
+"lead.9.h":"Сохранено","lead.9.p":"Сообщите инженеру по охране труда. Печать — на компьютере в офисе.",
+"btn.newOne":"Заполнить для следующего человека","btn.prev":"Назад","btn.next":"Далее" }
 };
+/* 입력칸 안내글 · 단계 이름 · 마지막 버튼도 언어에 맞게 */
+const PH_I18N = {"company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
+const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào tạo · Kinh nghiệm", "Phỏng vấn sức khỏe", "Thói quen sinh hoạt", "Đo huyết áp", "Cam kết · Đồng ý", "Nhận đồ bảo hộ", "Kiểm tra cuối", "Hoàn tất"], "zh": ["开始", "个人信息", "培训·经历", "健康面谈", "生活习惯", "测量血压", "承诺·同意", "领取防护用品", "最终确认", "完成"], "th": ["เริ่มต้น", "ข้อมูลส่วนตัว", "การอบรม·ประสบการณ์", "สัมภาษณ์สุขภาพ", "พฤติกรรมสุขภาพ", "วัดความดัน", "คำมั่น·ยินยอม", "รับอุปกรณ์ป้องกัน", "ตรวจสอบครั้งสุดท้าย", "เสร็จสิ้น"], "ru": ["Начало", "Личные данные", "Обучение · опыт", "Беседа о здоровье", "Образ жизни", "Давление", "Обязательство · согласие", "Получение СИЗ", "Проверка", "Готово"]};
+const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
+function stepName(st){ const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
 let LANG = "ko";
 function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -2279,12 +2358,15 @@ function applyLang(){
     if(d != null) el.innerHTML = d;
   });
   document.documentElement.lang = LANG;
+  Object.keys(PH_I18N).forEach(id => { const el = document.getElementById(id); if(el) el.placeholder = PH_I18N[id][LANG] || PH_I18N[id].ko; });
+  try{ if(!document.body.classList.contains("admmode")){ $("#hTitle").textContent = stepName(step); paintNextLabel(); } }catch(e){}
   try{ const cp = document.getElementById("coPick"); if(cp && !cp.classList.contains("hidden")) renderCoPick(); }catch(e){}   // 검색칸 안내문을 언어에 맞게
   const sums = {
     ko:"",
     vi:"Tóm tắt: đồng ý đội đồ bảo hộ, báo cáo rủi ro, quyền dừng công việc nguy hiểm, tuân thủ quy tắc an toàn, và cho phép thu thập thông tin cá nhân. (Xem đầy đủ ở bản tiếng Hàn phía trên)",
     zh:"摘要：同意佩戴防护用品、报告危险因素、行使停工权、遵守安全规定及个人信息收集。（完整条款请参见上方韩文原文）",
-    th:"สรุป: ยินยอมสวมอุปกรณ์ป้องกัน แจ้งความเสี่ยง ใช้สิทธิหยุดงานเมื่อไม่ปลอดภัย ปฏิบัติตามกฎความปลอดภัย และยินยอมให้เก็บข้อมูลส่วนบุคคล (ข้อความฉบับเต็มดูจากต้นฉบับภาษาเกาหลีด้านบน)"
+    th:"สรุป: ยินยอมสวมอุปกรณ์ป้องกัน แจ้งความเสี่ยง ใช้สิทธิหยุดงานเมื่อไม่ปลอดภัย ปฏิบัติตามกฎความปลอดภัย และยินยอมให้เก็บข้อมูลส่วนบุคคล (ข้อความฉบับเต็มดูจากต้นฉบับภาษาเกาหลีด้านบน)",
+    ru:"Кратко: согласие носить средства защиты, сообщать об опасностях, право остановить опасную работу, соблюдать правила безопасности и согласие на сбор персональных данных. (Полный текст — в корейском оригинале выше)",
   };
   const ps = document.getElementById("pledgeSummary");
   if(ps) ps.textContent = sums[LANG] || "";
@@ -2603,6 +2685,10 @@ const val = id => { const e = document.getElementById(id); return e ? e.value.tr
 const progEl = $("#prog");
 for(let i=0;i<FLOW.length;i++){ const d = document.createElement("i"); d.textContent = String(i+1); progEl.appendChild(d); }
 
+function paintNextLabel(){
+  const b = BTN_I18N[LANG];
+  $("#btnNext").textContent = step===7 ? ((b && b[0]) || "확인하기") : (step===8 ? ((b && b[1]) || "저장") : (I18N[LANG]["btn.next"]||"다음"));
+}
 function paint(){
   $("main").style.display = "";
   document.body.classList.remove("admmode");
@@ -2610,7 +2696,7 @@ function paint(){
   const fi = flowIdx(step);
   $$("#prog i").forEach((el,i)=>{ el.className = i===fi ? "on" : (i<fi ? "done" : ""); });
   $("#hStep").textContent = (fi+1)+" / "+FLOW.length;
-  $("#hTitle").textContent = STEP_NAME[step];
+  $("#hTitle").textContent = stepName(step);
   $$(".step").forEach(s => s.classList.toggle("on", +s.dataset.step === step));
   $("#adm").classList.remove("on");
   $("#sheetWrap").classList.remove("on");
@@ -2621,7 +2707,7 @@ function paint(){
   $("#btnAdmClose").classList.add("hidden");
   $("#btnPrev").classList.toggle("hidden", step===0 || step===9);
   $("#btnNext").classList.toggle("hidden", step===9);
-  $("#btnNext").textContent = step===7 ? "확인하기" : (step===8 ? "저장" : (I18N[LANG]["btn.next"]||"다음"));
+  paintNextLabel();
   $("#btnNext").classList.toggle("danger", step===8);
   if(step===6) PADS.padSign.fit();
   if(step===7) syncPpeSigns();
@@ -6586,6 +6672,7 @@ const CO_TXT = {
   ko:{ q:"회사명 검색", none:"검색 결과가 없어요. 아래 '목록에 없어요'를 눌러 직접 적어 주세요." },
   vi:{ q:"Tìm tên công ty", none:"Không tìm thấy. Hãy bấm nút bên dưới để tự nhập." },
   zh:{ q:"搜索公司名称", none:"没有找到，请点击下方按钮直接输入。" },
+  ru:{ q:"Поиск компании", none:"Ничего не найдено. Нажмите кнопку ниже, чтобы ввести вручную." },
   th:{ q:"ค้นหาชื่อบริษัท", none:"ไม่พบ กรุณากดปุ่มด้านล่างเพื่อพิมพ์เอง" }
 };
 function coTxt(k){ return ((CO_TXT[LANG] || CO_TXT.ko)[k]) || CO_TXT.ko[k]; }
