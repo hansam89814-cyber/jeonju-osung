@@ -1056,6 +1056,18 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
 .coEmpty{padding:16px 14px;font-size:.9rem;color:var(--steel)}
 /* 제목(h3)에 붙은 필수 표시도 빨간색 */
 .card h3 .req{color:var(--signal);margin-left:3px}
+/* 주량 입력 */
+.drinkRows{display:flex;flex-direction:column;gap:8px}
+.drow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) auto;gap:8px;align-items:center}
+.dkBtn{min-height:52px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-weight:700;font-size:.98rem;padding:0 8px;cursor:pointer}
+.dkBtn[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.drow .dq{min-height:52px;text-align:center}
+.drow .dq:disabled{background:#F2F2F0;color:var(--mute)}
+.dseg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;height:52px}
+.dseg button{border:0;background:#fff;min-width:48px;font-weight:700;font-size:.95rem;color:var(--steel);cursor:pointer}
+.dseg button+button{border-left:1.5px solid var(--line)}
+.dseg button[aria-pressed=true]:not(:disabled){background:var(--signal-8);color:#B00E20}
+.dseg button:disabled{color:#C9C9C6;cursor:default}
 /* 신분증·이수증 여러 장 */
 .mphList{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .mphList:not(:empty){margin-top:10px}
@@ -1176,6 +1188,9 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
             <option value="기타" data-i18n="visa.etc">기타 (직접 입력)</option>
           </select></div>
         <div class="f hidden" id="wVisaEtc"><label for="visaEtc" data-i18n="field.visaEtc">체류자격 직접 입력</label><input type="text" id="visaEtc" placeholder="예) G-1"></div>
+        <div class="f" style="margin-bottom:0"><label for="nameEn" data-i18n="field.nameEn">영문 이름 (외국인등록증에 적힌 그대로) <span class="req">*</span></label>
+          <input type="text" id="nameEn" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="예) NGUYEN VAN AN">
+          <div class="err" data-i18n="err.nameEn">외국인등록증에 적힌 영문 이름을 입력해 주세요.</div></div>
       </div>
       <div class="err" data-i18n="err.nation">국적을 선택해 주세요.</div></div>
     <div class="f" style="margin-bottom:0"><label data-i18n="field.blood">혈액형</label>
@@ -1373,7 +1388,13 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div class="opts grid3 sm" data-pick="smoke">
         <button class="opt" type="button" data-v="비흡연" data-i18n="opt.sm1">비흡연</button><button class="opt" type="button" data-v="과거흡연" data-i18n="opt.sm2">과거 흡연</button>
         <button class="opt" type="button" data-v="현재흡연" data-i18n="opt.sm3">현재 흡연</button></div>
-      <div class="when" id="wSmoke"><div class="row">
+      <div class="when" id="wSmoke">
+        <div class="f hidden" id="fSmokeType"><label data-i18n="field.smokeType">흡연 종류 <span class="hint">여러 개 선택 가능</span></label>
+          <div class="opts grid3 sm" data-multi="smokeType">
+            <button class="opt" type="button" data-v="연초" data-i18n="opt.st1">연초 (일반담배)</button><button class="opt" type="button" data-v="궐련형" data-i18n="opt.st2">궐련형 전자담배</button>
+            <button class="opt" type="button" data-v="액상형" data-i18n="opt.st3">액상형 전자담배</button></div>
+          <div class="err" data-i18n="err.smokeType">흡연 종류를 골라 주세요.</div></div>
+        <div class="row">
         <div class="unit"><input type="number" id="smokeY" inputmode="numeric" min="0" placeholder="0"><b data-i18n="unit.yearsSuffix">년간</b></div>
         <div class="unit"><input type="number" id="smokeD" inputmode="numeric" min="0" placeholder="0"><b data-i18n="unit.cigDay">개비/일</b></div></div></div>
       <div class="err" data-i18n="err.pick">선택해 주세요.</div></div></div>
@@ -1385,8 +1406,26 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
         <button class="opt" type="button" data-v="4" data-i18n="opt.day4">4일</button><button class="opt" type="button" data-v="5" data-i18n="opt.day5">5일</button>
         <button class="opt" type="button" data-v="6" data-i18n="opt.day6">6일</button><button class="opt" type="button" data-v="7" data-i18n="opt.day7">7일</button></div>
       <div class="err" data-i18n="err.pick">선택해 주세요.</div></div>
-    <div class="f" id="fGlass" style="margin-bottom:0"><label data-i18n="field.drinkGlass">마시는 날 보통 몇 잔?</label>
-      <div class="unit"><input type="number" id="drinkGlass" inputmode="numeric" min="0" max="50" placeholder="0"><b data-i18n="unit.glass">잔</b></div></div></div>
+    <div class="f" id="fGlass" style="margin-bottom:0"><label data-i18n="field.drinkAmt">주량 <span class="req">*</span></label>
+      <p class="fsub" data-i18n="hint.drinkAmt">마시는 술을 누르고, 한 번에 마시는 양을 병 또는 잔으로 적어 주세요. 여러 개 선택 가능</p>
+      <div class="drinkRows" id="drinkRows">
+        <div class="drow" data-k="소주"><button type="button" class="dkBtn" aria-pressed="false" data-i18n="dk.soju">소주</button>
+          <input type="number" class="dq" inputmode="decimal" min="0" step="0.5" placeholder="0" disabled aria-label="소주 양">
+          <span class="dseg"><button type="button" data-u="병" aria-pressed="true" disabled data-i18n="unit.bottle">병</button><button type="button" data-u="잔" aria-pressed="false" disabled data-i18n="unit.glass">잔</button></span></div>
+        <div class="drow" data-k="맥주"><button type="button" class="dkBtn" aria-pressed="false" data-i18n="dk.beer">맥주</button>
+          <input type="number" class="dq" inputmode="decimal" min="0" step="0.5" placeholder="0" disabled aria-label="맥주 양">
+          <span class="dseg"><button type="button" data-u="병" aria-pressed="true" disabled data-i18n="unit.bottle">병</button><button type="button" data-u="잔" aria-pressed="false" disabled data-i18n="unit.glass">잔</button></span></div>
+        <div class="drow" data-k="막걸리"><button type="button" class="dkBtn" aria-pressed="false" data-i18n="dk.mak">막걸리</button>
+          <input type="number" class="dq" inputmode="decimal" min="0" step="0.5" placeholder="0" disabled aria-label="막걸리 양">
+          <span class="dseg"><button type="button" data-u="병" aria-pressed="true" disabled data-i18n="unit.bottle">병</button><button type="button" data-u="잔" aria-pressed="false" disabled data-i18n="unit.glass">잔</button></span></div>
+        <div class="drow" data-k="와인"><button type="button" class="dkBtn" aria-pressed="false" data-i18n="dk.wine">와인</button>
+          <input type="number" class="dq" inputmode="decimal" min="0" step="0.5" placeholder="0" disabled aria-label="와인 양">
+          <span class="dseg"><button type="button" data-u="병" aria-pressed="true" disabled data-i18n="unit.bottle">병</button><button type="button" data-u="잔" aria-pressed="false" disabled data-i18n="unit.glass">잔</button></span></div>
+        <div class="drow" data-k="양주"><button type="button" class="dkBtn" aria-pressed="false" data-i18n="dk.liq">양주</button>
+          <input type="number" class="dq" inputmode="decimal" min="0" step="0.5" placeholder="0" disabled aria-label="양주 양">
+          <span class="dseg"><button type="button" data-u="병" aria-pressed="true" disabled data-i18n="unit.bottle">병</button><button type="button" data-u="잔" aria-pressed="false" disabled data-i18n="unit.glass">잔</button></span></div>
+      </div>
+      <div class="err" data-i18n="err.drinkAmt">마시는 술을 고르고 양을 적어 주세요.</div></div></div>
 </section>
 
 <!-- 5 ─ 혈압 -->
@@ -2056,7 +2095,7 @@ function loadFirebase(){
 }
 
 const I18N = {
-ko:{ "mph.count":"{n}장 / 최대 4장", "mph.full":"사진은 최대 4장까지 올릴 수 있어요.", "err.eduPhoto":"이수증 사진을 1장 이상 올려 주세요.", "hint.eduPhoto":"이수증이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요.", "err.idPhoto":"신분증 또는 외국인등록증 사진을 올려 주세요.", "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</span>", "field.chkPre":"배치전건강진단 결과지 <span class=\"hint\">선택</span>", "hint.chkUp":"결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.", "chk.file":"📁 파일 (PDF·사진)", "chk.busy":"결과지를 확인하는 중…", "chk.ok":"올렸어요 ({n}장)", "chk.retry":"다시 올려 주세요.", "chk.force":"그래도 이 파일로 올리기", "chk.bad.small":"해상도가 너무 낮아 글씨를 알아보기 어려워요.", "chk.bad.blur":"글씨가 흐리거나 뭉개져 보여요. 흔들리지 않게 다시 찍어 주세요.", "chk.bad.dark":"너무 어두워요. 밝은 곳에서 다시 찍어 주세요.", "chk.bad.contrast":"글씨가 흐릿하게 보여요(빛 반사·흐린 인쇄). 다시 찍어 주세요.", "chk.bad.read":"파일을 열 수 없어요.", "chk.full":"최대 3장까지 올릴 수 있어요.", "chk.type":"PDF 또는 사진 파일만 올릴 수 있어요.", "chk.pw":"이 PDF는 비밀번호가 걸려 있어요. 비밀번호를 입력해 주세요 (보통 생년월일 6자리 또는 8자리).", "chk.pwWrong":"비밀번호가 맞지 않아요. 다시 입력해 주세요.", "opt.th":"태국", "opt.ru":"러시아", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"신분증 또는 외국인등록증 사진 <span class=\"req\">*</span>", "visa.E9":"E-9 비전문취업", "visa.H2":"H-2 방문취업", "visa.F4":"F-4 재외동포", "visa.F2":"F-2 거주", "visa.F5":"F-5 영주", "visa.F6":"F-6 결혼이민", "visa.E7":"E-7 특정활동 (숙련기능 E-7-4 포함)", "visa.etc":"기타 (직접 입력)", "field.visaEtc":"체류자격 직접 입력", "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
+ko:{ "field.nameEn":"영문 이름 (외국인등록증에 적힌 그대로) <span class=\"req\">*</span>", "err.nameEn":"외국인등록증에 적힌 영문 이름을 입력해 주세요.", "nc.pending":"사진 속 이름을 확인하는 중…", "nc.ok":"✓ 입력한 이름과 확인됐어요.", "nc.mismatch":"사진에서 입력한 이름이 확인되지 않아요. 본인 것이 맞는지 확인해 주세요.", "nc.unread":"사진에서 글자를 읽지 못했어요. 밝고 선명하게 다시 찍으면 좋아요.", "nc.note":" 그대로 제출해도 되지만, 담당자가 따로 확인합니다.", "field.smokeType":"흡연 종류 <span class=\"hint\">여러 개 선택 가능</span>", "opt.st1":"연초 (일반담배)", "opt.st2":"궐련형 전자담배", "opt.st3":"액상형 전자담배", "err.smokeType":"흡연 종류를 골라 주세요.", "field.drinkAmt":"주량 <span class=\"req\">*</span>", "hint.drinkAmt":"마시는 술을 누르고, 한 번에 마시는 양을 병 또는 잔으로 적어 주세요. 여러 개 선택 가능", "err.drinkAmt":"마시는 술을 고르고 양을 적어 주세요.", "dk.soju":"소주", "dk.beer":"맥주", "dk.mak":"막걸리", "dk.wine":"와인", "dk.liq":"양주", "unit.bottle":"병", "mph.count":"{n}장 / 최대 4장", "mph.full":"사진은 최대 4장까지 올릴 수 있어요.", "err.eduPhoto":"이수증 사진을 1장 이상 올려 주세요.", "hint.eduPhoto":"이수증이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요.", "err.idPhoto":"신분증 또는 외국인등록증 사진을 올려 주세요.", "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</span>", "field.chkPre":"배치전건강진단 결과지 <span class=\"hint\">선택</span>", "hint.chkUp":"결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.", "chk.file":"📁 파일 (PDF·사진)", "chk.busy":"결과지를 확인하는 중…", "chk.ok":"올렸어요 ({n}장)", "chk.retry":"다시 올려 주세요.", "chk.force":"그래도 이 파일로 올리기", "chk.bad.small":"해상도가 너무 낮아 글씨를 알아보기 어려워요.", "chk.bad.blur":"글씨가 흐리거나 뭉개져 보여요. 흔들리지 않게 다시 찍어 주세요.", "chk.bad.dark":"너무 어두워요. 밝은 곳에서 다시 찍어 주세요.", "chk.bad.contrast":"글씨가 흐릿하게 보여요(빛 반사·흐린 인쇄). 다시 찍어 주세요.", "chk.bad.read":"파일을 열 수 없어요.", "chk.full":"최대 3장까지 올릴 수 있어요.", "chk.type":"PDF 또는 사진 파일만 올릴 수 있어요.", "chk.pw":"이 PDF는 비밀번호가 걸려 있어요. 비밀번호를 입력해 주세요 (보통 생년월일 6자리 또는 8자리).", "chk.pwWrong":"비밀번호가 맞지 않아요. 다시 입력해 주세요.", "opt.th":"태국", "opt.ru":"러시아", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"신분증 또는 외국인등록증 사진 <span class=\"req\">*</span>", "visa.E9":"E-9 비전문취업", "visa.H2":"H-2 방문취업", "visa.F4":"F-4 재외동포", "visa.F2":"F-2 거주", "visa.F5":"F-5 영주", "visa.F6":"F-6 결혼이민", "visa.E7":"E-7 특정활동 (숙련기능 E-7-4 포함)", "visa.etc":"기타 (직접 입력)", "field.visaEtc":"체류자격 직접 입력", "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
 "start.title":"안전교육 전<br>작성해 주세요","start.sub":"약 5분 걸립니다. 다 쓰면 저장 버튼을 누르세요.",
 "resume.title":"쓰다 만 내용이 있습니다","resume.go":"이어서 쓰기","resume.new":"처음부터","resume.at":"{n}단계까지 쓰셨습니다","already.title":"이미 제출하셨습니다","already.new":"다른 사람 것 작성하기","already.at":"제출 완료 · 현장에서 담당자가 확인합니다","already.again":"다른 업체로 다시 제출 (내용 그대로)","co.other":"목록에 없어요 · 직접 입력","co.list":"목록에서 고르기","photo.cam":"📷 사진 찍기","photo.gallery":"🖼 사진첩","photo.file":"📁 파일","addphoto.title":"사진을 나중에 올릴 수 있습니다","addphoto.desc":"신분증·이수증 사진을 지금 찍어 올리면 현장에서 바로 확인됩니다.","finphoto.title":"사진이 아직 없습니다","finphoto.desc":"지금 넣어 두면 현장에서 확인이 훨씬 빠릅니다. 나중에 올려도 됩니다.","consent.blockTitle":"현장에서 근무할 수 없습니다","consent.blockWhich":"에 동의하지 않으셨습니다.","consent.blockWhy":"이 정보는 산업안전보건법에 따라 근로자 안전 관리에 반드시 필요합니다. 동의하지 않으시면 <b>현장 출입과 근무가 불가능</b>합니다.","consent.blockAsk":"동의하시겠습니까? 궁금한 점은 소속 회사 담당자에게 문의해 주세요.","consent.blockClose":"닫기","consent.blockFix":"동의로 바꾸기","field.checkupUrl":"일반건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","hint.checkupUrl":"병원·검진기관에서 받은 결과 조회 링크를 붙여 넣으세요. 담당자만 확인하며, 인쇄 양식에는 들어가지 않습니다.","err.checkupUrl":"주소는 http:// 또는 https:// 로 시작해야 합니다.","field.preCheckupUrl":"배치전건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","photo.sample":"예시 보기","start.prepTitle":"준비물","start.prep1":"· 신분증 (생년월일·국적 확인)","start.prep2":"· 기초안전보건교육 이수증","start.prep3":"· 혈압 측정 결과",
 "start.note":"작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.",
@@ -2126,7 +2165,7 @@ ko:{ "mph.count":"{n}장 / 최대 4장", "mph.full":"사진은 최대 4장까지
 "lead.9.h":"저장되었습니다","lead.9.p":"안전관리자에게 알려 주세요. 출력은 사무실 컴퓨터에서 합니다.",
 "btn.newOne":"다른 사람 작성 시작","btn.prev":"이전","btn.next":"다음" },
 
-vi:{ "mph.count":"{n} ảnh / tối đa 4", "mph.full":"Chỉ tải được tối đa 4 ảnh.", "err.eduPhoto":"Vui lòng tải ít nhất 1 ảnh chứng chỉ.", "hint.eduPhoto":"Chụp rõ chứng chỉ. Tối thiểu 1, tối đa 4 ảnh.", "err.idPhoto":"Vui lòng tải ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài.", "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"hint\">không bắt buộc</span>", "field.chkPre":"Kết quả khám sức khỏe trước khi bố trí <span class=\"hint\">không bắt buộc</span>", "hint.chkUp":"Chụp ảnh hoặc tải lên tệp PDF/ảnh của phiếu kết quả. Tối đa 3 trang. Chỉ người phụ trách xem.", "chk.file":"📁 Tệp (PDF·ảnh)", "chk.busy":"Đang kiểm tra…", "chk.ok":"Đã tải lên ({n} trang)", "chk.retry":"Vui lòng tải lên lại.", "chk.force":"Vẫn dùng tệp này", "chk.bad.small":"Độ phân giải quá thấp, khó đọc chữ.", "chk.bad.blur":"Chữ bị mờ hoặc nhòe. Hãy chụp lại, giữ máy chắc tay.", "chk.bad.dark":"Ảnh quá tối. Hãy chụp lại ở nơi sáng.", "chk.bad.contrast":"Chữ bị nhạt (lóa sáng hoặc in mờ). Hãy chụp lại.", "chk.bad.read":"Không mở được tệp.", "chk.full":"Tối đa 3 trang.", "chk.type":"Chỉ chấp nhận tệp PDF hoặc ảnh.", "chk.pw":"PDF này có mật khẩu. Hãy nhập mật khẩu (thường là ngày sinh 6 hoặc 8 số).", "chk.pwWrong":"Mật khẩu không đúng. Hãy nhập lại.", "opt.th":"Thái Lan", "opt.ru":"Nga", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài <span class=\"req\">*</span>", "visa.E9":"E-9 Lao động phổ thông", "visa.H2":"H-2 Lao động thăm thân", "visa.F4":"F-4 Kiều bào", "visa.F2":"F-2 Cư trú", "visa.F5":"F-5 Thường trú", "visa.F6":"F-6 Kết hôn", "visa.E7":"E-7 Hoạt động đặc định (gồm E-7-4)", "visa.etc":"Khác (tự nhập)", "field.visaEtc":"Nhập loại visa", "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
+vi:{ "field.nameEn":"Họ tên tiếng Anh (đúng như trên thẻ đăng ký) <span class=\"req\">*</span>", "err.nameEn":"Vui lòng nhập họ tên tiếng Anh như trên thẻ.", "nc.pending":"Đang kiểm tra tên trong ảnh…", "nc.ok":"✓ Tên khớp với thông tin đã nhập.", "nc.mismatch":"Không thấy tên đã nhập trong ảnh. Hãy kiểm tra có đúng giấy tờ của bạn không.", "nc.unread":"Không đọc được chữ trong ảnh. Nên chụp lại sáng và rõ hơn.", "nc.note":" Bạn vẫn có thể nộp, người phụ trách sẽ kiểm tra lại.", "field.smokeType":"Loại thuốc <span class=\"hint\">chọn nhiều</span>", "opt.st1":"Thuốc lá điếu", "opt.st2":"Thuốc lá làm nóng (IQOS…)", "opt.st3":"Thuốc lá điện tử (dạng lỏng)", "err.smokeType":"Vui lòng chọn loại thuốc.", "field.drinkAmt":"Tửu lượng <span class=\"req\">*</span>", "hint.drinkAmt":"Chọn loại rượu bạn uống và ghi lượng mỗi lần (chai hoặc ly). Có thể chọn nhiều.", "err.drinkAmt":"Vui lòng chọn loại rượu và ghi lượng.", "dk.soju":"Soju", "dk.beer":"Bia", "dk.mak":"Makgeolli", "dk.wine":"Rượu vang", "dk.liq":"Rượu mạnh", "unit.bottle":"chai", "mph.count":"{n} ảnh / tối đa 4", "mph.full":"Chỉ tải được tối đa 4 ảnh.", "err.eduPhoto":"Vui lòng tải ít nhất 1 ảnh chứng chỉ.", "hint.eduPhoto":"Chụp rõ chứng chỉ. Tối thiểu 1, tối đa 4 ảnh.", "err.idPhoto":"Vui lòng tải ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài.", "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"hint\">không bắt buộc</span>", "field.chkPre":"Kết quả khám sức khỏe trước khi bố trí <span class=\"hint\">không bắt buộc</span>", "hint.chkUp":"Chụp ảnh hoặc tải lên tệp PDF/ảnh của phiếu kết quả. Tối đa 3 trang. Chỉ người phụ trách xem.", "chk.file":"📁 Tệp (PDF·ảnh)", "chk.busy":"Đang kiểm tra…", "chk.ok":"Đã tải lên ({n} trang)", "chk.retry":"Vui lòng tải lên lại.", "chk.force":"Vẫn dùng tệp này", "chk.bad.small":"Độ phân giải quá thấp, khó đọc chữ.", "chk.bad.blur":"Chữ bị mờ hoặc nhòe. Hãy chụp lại, giữ máy chắc tay.", "chk.bad.dark":"Ảnh quá tối. Hãy chụp lại ở nơi sáng.", "chk.bad.contrast":"Chữ bị nhạt (lóa sáng hoặc in mờ). Hãy chụp lại.", "chk.bad.read":"Không mở được tệp.", "chk.full":"Tối đa 3 trang.", "chk.type":"Chỉ chấp nhận tệp PDF hoặc ảnh.", "chk.pw":"PDF này có mật khẩu. Hãy nhập mật khẩu (thường là ngày sinh 6 hoặc 8 số).", "chk.pwWrong":"Mật khẩu không đúng. Hãy nhập lại.", "opt.th":"Thái Lan", "opt.ru":"Nga", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài <span class=\"req\">*</span>", "visa.E9":"E-9 Lao động phổ thông", "visa.H2":"H-2 Lao động thăm thân", "visa.F4":"F-4 Kiều bào", "visa.F2":"F-2 Cư trú", "visa.F5":"F-5 Thường trú", "visa.F6":"F-6 Kết hôn", "visa.E7":"E-7 Hoạt động đặc định (gồm E-7-4)", "visa.etc":"Khác (tự nhập)", "field.visaEtc":"Nhập loại visa", "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
 "start.title":"Điền trước khi<br>huấn luyện an toàn","start.sub":"Mất khoảng 5 phút. Điền xong hãy nhấn Lưu.",
 "resume.title":"Bạn có phần chưa viết xong","resume.go":"Viết tiếp","resume.new":"Bắt đầu lại","resume.at":"Đã viết đến bước {n}","already.title":"Bạn đã nộp rồi","already.new":"Viết cho người khác","already.at":"Đã nộp · Cán bộ sẽ kiểm tra tại công trường","already.again":"Nộp lại cho công ty khác (giữ nội dung)","co.other":"Không có trong danh sách · Tự nhập","co.list":"Chọn từ danh sách","photo.cam":"📷 Chụp ảnh","photo.gallery":"🖼 Thư viện","photo.file":"📁 Tệp","addphoto.title":"Có thể tải ảnh lên sau","addphoto.desc":"Chụp và tải ảnh giấy tờ, chứng chỉ ngay bây giờ để công trường xác nhận nhanh.","finphoto.title":"Chưa có ảnh","finphoto.desc":"Thêm ngay sẽ được xác nhận nhanh hơn tại công trường. Cũng có thể tải lên sau.","consent.blockTitle":"Không thể làm việc tại công trường","consent.blockWhich":" — bạn chưa đồng ý.","consent.blockWhy":"Thông tin này là bắt buộc theo Luật An toàn vệ sinh lao động để quản lý an toàn người lao động. Nếu không đồng ý, bạn <b>không thể vào và làm việc tại công trường</b>.","consent.blockAsk":"Bạn có đồng ý không? Nếu có thắc mắc, vui lòng hỏi người phụ trách của công ty bạn.","consent.blockClose":"Đóng","consent.blockFix":"Chuyển sang đồng ý","field.checkupUrl":"Địa chỉ tra cứu kết quả khám sức khỏe <span class=\"hint\">tùy chọn</span>","hint.checkupUrl":"Dán đường link tra cứu kết quả do bệnh viện/cơ sở khám cung cấp. Chỉ người phụ trách xem, không in vào biểu mẫu.","err.checkupUrl":"Địa chỉ phải bắt đầu bằng http:// hoặc https://.","field.preCheckupUrl":"Địa chỉ tra cứu kết quả khám trước bố trí <span class=\"hint\">tùy chọn</span>","photo.sample":"Xem mẫu","start.prepTitle":"Cần chuẩn bị","start.prep1":"· Giấy tờ tùy thân (ngày sinh, quốc tịch)","start.prep2":"· Chứng chỉ đào tạo an toàn cơ bản","start.prep3":"· Kết quả đo huyết áp",
 "start.note":"Nội dung chỉ <b>Đội an toàn công trường</b> được xem, lưu 3 năm sau khi hoàn công rồi hủy.",
@@ -2196,7 +2235,7 @@ vi:{ "mph.count":"{n} ảnh / tối đa 4", "mph.full":"Chỉ tải được t�
 "lead.9.h":"Đã lưu thành công","lead.9.p":"Hãy báo cho quản lý an toàn. Việc in sẽ thực hiện ở máy tính văn phòng.",
 "btn.newOne":"Bắt đầu cho người khác","btn.prev":"Trước","btn.next":"Tiếp theo" },
 
-zh:{ "mph.count":"{n}张 / 最多4张", "mph.full":"最多只能上传4张照片。", "err.eduPhoto":"请至少上传1张结业证照片。", "hint.eduPhoto":"请清楚拍摄结业证，至少1张，最多4张。", "err.idPhoto":"请上传身份证或外国人登录证照片。", "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</span>", "field.chkPre":"岗前健康检查结果单 <span class=\"hint\">选填</span>", "hint.chkUp":"请拍照或上传结果单的PDF/图片文件，最多3页。仅负责人查看。", "chk.file":"📁 文件（PDF·图片）", "chk.busy":"正在检查…", "chk.ok":"已上传（{n}页）", "chk.retry":"请重新上传。", "chk.force":"仍使用此文件", "chk.bad.small":"分辨率太低，文字难以辨认。", "chk.bad.blur":"文字模糊不清，请拿稳手机重新拍摄。", "chk.bad.dark":"太暗了，请在明亮处重新拍摄。", "chk.bad.contrast":"文字发淡（反光或打印不清），请重新拍摄。", "chk.bad.read":"无法打开文件。", "chk.full":"最多可上传3页。", "chk.type":"只能上传PDF或图片文件。", "chk.pw":"此PDF有密码，请输入密码（通常为6位或8位出生日期）。", "chk.pwWrong":"密码错误，请重新输入。", "opt.th":"泰国", "opt.ru":"俄罗斯", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"身份证或外国人登录证照片 <span class=\"req\">*</span>", "visa.E9":"E-9 非专业就业", "visa.H2":"H-2 访问就业", "visa.F4":"F-4 在外同胞", "visa.F2":"F-2 居住", "visa.F5":"F-5 永久居留", "visa.F6":"F-6 结婚移民", "visa.E7":"E-7 特定活动（含E-7-4）", "visa.etc":"其他（直接输入）", "field.visaEtc":"直接输入签证类型", "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
+zh:{ "field.nameEn":"英文姓名（与外国人登录证一致）<span class=\"req\">*</span>", "err.nameEn":"请输入外国人登录证上的英文姓名。", "nc.pending":"正在核对照片中的姓名…", "nc.ok":"✓ 与填写的姓名一致。", "nc.mismatch":"照片中未找到您填写的姓名，请确认是否为本人证件。", "nc.unread":"无法识别照片中的文字，建议在明亮处清晰重拍。", "nc.note":" 仍可提交，负责人会另行核对。", "field.smokeType":"吸烟种类 <span class=\"hint\">可多选</span>", "opt.st1":"普通香烟", "opt.st2":"加热烟（IQOS等）", "opt.st3":"电子烟（烟油）", "err.smokeType":"请选择吸烟种类。", "field.drinkAmt":"酒量 <span class=\"req\">*</span>", "hint.drinkAmt":"选择您喝的酒，并填写一次喝的量（瓶或杯），可多选。", "err.drinkAmt":"请选择酒的种类并填写数量。", "dk.soju":"烧酒", "dk.beer":"啤酒", "dk.mak":"米酒", "dk.wine":"葡萄酒", "dk.liq":"洋酒", "unit.bottle":"瓶", "mph.count":"{n}张 / 最多4张", "mph.full":"最多只能上传4张照片。", "err.eduPhoto":"请至少上传1张结业证照片。", "hint.eduPhoto":"请清楚拍摄结业证，至少1张，最多4张。", "err.idPhoto":"请上传身份证或外国人登录证照片。", "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</span>", "field.chkPre":"岗前健康检查结果单 <span class=\"hint\">选填</span>", "hint.chkUp":"请拍照或上传结果单的PDF/图片文件，最多3页。仅负责人查看。", "chk.file":"📁 文件（PDF·图片）", "chk.busy":"正在检查…", "chk.ok":"已上传（{n}页）", "chk.retry":"请重新上传。", "chk.force":"仍使用此文件", "chk.bad.small":"分辨率太低，文字难以辨认。", "chk.bad.blur":"文字模糊不清，请拿稳手机重新拍摄。", "chk.bad.dark":"太暗了，请在明亮处重新拍摄。", "chk.bad.contrast":"文字发淡（反光或打印不清），请重新拍摄。", "chk.bad.read":"无法打开文件。", "chk.full":"最多可上传3页。", "chk.type":"只能上传PDF或图片文件。", "chk.pw":"此PDF有密码，请输入密码（通常为6位或8位出生日期）。", "chk.pwWrong":"密码错误，请重新输入。", "opt.th":"泰国", "opt.ru":"俄罗斯", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"身份证或外国人登录证照片 <span class=\"req\">*</span>", "visa.E9":"E-9 非专业就业", "visa.H2":"H-2 访问就业", "visa.F4":"F-4 在外同胞", "visa.F2":"F-2 居住", "visa.F5":"F-5 永久居留", "visa.F6":"F-6 结婚移民", "visa.E7":"E-7 特定活动（含E-7-4）", "visa.etc":"其他（直接输入）", "field.visaEtc":"直接输入签证类型", "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
 "start.title":"请在安全教育前<br>填写此表","start.sub":"大约需要5分钟。填完后请点击保存。",
 "resume.title":"有未填完的内容","resume.go":"继续填写","resume.new":"重新开始","resume.at":"已填写到第 {n} 步","already.title":"您已提交","already.new":"为他人填写","already.at":"已提交 · 现场负责人会确认","already.again":"以其他公司身份再次提交（内容不变）","co.other":"列表中没有 · 手动输入","co.list":"从列表中选择","photo.cam":"📷 拍照","photo.gallery":"🖼 相册","photo.file":"📁 文件","addphoto.title":"照片可以稍后上传","addphoto.desc":"现在拍摄并上传身份证、结业证照片，现场可立即确认。","finphoto.title":"还没有照片","finphoto.desc":"现在添加，现场确认会快很多。也可以稍后上传。","consent.blockTitle":"无法在现场工作","consent.blockWhich":"—您未同意。","consent.blockWhy":"根据《产业安全保健法》，这些信息是劳动者安全管理的必需项。若不同意，<b>将无法进入현场并工作</b>。","consent.blockAsk":"您同意吗？如有疑问，请咨询所属公司负责人。","consent.blockClose":"关闭","consent.blockFix":"改为同意","field.checkupUrl":"体检结果查询网址 <span class=\"hint\">选填</span>","hint.checkupUrl":"粘贴医院/体检机构提供的结果查询链接。仅负责人查看，不会打印到表格中。","err.checkupUrl":"网址须以 http:// 或 https:// 开头。","field.preCheckupUrl":"岗前体检结果查询网址 <span class=\"hint\">选填</span>","photo.sample":"查看示例","start.prepTitle":"准备事项","start.prep1":"· 身份证件（确认出生日期、国籍）","start.prep2":"· 基础安全保健教育结业证","start.prep3":"· 血压测量结果",
 "start.note":"填写内容仅供<b>现场安全保健组</b>查阅，竣工后保存3年后销毁。",
@@ -2266,7 +2305,7 @@ zh:{ "mph.count":"{n}张 / 最多4张", "mph.full":"最多只能上传4张照片
 "lead.9.h":"已保存","lead.9.p":"请告知安全管理员。打印将在办公室电脑上进行。",
 "btn.newOne":"开始为下一位填写","btn.prev":"上一步","btn.next":"下一步" },
 
-th:{ "mph.count":"{n} รูป / สูงสุด 4", "mph.full":"อัปโหลดได้สูงสุด 4 รูป", "err.eduPhoto":"กรุณาอัปโหลดรูปใบประกาศอย่างน้อย 1 รูป", "hint.eduPhoto":"ถ่ายใบประกาศให้ชัดเจน อย่างน้อย 1 รูป สูงสุด 4 รูป", "err.idPhoto":"กรุณาอัปโหลดรูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ", "field.chkGen":"ผลตรวจสุขภาพทั่วไป <span class=\"hint\">ไม่บังคับ</span>", "field.chkPre":"ผลตรวจสุขภาพก่อนเริ่มงาน <span class=\"hint\">ไม่บังคับ</span>", "hint.chkUp":"ถ่ายรูปหรืออัปโหลดไฟล์ PDF/รูปของใบผลตรวจ สูงสุด 3 หน้า เฉพาะเจ้าหน้าที่เท่านั้นที่ดูได้", "chk.file":"📁 ไฟล์ (PDF·รูป)", "chk.busy":"กำลังตรวจสอบ…", "chk.ok":"อัปโหลดแล้ว ({n} หน้า)", "chk.retry":"กรุณาอัปโหลดใหม่", "chk.force":"ใช้ไฟล์นี้ต่อไป", "chk.bad.small":"ความละเอียดต่ำเกินไป อ่านตัวอักษรได้ยาก", "chk.bad.blur":"ตัวอักษรเบลอ กรุณาถือให้นิ่งแล้วถ่ายใหม่", "chk.bad.dark":"มืดเกินไป กรุณาถ่ายใหม่ในที่สว่าง", "chk.bad.contrast":"ตัวอักษรจาง (แสงสะท้อนหรือพิมพ์ไม่ชัด) กรุณาถ่ายใหม่", "chk.bad.read":"ไม่สามารถเปิดไฟล์ได้", "chk.full":"อัปโหลดได้สูงสุด 3 หน้า", "chk.type":"อัปโหลดได้เฉพาะไฟล์ PDF หรือรูปภาพ", "chk.pw":"PDF นี้มีรหัสผ่าน กรุณาใส่รหัสผ่าน (มักเป็นวันเกิด 6 หรือ 8 หลัก)", "chk.pwWrong":"รหัสผ่านไม่ถูกต้อง กรุณาใส่อีกครั้ง", "opt.th":"ไทย", "opt.ru":"รัสเซีย", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"รูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ <span class=\"req\">*</span>", "visa.E9":"E-9 แรงงานทั่วไป", "visa.H2":"H-2 เยี่ยมเยือนเพื่อทำงาน", "visa.F4":"F-4 ชาวเกาหลีโพ้นทะเล", "visa.F2":"F-2 ผู้พำนักอาศัย", "visa.F5":"F-5 ผู้พำนักถาวร", "visa.F6":"F-6 สมรสกับคนเกาหลี", "visa.E7":"E-7 กิจกรรมเฉพาะ (รวม E-7-4)", "visa.etc":"อื่น ๆ (พิมพ์เอง)", "field.visaEtc":"พิมพ์ประเภทวีซ่า", "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
+th:{ "field.nameEn":"ชื่อภาษาอังกฤษ (ตามบัตรลงทะเบียนชาวต่างชาติ) <span class=\"req\">*</span>", "err.nameEn":"กรุณาใส่ชื่อภาษาอังกฤษตามบัตร", "nc.pending":"กำลังตรวจสอบชื่อในรูป…", "nc.ok":"✓ ชื่อตรงกับที่กรอกไว้", "nc.mismatch":"ไม่พบชื่อที่กรอกในรูป กรุณาตรวจสอบว่าเป็นของคุณ", "nc.unread":"อ่านตัวอักษรในรูปไม่ได้ ควรถ่ายใหม่ให้สว่างและชัด", "nc.note":" ยังส่งได้ แต่เจ้าหน้าที่จะตรวจสอบอีกครั้ง", "field.smokeType":"ประเภทการสูบ <span class=\"hint\">เลือกได้หลายข้อ</span>", "opt.st1":"บุหรี่มวน", "opt.st2":"บุหรี่ไฟฟ้าแบบให้ความร้อน", "opt.st3":"บุหรี่ไฟฟ้าแบบน้ำยา", "err.smokeType":"กรุณาเลือกประเภทการสูบ", "field.drinkAmt":"ปริมาณการดื่ม <span class=\"req\">*</span>", "hint.drinkAmt":"เลือกเครื่องดื่มที่ดื่ม แล้วใส่ปริมาณต่อครั้ง (ขวดหรือแก้ว) เลือกได้หลายข้อ", "err.drinkAmt":"กรุณาเลือกเครื่องดื่มและใส่ปริมาณ", "dk.soju":"โซจู", "dk.beer":"เบียร์", "dk.mak":"มักกอลลี", "dk.wine":"ไวน์", "dk.liq":"เหล้านอก", "unit.bottle":"ขวด", "mph.count":"{n} รูป / สูงสุด 4", "mph.full":"อัปโหลดได้สูงสุด 4 รูป", "err.eduPhoto":"กรุณาอัปโหลดรูปใบประกาศอย่างน้อย 1 รูป", "hint.eduPhoto":"ถ่ายใบประกาศให้ชัดเจน อย่างน้อย 1 รูป สูงสุด 4 รูป", "err.idPhoto":"กรุณาอัปโหลดรูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ", "field.chkGen":"ผลตรวจสุขภาพทั่วไป <span class=\"hint\">ไม่บังคับ</span>", "field.chkPre":"ผลตรวจสุขภาพก่อนเริ่มงาน <span class=\"hint\">ไม่บังคับ</span>", "hint.chkUp":"ถ่ายรูปหรืออัปโหลดไฟล์ PDF/รูปของใบผลตรวจ สูงสุด 3 หน้า เฉพาะเจ้าหน้าที่เท่านั้นที่ดูได้", "chk.file":"📁 ไฟล์ (PDF·รูป)", "chk.busy":"กำลังตรวจสอบ…", "chk.ok":"อัปโหลดแล้ว ({n} หน้า)", "chk.retry":"กรุณาอัปโหลดใหม่", "chk.force":"ใช้ไฟล์นี้ต่อไป", "chk.bad.small":"ความละเอียดต่ำเกินไป อ่านตัวอักษรได้ยาก", "chk.bad.blur":"ตัวอักษรเบลอ กรุณาถือให้นิ่งแล้วถ่ายใหม่", "chk.bad.dark":"มืดเกินไป กรุณาถ่ายใหม่ในที่สว่าง", "chk.bad.contrast":"ตัวอักษรจาง (แสงสะท้อนหรือพิมพ์ไม่ชัด) กรุณาถ่ายใหม่", "chk.bad.read":"ไม่สามารถเปิดไฟล์ได้", "chk.full":"อัปโหลดได้สูงสุด 3 หน้า", "chk.type":"อัปโหลดได้เฉพาะไฟล์ PDF หรือรูปภาพ", "chk.pw":"PDF นี้มีรหัสผ่าน กรุณาใส่รหัสผ่าน (มักเป็นวันเกิด 6 หรือ 8 หลัก)", "chk.pwWrong":"รหัสผ่านไม่ถูกต้อง กรุณาใส่อีกครั้ง", "opt.th":"ไทย", "opt.ru":"รัสเซีย", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"รูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ <span class=\"req\">*</span>", "visa.E9":"E-9 แรงงานทั่วไป", "visa.H2":"H-2 เยี่ยมเยือนเพื่อทำงาน", "visa.F4":"F-4 ชาวเกาหลีโพ้นทะเล", "visa.F2":"F-2 ผู้พำนักอาศัย", "visa.F5":"F-5 ผู้พำนักถาวร", "visa.F6":"F-6 สมรสกับคนเกาหลี", "visa.E7":"E-7 กิจกรรมเฉพาะ (รวม E-7-4)", "visa.etc":"อื่น ๆ (พิมพ์เอง)", "field.visaEtc":"พิมพ์ประเภทวีซ่า", "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
 "start.title":"กรุณากรอกก่อน<br>อบรมความปลอดภัย","start.sub":"ใช้เวลาประมาณ 5 นาที เมื่อกรอกเสร็จให้กดบันทึก",
 "resume.title":"มีข้อมูลที่กรอกค้างไว้","resume.go":"กรอกต่อ","resume.new":"เริ่มใหม่","resume.at":"กรอกถึงขั้นตอนที่ {n}","already.title":"คุณส่งแล้ว","already.new":"กรอกให้คนอื่น","already.at":"ส่งแล้ว · เจ้าหน้าที่จะตรวจสอบที่หน่วยงาน","already.again":"ส่งใหม่ในนามบริษัทอื่น (เนื้อหาเดิม)","co.other":"ไม่มีในรายการ · พิมพ์เอง","co.list":"เลือกจากรายการ","photo.cam":"📷 ถ่ายรูป","photo.gallery":"🖼 อัลบั้ม","photo.file":"📁 ไฟล์","addphoto.title":"อัปโหลดรูปภายหลังได้","addphoto.desc":"ถ่ายและอัปโหลดรูปบัตรประชาชนและใบรับรองตอนนี้ เพื่อให้ตรวจสอบได้ทันที","finphoto.title":"ยังไม่มีรูป","finphoto.desc":"ใส่ตอนนี้จะตรวจสอบได้เร็วขึ้นที่หน่วยงาน หรือจะอัปโหลดภายหลังก็ได้","consent.blockTitle":"ไม่สามารถทำงานที่หน่วยงานได้","consent.blockWhich":" — คุณยังไม่ได้ยินยอม","consent.blockWhy":"ข้อมูลนี้จำเป็นตามกฎหมายความปลอดภัยฯ เพื่อดูแลความปลอดภัยของคนงาน หากไม่ยินยอม <b>จะเข้าและทำงานที่หน่วยงานไม่ได้</b>","consent.blockAsk":"คุณยินยอมหรือไม่? หากมีข้อสงสัยกรุณาสอบถามผู้รับผิดชอบของบริษัท","consent.blockClose":"ปิด","consent.blockFix":"เปลี่ยนเป็นยินยอม","field.checkupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพ <span class=\"hint\">ไม่บังคับ</span>","hint.checkupUrl":"วางลิงก์ดูผลตรวจที่ได้จากโรงพยาบาล/สถานตรวจ เจ้าหน้าที่เท่านั้นที่ดู และจะไม่พิมพ์ลงในแบบฟอร์ม","err.checkupUrl":"ที่อยู่ต้องขึ้นต้นด้วย http:// หรือ https://","field.preCheckupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพก่อนเข้างาน <span class=\"hint\">ไม่บังคับ</span>","photo.sample":"ดูตัวอย่าง","start.prepTitle":"สิ่งที่ต้องเตรียม","start.prep1":"· บัตรประจำตัว (วันเกิด/สัญชาติ)","start.prep2":"· ใบรับรองอบรมความปลอดภัยขั้นพื้นฐาน","start.prep3":"· ผลตรวจวัดความดันโลหิต",
 "start.note":"ข้อมูลที่กรอกจะเปิดให้เฉพาะ<b>ทีมความปลอดภัยของไซต์งาน</b>ดู จะเก็บไว้ 3 ปีหลังงานเสร็จแล้วทำลาย",
@@ -2335,7 +2374,7 @@ th:{ "mph.count":"{n} รูป / สูงสุด 4", "mph.full":"อัป�
 "lead.8.h":"ตรวจสอบขั้นสุดท้าย","lead.8.p":"กรุณาตรวจสอบอีกครั้งก่อนบันทึก",
 "lead.9.h":"บันทึกเรียบร้อยแล้ว","lead.9.p":"กรุณาแจ้งเจ้าหน้าที่ความปลอดภัย การพิมพ์จะทำที่คอมพิวเตอร์สำนักงาน",
 "btn.newOne":"เริ่มกรอกให้คนถัดไป","btn.prev":"ก่อนหน้า","btn.next":"ถัดไป" },
-ru:{ "mph.count":"{n} фото / макс. 4", "mph.full":"Можно загрузить не более 4 фото.", "err.eduPhoto":"Загрузите хотя бы 1 фото свидетельства.", "hint.eduPhoto":"Сфотографируйте свидетельство чётко. От 1 до 4 фото.", "err.idPhoto":"Загрузите фото удостоверения или ID-карты иностранца.", "field.chkGen":"Результат общего медосмотра <span class=\"hint\">необязательно</span>", "field.chkPre":"Результат медосмотра перед допуском <span class=\"hint\">необязательно</span>", "hint.chkUp":"Сфотографируйте бланк или загрузите PDF/фото. До 3 страниц. Видит только ответственный.", "chk.file":"📁 Файл (PDF·фото)", "chk.busy":"Проверяем…", "chk.ok":"Загружено ({n} стр.)", "chk.retry":"Загрузите заново.", "chk.force":"Всё равно загрузить этот файл", "chk.bad.small":"Слишком низкое разрешение, текст трудно прочитать.", "chk.bad.blur":"Текст размыт. Переснимите, держа телефон неподвижно.", "chk.bad.dark":"Слишком темно. Переснимите при хорошем освещении.", "chk.bad.contrast":"Текст бледный (блики или слабая печать). Переснимите.", "chk.bad.read":"Не удалось открыть файл.", "chk.full":"Можно загрузить не более 3 страниц.", "chk.type":"Можно загрузить только PDF или фото.", "chk.pw":"PDF защищён паролем. Введите пароль (обычно дата рождения, 6 или 8 цифр).", "chk.pwWrong":"Неверный пароль. Введите ещё раз.", "opt.th":"Таиланд", "opt.ru":"Россия", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Фото удостоверения личности или ID-карты иностранца <span class=\"req\">*</span>", "visa.E9":"E-9 Неквалиф. труд", "visa.H2":"H-2 Визит с работой", "visa.F4":"F-4 Соотечественники", "visa.F2":"F-2 Проживание", "visa.F5":"F-5 ПМЖ", "visa.F6":"F-6 Брак с корейцем", "visa.E7":"E-7 Особая деят. (E-7-4)", "visa.etc":"Другое (ввести вручную)", "field.visaEtc":"Введите тип визы", "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
+ru:{ "field.nameEn":"Имя латиницей (как в ID-карте иностранца) <span class=\"req\">*</span>", "err.nameEn":"Введите имя латиницей, как в ID-карте.", "nc.pending":"Проверяем имя на фото…", "nc.ok":"✓ Имя совпадает с введённым.", "nc.mismatch":"Введённое имя не найдено на фото. Проверьте, что это ваш документ.", "nc.unread":"Не удалось прочитать текст. Лучше переснять ярче и чётче.", "nc.note":" Можно отправить, но ответственный проверит отдельно.", "field.smokeType":"Что курите <span class=\"hint\">можно несколько</span>", "opt.st1":"Обычные сигареты", "opt.st2":"Нагреваемый табак (IQOS)", "opt.st3":"Электронные сигареты (жидкость)", "err.smokeType":"Выберите, что вы курите.", "field.drinkAmt":"Сколько пьёте <span class=\"req\">*</span>", "hint.drinkAmt":"Выберите напиток и укажите, сколько выпиваете за раз (бутылок или стаканов). Можно несколько.", "err.drinkAmt":"Выберите напиток и укажите количество.", "dk.soju":"Соджу", "dk.beer":"Пиво", "dk.mak":"Макколли", "dk.wine":"Вино", "dk.liq":"Крепкое", "unit.bottle":"бут.", "mph.count":"{n} фото / макс. 4", "mph.full":"Можно загрузить не более 4 фото.", "err.eduPhoto":"Загрузите хотя бы 1 фото свидетельства.", "hint.eduPhoto":"Сфотографируйте свидетельство чётко. От 1 до 4 фото.", "err.idPhoto":"Загрузите фото удостоверения или ID-карты иностранца.", "field.chkGen":"Результат общего медосмотра <span class=\"hint\">необязательно</span>", "field.chkPre":"Результат медосмотра перед допуском <span class=\"hint\">необязательно</span>", "hint.chkUp":"Сфотографируйте бланк или загрузите PDF/фото. До 3 страниц. Видит только ответственный.", "chk.file":"📁 Файл (PDF·фото)", "chk.busy":"Проверяем…", "chk.ok":"Загружено ({n} стр.)", "chk.retry":"Загрузите заново.", "chk.force":"Всё равно загрузить этот файл", "chk.bad.small":"Слишком низкое разрешение, текст трудно прочитать.", "chk.bad.blur":"Текст размыт. Переснимите, держа телефон неподвижно.", "chk.bad.dark":"Слишком темно. Переснимите при хорошем освещении.", "chk.bad.contrast":"Текст бледный (блики или слабая печать). Переснимите.", "chk.bad.read":"Не удалось открыть файл.", "chk.full":"Можно загрузить не более 3 страниц.", "chk.type":"Можно загрузить только PDF или фото.", "chk.pw":"PDF защищён паролем. Введите пароль (обычно дата рождения, 6 или 8 цифр).", "chk.pwWrong":"Неверный пароль. Введите ещё раз.", "opt.th":"Таиланд", "opt.ru":"Россия", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Фото удостоверения личности или ID-карты иностранца <span class=\"req\">*</span>", "visa.E9":"E-9 Неквалиф. труд", "visa.H2":"H-2 Визит с работой", "visa.F4":"F-4 Соотечественники", "visa.F2":"F-2 Проживание", "visa.F5":"F-5 ПМЖ", "visa.F6":"F-6 Брак с корейцем", "visa.E7":"E-7 Особая деят. (E-7-4)", "visa.etc":"Другое (ввести вручную)", "field.visaEtc":"Введите тип визы", "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
 "start.title":"Заполните до<br>инструктажа по охране труда","start.sub":"Займёт около 5 минут. В конце нажмите кнопку «Сохранить».",
 "resume.title":"Есть незаконченная анкета","resume.go":"Продолжить","resume.new":"Начать заново","resume.at":"Заполнено до шага {n}","already.title":"Вы уже отправили анкету","already.new":"Заполнить для другого человека","already.at":"Отправлено · ответственный проверит на объекте","already.again":"Отправить ещё раз от другой компании (те же данные)","co.other":"Нет в списке · ввести вручную","co.list":"Выбрать из списка","photo.cam":"📷 Сфотографировать","photo.gallery":"🖼 Галерея","photo.file":"📁 Файл","addphoto.title":"Фото можно добавить позже","addphoto.desc":"Если сейчас сфотографировать удостоверение личности и свидетельство об обучении, их сразу проверят на объекте.","finphoto.title":"Фото ещё не добавлены","finphoto.desc":"Если добавить их сейчас, проверка на объекте пройдёт гораздо быстрее. Можно загрузить и позже.","consent.blockTitle":"Вы не сможете работать на объекте","consent.blockWhich":": вы не дали согласие.","consent.blockWhy":"Эти данные обязательны для обеспечения безопасности работников по Закону об охране труда. Без согласия <b>вход на объект и работа невозможны</b>.","consent.blockAsk":"Дать согласие? С вопросами обращайтесь к ответственному в вашей компании.","consent.blockClose":"Закрыть","consent.blockFix":"Изменить на «Согласен»","field.checkupUrl":"Ссылка на результаты общего медосмотра <span class=\"hint\">необязательно</span>","hint.checkupUrl":"Вставьте ссылку на результаты из больницы или медцентра. Её видит только ответственный, в печатную форму она не попадает.","err.checkupUrl":"Ссылка должна начинаться с http:// или https://","field.preCheckupUrl":"Ссылка на результаты медосмотра перед допуском <span class=\"hint\">необязательно</span>","photo.sample":"Посмотреть пример","start.prepTitle":"Что нужно иметь при себе","start.prep1":"· Удостоверение личности (дата рождения, гражданство)","start.prep2":"· Свидетельство о базовом обучении по охране труда","start.prep3":"· Результат измерения давления",
 "start.note":"Заполненные данные видит <b>только отдел охраны труда объекта</b>. Они хранятся 3 года после сдачи объекта, затем уничтожаются.",
@@ -2406,7 +2445,7 @@ ru:{ "mph.count":"{n} фото / макс. 4", "mph.full":"Можно загру
 "btn.newOne":"Заполнить для следующего человека","btn.prev":"Назад","btn.next":"Далее" }
 };
 /* 입력칸 안내글 · 단계 이름 · 마지막 버튼도 언어에 맞게 */
-const PH_I18N = {"visaEtc": {"ko": "예) G-1", "vi": "VD: G-1", "zh": "例：G-1", "th": "เช่น G-1", "ru": "Напр.: G-1"}, "company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
+const PH_I18N = {"nameEn": {"ko": "예) NGUYEN VAN AN", "vi": "VD: NGUYEN VAN AN", "zh": "例：ZHANG WEI", "th": "เช่น SOMCHAI JAIDEE", "ru": "Напр.: IVANOV IVAN"}, "visaEtc": {"ko": "예) G-1", "vi": "VD: G-1", "zh": "例：G-1", "th": "เช่น G-1", "ru": "Напр.: G-1"}, "company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
 const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào tạo · Kinh nghiệm", "Phỏng vấn sức khỏe", "Thói quen sinh hoạt", "Đo huyết áp", "Cam kết · Đồng ý", "Nhận đồ bảo hộ", "Kiểm tra cuối", "Hoàn tất"], "zh": ["开始", "个人信息", "培训·经历", "健康面谈", "生活习惯", "测量血压", "承诺·同意", "领取防护用品", "最终确认", "完成"], "th": ["เริ่มต้น", "ข้อมูลส่วนตัว", "การอบรม·ประสบการณ์", "สัมภาษณ์สุขภาพ", "พฤติกรรมสุขภาพ", "วัดความดัน", "คำมั่น·ยินยอม", "รับอุปกรณ์ป้องกัน", "ตรวจสอบครั้งสุดท้าย", "เสร็จสิ้น"], "ru": ["Начало", "Личные данные", "Обучение · опыт", "Беседа о здоровье", "Образ жизни", "Давление", "Обязательство · согласие", "Получение СИЗ", "Проверка", "Готово"]};
 const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
 function stepName(st){ const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
@@ -3013,6 +3052,36 @@ async function fillChkAdmin(r){
 }
 
 function show(id,on){ const el=document.getElementById(id); if(el) el.classList.toggle("on",!!on); }
+/* 주량: 술 종류별 양 + 병/잔 */
+function drinkSet(row, on){
+  row.querySelector(".dkBtn").setAttribute("aria-pressed", String(on));
+  row.classList.toggle("on", on);
+  const q = row.querySelector(".dq"); q.disabled = !on; if(!on) q.value = "";
+  row.querySelectorAll(".dseg button").forEach(b => b.disabled = !on);
+}
+function drinkList(){
+  return $$("#drinkRows .drow.on").map(r => ({ k:r.dataset.k, q:r.querySelector(".dq").value.trim(),
+    u:(r.querySelector('.dseg button[aria-pressed="true"]')||{}).dataset ? r.querySelector('.dseg button[aria-pressed="true"]').dataset.u : "병" }));
+}
+function drinkText(list){ return (list||[]).filter(x => x.q).map(x => x.k + " " + x.q + x.u).join(", "); }
+function drinkApply(list){
+  $$("#drinkRows .drow").forEach(r => {
+    const hit = (list||[]).find(x => x.k === r.dataset.k);
+    drinkSet(r, !!hit);
+    if(hit){ r.querySelector(".dq").value = hit.q || ""; r.querySelectorAll(".dseg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.u === (hit.u||"병")))); }
+  });
+}
+$$("#drinkRows .drow").forEach(row => {
+  row.querySelector(".dkBtn").addEventListener("click", () => {
+    const on = !row.classList.contains("on"); drinkSet(row, on);
+    if(on) setTimeout(() => row.querySelector(".dq").focus(), 30);
+    clearErr($("#fGlass")); saveDraft();
+  });
+  row.querySelectorAll(".dseg button").forEach(b => b.addEventListener("click", () => {
+    row.querySelectorAll(".dseg button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); saveDraft();
+  }));
+  row.querySelector(".dq").addEventListener("input", () => { clearErr($("#fGlass")); saveDraft(); });
+});
 document.getElementById("visa").addEventListener("change", e => { document.getElementById("wVisaEtc").classList.toggle("hidden", e.target.value!=="기타"); });
 function onPick(k,v){
   if(k==="nation"){ show("wNation", !!v && v!=="대한민국"); $("#cInterview").classList.toggle("hidden", !v || v==="대한민국");
@@ -3023,7 +3092,7 @@ function onPick(k,v){
   if(k==="accident") show("wAccident", v==="유");
   if(k==="surgery") show("wSurgery", v==="유");
   if(k==="hasDisease") show("wDisease", v==="유");
-  if(k==="smoke") show("wSmoke", v==="과거흡연"||v==="현재흡연");
+  if(k==="smoke"){ show("wSmoke", v==="과거흡연"||v==="현재흡연"); const st = document.getElementById("fSmokeType"); if(st) st.classList.toggle("hidden", v!=="현재흡연"); }
   if(k==="drinkDays") $("#fGlass").classList.toggle("hidden", v==="0");
 }
 
@@ -3084,6 +3153,111 @@ function sampleFor(prefix){
 
 /* 사진 넣기: 📷 사진 찍기(카메라 바로) · 🖼 사진첩 · 📁 파일 세 갈래.
    전에는 카메라만 열려서 이미 찍어 둔 신분증 사진을 못 골랐다. */
+/* ══ 신분증·이수증 이름 대조 (OCR) ══════════════════════════════
+   사진 속 글자를 이 폰 안에서 읽어(Tesseract, 외부 서버로 사진을 보내지 않음)
+   1페이지에 적은 이름(외국인은 영문 이름도)과 같은지 본다.
+   맞지 않아도 제출은 막지 않는다 — 관리자 화면에 "이름 확인 필요"로 표시만 한다.
+   읽은 글자(주민번호 등 포함)는 저장하지 않고 결과(일치/불일치)만 남긴다. */
+const OCR = { id:{ texts:[], busy:false, done:false, err:false, run:0 }, edu:{ texts:[], busy:false, done:false, err:false, run:0 } };
+let __tessP = null, __ocrWorker = null;
+function loadTess(){
+  if(__tessP) return __tessP;
+  __tessP = new Promise((resolve, reject) => {
+    if(window.Tesseract){ resolve(window.Tesseract); return; }
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+    sc.onload = () => resolve(window.Tesseract);
+    sc.onerror = () => { __tessP = null; reject(new Error("OCR 프로그램을 내려받지 못했습니다")); };
+    document.head.appendChild(sc);
+  });
+  return __tessP;
+}
+async function getOcrWorker(){
+  if(__ocrWorker) return __ocrWorker;
+  const T = await loadTess();
+  __ocrWorker = await T.createWorker(["kor","eng"]);
+  return __ocrWorker;
+}
+async function ocrKind(kind){
+  const st = OCR[kind]; const my = ++st.run;
+  st.texts = []; st.done = false; st.err = false;
+  if(!MPH[kind].length){ st.busy = false; renderNameChk(kind); return; }
+  st.busy = true; renderNameChk(kind);
+  let w = null;
+  try{ w = await getOcrWorker(); }
+  catch(e){ if(my === st.run){ st.err = "load"; st.busy = false; renderNameChk(kind); } return; }   // 인터넷 문제 → 검사 생략
+  try{
+    for(const src of MPH[kind].slice(0, 3)){
+      const { data } = await w.recognize(src);
+      if(my !== st.run) return;                 // 그사이 사진이 바뀜 → 새 검사가 이어 받는다
+      st.texts.push(String((data && data.text) || ""));
+      if(nameMatch(kind) === "ok") break;
+    }
+    st.done = true;
+  }catch(e){ if(my === st.run){ st.err = "read"; console.warn("OCR 실패:", e); } }
+  if(my !== st.run) return;
+  st.busy = false; renderNameChk(kind);
+}
+function lev(a, b){
+  const m = a.length, n = b.length; if(!m) return n; if(!n) return m;
+  let prev = Array.from({ length:n+1 }, (_, j) => j);
+  for(let i = 1; i <= m; i++){
+    const cur = [i];
+    for(let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[n];
+}
+function hasKoName(text, name){
+  const t = String(text).replace(/[^가-힣]/g, ""), n = String(name).replace(/[^가-힣]/g, "");
+  if(n.length < 2 || !t) return false;
+  if(t.includes(n)) return true;
+  const tol = n.length >= 3 ? 1 : 0; if(!tol) return false;
+  for(let L = n.length - 1; L <= n.length + 1; L++)
+    for(let i = 0; i + L <= t.length; i++) if(lev(t.slice(i, i + L), n) <= tol) return true;
+  return false;
+}
+function hasEnName(text, name){
+  const toks = String(name).toUpperCase().split(/[^A-Z]+/).filter(x => x.length >= 2);
+  if(!toks.length) return false;
+  const words = String(text).toUpperCase().split(/[^A-Z]+/).filter(Boolean), flat = words.join("");
+  return toks.every(tk => flat.includes(tk) || words.some(w => lev(w, tk) <= (tk.length >= 5 ? 1 : 0)));
+}
+/* "" 사진 없음 · pending 확인 중 · ok 일치 · mismatch 불일치 · unread 글자를 못 읽음 */
+function nameMatch(kind){
+  const st = OCR[kind];
+  if(!MPH[kind].length) return "";
+  if(st.busy || (!st.done && !st.err)) return "pending";
+  if(st.err === "load") return "skip";
+  if(st.err) return "unread";
+  const all = st.texts.join(" ");
+  if(all.replace(/[^가-힣A-Za-z]/g, "").length < 8) return "unread";
+  const ko = val("name"), en = (pick.nation && pick.nation !== "대한민국") ? val("nameEn") : "";
+  return (hasKoName(all, ko) || (en && hasEnName(all, en))) ? "ok" : "mismatch";
+}
+function renderNameChk(kind){
+  const el = document.getElementById((kind === "id" ? "idPhoto" : "eduPhoto") + "NameChk"); if(!el) return;
+  const r = nameMatch(kind);
+  const T = k => mphT(k);
+  if(!r || r === "skip"){ el.className = "chkMsg hidden"; el.textContent = ""; return; }
+  el.className = "chkMsg " + (r === "ok" ? "ok" : r === "pending" ? "busy" : "bad");
+  el.innerHTML = r === "ok" ? esc(T("nc.ok")) : r === "pending" ? esc(T("nc.pending"))
+    : "<b>" + esc(T(r === "mismatch" ? "nc.mismatch" : "nc.unread")) + "</b>" + esc(T("nc.note"));
+}
+["name","nameEn"].forEach(id => { const el = document.getElementById(id); if(el) el.addEventListener("input", () => {
+  if(id === "nameEn"){ const p = el.selectionStart; el.value = el.value.toUpperCase().replace(/[^A-Z \-']/g, ""); try{ el.setSelectionRange(p, p); }catch(e){} if(/[A-Z]{2,}/.test(el.value)) clearErr(el.closest(".f")); }
+  renderNameChk("id"); renderNameChk("edu"); }); });
+function nameCheckBad(r){ const c = (r && r.nameCheck) || {}; return [c.id, c.edu].some(v => v === "mismatch" || v === "unread"); }
+function nameCheckHTML(r){
+  const c = (r && r.nameCheck); if(!c) return "";
+  const lab = v => v === "ok" ? "✓ 일치" : v === "mismatch" ? "⚠ 불일치" : v === "unread" ? "⚠ 글자를 못 읽음" : v === "pending" ? "확인 못 함 (제출 시 검사 중)" : v === "skip" ? "확인 못 함 (판독 프로그램을 못 불러옴)" : "-";
+  const bad = nameCheckBad(r);
+  return '<div class="note ' + (bad ? 'warn' : 'info') + '" style="margin:12px 0 0">이름 대조 (사진 속 이름 ↔ 입력한 이름'
+    + (r.nameEn ? ' · 영문 ' + esc(r.nameEn) : '') + '): 신분증 <b>' + lab(c.id) + '</b>'
+    + (c.edu ? ' · 이수증 <b>' + lab(c.edu) + '</b>' : '')
+    + (bad ? '<br>사진을 눌러 본인 것이 맞는지 눈으로 확인해 주세요. (자동 판독이라 틀릴 수 있습니다)' : '') + '</div>';
+}
+
 /* 신분증·이수증은 여러 장 (1~4장). 첫 장은 기존 칸(인쇄·사진대지)에 쓰고, 나머지는 따로 저장한다 */
 const MPH = { id:[], edu:[] };
 const MPH_MAX = 4;
@@ -3098,14 +3272,14 @@ function renderMultiPhoto(prefix, key){
     + (arr.length ? '<span class="mphCount">' + esc(mphT("mph.count", arr.length)) + '</span>' : '');
   list.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
   list.querySelectorAll(".photoDel").forEach(b => b.addEventListener("click", () => {
-    arr.splice(+b.dataset.i, 1); renderMultiPhoto(prefix, key); saveDraft();
+    arr.splice(+b.dataset.i, 1); renderMultiPhoto(prefix, key); saveDraft(); ocrKind(key);
   }));
   const btns = document.getElementById(prefix + "Btn"); if(btns) btns.classList.toggle("hidden", arr.length >= MPH_MAX);
 }
 function wireMultiPhoto(prefix, key){
   const btns = document.getElementById(prefix + "Btn");
   const row = document.getElementById(prefix + "Row");
-  if(row && !document.getElementById(prefix + "List")) row.insertAdjacentHTML("afterend", '<div class="mphList" id="' + prefix + 'List"></div>');
+  if(row && !document.getElementById(prefix + "List")) row.insertAdjacentHTML("afterend", '<div class="mphList" id="' + prefix + 'List"></div><div class="chkMsg hidden" id="' + prefix + 'NameChk" role="status"></div>');
   ["Cam","Pick","File"].forEach(kind => {
     const input = document.getElementById(prefix + kind);
     if(!input) return;
@@ -3127,6 +3301,7 @@ function wireMultiPhoto(prefix, key){
       btns.classList.remove("busy");
       renderMultiPhoto(prefix, key);
       if(MPH[key].length){ clearErr(row.closest(".f")); clearErr(row.closest(".card")); }
+      ocrKind(key);
       if(step === 8) renderFinPhoto();
       saveDraft();
     });
@@ -3313,7 +3488,8 @@ function validate(){
   if(step===1){
     const b=$("#birth"); /^\d{6}$/.test(b.value.trim()) ? setErr(b.closest(".f"),false) : fail(b.closest(".f"));
     needPick("gender",'[data-pick=gender]'); needPick("nation",'[data-pick=nation]');
-    { const ic = $("#idPhotoCard"); MPH.id.length ? setErr(ic,false) : fail(ic); }   // 신분증 사진 1장 이상 필수
+    { const ic = $("#idPhotoCard"); MPH.id.length ? setErr(ic,false) : fail(ic); }
+    if(pick.nation && pick.nation !== "대한민국"){ const ef = $("#nameEn").closest(".f"); /[A-Z]{2,}/.test(val("nameEn").toUpperCase()) ? setErr(ef,false) : fail(ef); }   // 신분증 사진 1장 이상 필수
     need("phone"); need("guardian"); need("address");
     const t=$("#trade"); const tf=t.closest(".f");
     let tradeOk = !!t.value;
@@ -3331,7 +3507,10 @@ function validate(){
     const cf=$('[data-multi=checkup]').closest(".f");
     (multi.checkup||[]).length ? setErr(cf,false) : fail(cf);
   }
-  if(step===4){ needPick("smoke",'[data-pick=smoke]'); needPick("drinkDays",'[data-pick=drinkDays]'); }
+  if(step===4){ needPick("smoke",'[data-pick=smoke]'); needPick("drinkDays",'[data-pick=drinkDays]');
+    if(pick.smoke === "현재흡연"){ const sf = $("#fSmokeType"); (multi.smokeType||[]).length ? setErr(sf,false) : fail(sf); }
+    if(pick.drinkDays && pick.drinkDays !== "0"){ const gf = $("#fGlass"); const dl = drinkList(); (dl.length && dl.every(x => +x.q > 0)) ? setErr(gf,false) : fail(gf); }
+  }
   if(step===5 && !BP_AT_SITE){
     const cf=$("#sys1").closest(".card");
     (+val("sys1")>=50 && +val("dia1")>=30) ? cf.querySelector(".err").classList.remove("on")
@@ -3380,14 +3559,14 @@ function hasLocalStorage(){
 }
 const DRAFT_KEY = "hd4_draft";
 const DRAFT_FIELDS = ["company","name","birth","phone","guardian","address","trade","tradeEtc","checkupUrl","preCheckupUrl",
-  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName","nationEtc","visa","visaEtc"];
+  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName","nationEtc","visa","visaEtc","nameEn"];
 
 function collectDraft(){
   const f = {};
   DRAFT_FIELDS.forEach(id => { const el = document.getElementById(id); if(el) f[id] = el.value; });
   const sigs = {};
   Object.keys(PADS).forEach(k => { try{ if(PADS[k].inked) sigs[k] = PADS[k].data(); }catch(e){} });
-  return { v:2, at:Date.now(), step, lang:LANG, f, chk:{ gen:CHK.gen.slice(), pre:CHK.pre.slice() }, mph:{ id:MPH.id.slice(), edu:MPH.edu.slice() },
+  return { v:2, at:Date.now(), step, lang:LANG, f, chk:{ gen:CHK.gen.slice(), pre:CHK.pre.slice() }, mph:{ id:MPH.id.slice(), edu:MPH.edu.slice() }, drinks: drinkList(),
            pick:Object.assign({},pick), multi:JSON.parse(JSON.stringify(multi)),
            photo:Object.assign({},PHOTO), sigs };
 }
@@ -3426,9 +3605,11 @@ function applyDraft(d){
   // 이걸 빼먹으면 숨겨야 할 필수 칸이 열린 채 남아 다음 단계로 못 넘어간다.
   Object.keys(pick).forEach(k => { try{ onPick(k, pick[k]); }catch(e){} });
   Object.keys(d.photo||{}).forEach(k => { PHOTO[k] = d.photo[k]; });
+  if(d.drinks){ try{ drinkApply(d.drinks); }catch(e){} }
   if(d.mph){ MPH.id = (d.mph.id||[]).filter(isPhotoData); MPH.edu = (d.mph.edu||[]).filter(isPhotoData); }
   else { if(isPhotoData(PHOTO.id)) MPH.id = [PHOTO.id]; if(isPhotoData(PHOTO.edu)) MPH.edu = [PHOTO.edu]; }
   try{ renderMultiPhoto("idPhoto","id"); renderMultiPhoto("eduPhoto","edu"); }catch(e){}
+  try{ if(MPH.id.length) ocrKind("id"); if(MPH.edu.length) ocrKind("edu"); }catch(e){}
   if(d.chk){ CHK.gen = (d.chk.gen||[]).filter(isPhotoData); CHK.pre = (d.chk.pre||[]).filter(isPhotoData); try{ renderChk("gen"); renderChk("pre"); }catch(e){} }
   // 화면의 선택 버튼·사진 미리보기를 저장된 값에 맞춘다
   $$("[data-pick]").forEach(w => {
@@ -3470,6 +3651,8 @@ function buildRecord(){
     // 본국 시간으로 맞춰져 있는 경우) 밤늦게 작성한 건이 다른 날짜로 잡힌다.
     dateKey: today,
     company: canonCo(val("company")), name: val("name"),
+    nameEn: (pick.nation && pick.nation !== "대한민국") ? val("nameEn").toUpperCase() : "",
+    nameCheck: { id: nameMatch("id"), edu: pick.basicEdu === "O" ? nameMatch("edu") : "" },
     checkupUrl: normUrl(val("checkupUrl")), preCheckupUrl: normUrl(val("preCheckupUrl")),
     prevCode: RESUBMIT_PREV ? String(RESUBMIT_PREV.code||"") : "",
     prevCompany: RESUBMIT_PREV ? String(RESUBMIT_PREV.company||"") : "",
@@ -3489,7 +3672,9 @@ function buildRecord(){
     checkup: multi.checkup||[], fitGeneral: pick.fitGeneral||"", fitPre: pick.fitPre||"", vascular: pick.vascular||"",
     hasDisease: pick.hasDisease||"", diseases: dz, drug: val("drug"), symptoms: multi.symptoms||[],
     smoke: pick.smoke||"", smokeY: val("smokeY"), smokeD: val("smokeD"),
-    drinkDays: pick.drinkDays||"", drinkGlass: pick.drinkDays==="0" ? "0" : (val("drinkGlass")||"0"),
+    smokeType: pick.smoke==="현재흡연" ? (multi.smokeType||[]).slice() : [],
+    drinkDays: pick.drinkDays||"", drinkList: pick.drinkDays==="0" ? [] : drinkList(),
+    drinkGlass: pick.drinkDays==="0" ? "0" : drinkText(drinkList()),
     bp:{sys1:val("sys1"),dia1:val("dia1"),pulse1:val("pulse1"),sys2:val("sys2"),dia2:val("dia2"),
         by:pick.bpBy||"", level:j.lv||"", note:j.t||""},
     consentPersonal: pick.cPersonal||"", consentUnique: pick.cUnique||"", consentSensitive: pick.cSensitive||"",
@@ -3797,13 +3982,15 @@ function fillDefault(r){
     if(i >= 0){
       let tail = sm.slice(i).replace(UN, CH)
         .replace("총     년", "총 "+(g("smokeY")||" ")+" 년")
-        .replace("하루     개비", "하루 "+(g("smokeD")||" ")+" 개비");
+        .replace("하루     개비", "하루 "+(g("smokeD")||" ")+" 개비")
+        + ((r.smokeType||[]).length ? " ("+r.smokeType.join("·")+")" : "");
       sm = sm.slice(0,i) + tail;
     }
   }
   setCell("C17", sm);
   setCell("C18", checkLine(ORIG.C18, g("drinkDays")));
-  setCell("C19", " 술을 마실때 보통 하루에 얼마나 마십니까?        "+g("drinkGlass")+"     잔");
+  setCell("C19", r.drinkList ? " 주량 (한 번에 마시는 양):  " + (g("drinkDays")==="0" ? "마시지 않음" : (drinkText(r.drinkList) || " "))
+                              : " 술을 마실때 보통 하루에 얼마나 마십니까?        "+g("drinkGlass")+"     잔");
   const cons = v => v==="동의함" ? CH+" 동의함     "+UN+"동의안함"
               : v==="동의안함" ? UN+" 동의함     "+CH+"동의안함" : UN+" 동의함     "+UN+"동의안함";
   setCell("A44", cons(g("consentPersonal"))); markCell("A44", g("consentPersonal")==="동의안함");
@@ -3843,8 +4030,8 @@ function valuesFor(r){
     checkup:(r.checkup||[]).join(", "), fitGeneral:g("fitGeneral"), fitPre:g("fitPre"), vascular:g("vascular"),
     disease:(r.diseases||[]).join(", ")||"없음", sym_목:sy(r,"목"), sym_허리:sy(r,"허리"), sym_팔:sy(r,"팔"),
     sym_손목:sy(r,"손목"), sym_무릎:sy(r,"무릎"), sym_발목:sy(r,"발목"), sym_고관절:sy(r,"고관절"),
-    smoke:g("smoke")+(g("smoke")==="현재흡연"||g("smoke")==="과거흡연" ? " (총 "+g("smokeY")+"년, 하루 "+g("smokeD")+"개비)":""),
-    drink:g("drinkDays")+"일/주"+(g("drinkDays")!=="0"?(", "+g("drinkGlass")+"잔"):""),
+    smoke:g("smoke")+(g("smoke")==="현재흡연"||g("smoke")==="과거흡연" ? " (총 "+g("smokeY")+"년, 하루 "+g("smokeD")+"개비"+((r.smokeType||[]).length?", "+r.smokeType.join("·"):"")+")":""),
+    drink:g("drinkDays")+"일/주"+(g("drinkDays")!=="0"?(", "+(r.drinkList ? drinkText(r.drinkList) : g("drinkGlass")+"잔")):""),
     consentPersonal:g("consentPersonal"), consentUnique:g("consentUnique"), consentSensitive:g("consentSensitive"),
     pledgeDate:dateStr(r.submittedAt), pledgeSign:"",
     ppeHelmetQty:(r.ppe||{}).helmet||0, ppeShoesQty:(r.ppe||{}).shoes||0, ppeBeltQty:(r.ppe||{}).belt||0,
@@ -4560,6 +4747,7 @@ function renderFind(){
     +   (r.prevCode ? '<span class="fl">재제출</span>' : '')
     +   ((r.checkupUrl || r.preCheckupUrl) ? '<span class="fl">검진 링크</span>' : '')
     +   ((r.chkGenPages || r.chkPrePages) ? '<span class="fl">검진 결과지</span>' : '')
+    +   (nameCheckBad(r) ? '<span class="fl" style="background:#FDECEE;color:#A50E1E">이름 확인 필요</span>' : '')
     +   (isRisk(r) ? '<span class="fl risky">취약'+(riskIsAuto(r)?" 자동":"")+'</span>'
                    : (r.riskOverride ? '<span class="fl warn">해지됨</span>' : ''))
     +   (bpDone(r) ? '<span class="fl done">'+esc(r.bp.sys1)+'/'+esc(r.bp.dia1)+'</span>'
@@ -4668,6 +4856,7 @@ const YN = ["있다","없다"];
 const EDIT_FIELDS = [
   { g:"인적사항" },
   { k:"name",     label:"성명" },
+  { k:"nameEn",   label:"영문 이름 (외국인)" },
   { k:"birth",    label:"생년월일 (6자리)" },
   { k:"gender",   label:"성별", opts:["남","여"] },
   { k:"nation",   label:"국적" },
@@ -4718,7 +4907,7 @@ const EDIT_FIELDS = [
   { k:"smokeY",     label:"흡연 기간 (년)" },
   { k:"smokeD",     label:"하루 흡연량 (개비)" },
   { k:"drinkDays",  label:"주당 음주 (일)" },
-  { k:"drinkGlass", label:"1회 음주량 (잔)" },
+  { k:"drinkGlass", label:"주량 (예: 소주 1병, 맥주 2잔)" },
 
   { g:"동의" },
   { k:"consentPersonal",  label:"개인정보",     opts:["동의함","동의안함"] },
@@ -4912,6 +5101,7 @@ function renderSheetPhotos(r){
       }).join("")
     + '</div>'
     + checkLinksHTML(r)
+    + nameCheckHTML(r)
     + '<div id="chkAdmin"></div>';
   fillChkAdmin(r);
 
@@ -6560,14 +6750,14 @@ function doExportCsv(){
   const sc = exportScope();
   const list = sc.list;
   if(!list.length) return alert("내보낼 자료가 없습니다.\n\n지금 화면에 보이는 근로자가 없습니다. 날짜나 검색 조건을 확인해 주세요.");
-  const cols = [["관리번호","code"],["성명","name"],["협력회사","company"],["공종","trade"],["생년월일","birth"],
+  const cols = [["관리번호","code"],["성명","name"],["영문이름","nameEn"],["이름대조(신분증)","nameCheck.id"],["이름대조(이수증)","nameCheck.edu"],["협력회사","company"],["공종","trade"],["생년월일","birth"],
     ["성별","gender"],["국적","nation"],["체류자격","visa"],["혈액형","blood"],["Rh","rh"],["연락처","phone"],["비상연락처","guardian"],
     ["주소","address"],["경력년","careerY"],["경력월","careerM"],["기초안전교육","basicEdu"],["교육업체","eduOrg"],
     ["교육이수일","eduDate"],["직전근무지","prevSite"],["온열질환경험","heatPrev"],["복용약물","drug"],
     ["흡연","smoke"],["음주일수","drinkDays"],["개인정보동의","consentPersonal"],["고유식별동의","consentUnique"],["민감정보동의","consentSensitive"]];
   const head = cols.map(c=>c[0]).concat(["지병","신체증상","혈압","혈압판정","안전모","안전화","안전벨트","기타보호구","취약근로자","관리자확인필요"]);
   const q = v => '"'+String(v==null?"":v).replace(/"/g,'""')+'"';
-  const lines = list.map(r => cols.map(c=>q(r[c[1]])).concat([
+  const lines = list.map(r => cols.map(c=>q(c[1].split(".").reduce((o,k)=>o==null?o:o[k], r))).concat([
     q((r.diseases||[]).join(" ")), q((r.symptoms||[]).join(" ")),
     q((r.bp.sys2||r.bp.sys1)+"/"+(r.bp.dia2||r.bp.dia1)), q(r.bp.level),
     q(r.ppe.helmet), q(r.ppe.shoes), q(r.ppe.belt), q(r.ppe.etcName), q(isRisk(r)?"Y":""), q(flags(r).join(" / "))
