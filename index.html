@@ -1054,6 +1054,12 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
 .coItem[aria-pressed=true] .ck{visibility:visible}
 .coItem b{color:#B00E20}
 .coEmpty{padding:16px 14px;font-size:.9rem;color:var(--steel)}
+/* 신분증·이수증 여러 장 */
+.mphList{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.mphList:not(:empty){margin-top:10px}
+.mphList .photoThumb{width:76px;height:76px}
+.mphList .mphNo{position:absolute;left:4px;bottom:4px;font-style:normal;font-size:.68rem;font-weight:700;background:rgba(33,33,33,.75);color:#fff;border-radius:4px;padding:0 5px}
+.mphCount{font-size:.84rem;color:var(--steel);font-weight:600}
 /* 건강진단 결과지 올리기 */
 .chkPages{display:flex;gap:8px;flex-wrap:wrap}
 .chkPages:not(:empty){margin:2px 0 10px}
@@ -1177,8 +1183,8 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div class="opts grid2 sm" data-pick="rh" style="margin-top:8px">
         <button class="opt" type="button" data-v="Rh+" data-i18n="opt.rhP">Rh+</button><button class="opt" type="button" data-v="Rh-" data-i18n="opt.rhN">Rh−</button></div></div>
   </div>
-  <div class="card"><h3 data-i18n="card.idPhoto">신분증 또는 외국인등록증 사진</h3>
-    <p style="margin:-6px 0 12px;font-size:.84rem;color:var(--steel)" data-i18n="hint.idPhoto">관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.</p>
+  <div class="card" id="idPhotoCard"><h3 data-i18n="card.idPhoto">신분증 또는 외국인등록증 사진 <span class="req">*</span></h3>
+    <p style="margin:-6px 0 12px;font-size:.84rem;color:var(--steel)" data-i18n="hint.idPhoto">필수입니다. 신분증 또는 외국인등록증 앞면이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요. 관리자 확인용으로만 사용합니다.</p>
     <div class="photoRow" id="idPhotoRow">
       <input type="file" accept="image/*" capture="environment" id="idPhotoCam" class="hidden">
       <input type="file" accept="image/*" id="idPhotoPick" class="hidden">
@@ -1190,7 +1196,8 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
         <label for="idPhotoFile" class="photoBtn" data-i18n="photo.file">📁 파일</label>
       </div>
       <div class="photoThumb hidden" id="idPhotoThumb"><img id="idPhotoImg"><button type="button" class="photoDel" id="idPhotoDel">✕</button></div>
-    </div></div>
+    </div>
+    <div class="err" data-i18n="err.idPhoto">신분증 또는 외국인등록증 사진을 올려 주세요.</div></div>
   <div class="card"><h3 data-i18n="card.contact">연락처</h3>
     <div class="f"><label data-i18n="field.phone">본인 연락처 <span class="req">*</span></label>
       <input type="tel" id="phone" inputmode="numeric" placeholder="010-0000-0000" autocomplete="tel">
@@ -1231,7 +1238,8 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div class="when" id="wEduY">
         <div class="f"><label data-i18n="field.eduOrg">교육업체</label><input type="text" id="eduOrg" placeholder="예) 대한산업안전협회"></div>
         <div class="f"><label data-i18n="field.eduDate">이수일</label><input type="date" id="eduDate"></div>
-        <div class="f" style="margin:0"><label data-i18n="card.eduPhoto">이수증 사진 <span class="hint" data-i18n="hint.optional2">선택</span></label>
+        <div class="f" style="margin:0"><label data-i18n="card.eduPhoto">이수증 사진 <span class="req">*</span></label>
+          <p class="fsub" data-i18n="hint.eduPhoto">이수증이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요.</p>
           <div class="photoRow" id="eduPhotoRow">
             <input type="file" accept="image/*" capture="environment" id="eduPhotoCam" class="hidden">
             <input type="file" accept="image/*" id="eduPhotoPick" class="hidden">
@@ -1243,7 +1251,8 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
               <label for="eduPhotoFile" class="photoBtn" data-i18n="photo.file">📁 파일</label>
             </div>
             <div class="photoThumb hidden" id="eduPhotoThumb"><img id="eduPhotoImg"><button type="button" class="photoDel" id="eduPhotoDel">✕</button></div>
-          </div></div></div>
+          </div>
+          <div class="err" data-i18n="err.eduPhoto">이수증 사진을 1장 이상 올려 주세요.</div></div></div>
       <div class="when" id="wEduN"><div class="note warn" style="margin:0" data-i18n="note.eduX">미이수자는 <b>현장 출입이 제한</b>됩니다. 안전관리자에게 알려 주세요.</div></div>
       <div class="err" data-i18n="err.eduDone">이수 여부를 선택해 주세요.</div></div></div>
   <div class="card"><h3 data-i18n="card.prevSite">직전 근무지</h3>
@@ -2045,7 +2054,7 @@ function loadFirebase(){
 }
 
 const I18N = {
-ko:{ "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</span>", "field.chkPre":"배치전건강진단 결과지 <span class=\"hint\">선택</span>", "hint.chkUp":"결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.", "chk.file":"📁 파일 (PDF·사진)", "chk.busy":"결과지를 확인하는 중…", "chk.ok":"올렸어요 ({n}장)", "chk.retry":"다시 올려 주세요.", "chk.force":"그래도 이 파일로 올리기", "chk.bad.small":"해상도가 너무 낮아 글씨를 알아보기 어려워요.", "chk.bad.blur":"글씨가 흐리거나 뭉개져 보여요. 흔들리지 않게 다시 찍어 주세요.", "chk.bad.dark":"너무 어두워요. 밝은 곳에서 다시 찍어 주세요.", "chk.bad.contrast":"글씨가 흐릿하게 보여요(빛 반사·흐린 인쇄). 다시 찍어 주세요.", "chk.bad.read":"파일을 열 수 없어요.", "chk.full":"최대 3장까지 올릴 수 있어요.", "chk.type":"PDF 또는 사진 파일만 올릴 수 있어요.", "chk.pw":"이 PDF는 비밀번호가 걸려 있어요. 비밀번호를 입력해 주세요 (보통 생년월일 6자리 또는 8자리).", "chk.pwWrong":"비밀번호가 맞지 않아요. 다시 입력해 주세요.", "opt.th":"태국", "opt.ru":"러시아", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"신분증 또는 외국인등록증 사진", "visa.E9":"E-9 비전문취업", "visa.H2":"H-2 방문취업", "visa.F4":"F-4 재외동포", "visa.F2":"F-2 거주", "visa.F5":"F-5 영주", "visa.F6":"F-6 결혼이민", "visa.E7":"E-7 특정활동 (숙련기능 E-7-4 포함)", "visa.etc":"기타 (직접 입력)", "field.visaEtc":"체류자격 직접 입력", "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
+ko:{ "mph.count":"{n}장 / 최대 4장", "mph.full":"사진은 최대 4장까지 올릴 수 있어요.", "err.eduPhoto":"이수증 사진을 1장 이상 올려 주세요.", "hint.eduPhoto":"이수증이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요.", "err.idPhoto":"신분증 또는 외국인등록증 사진을 올려 주세요.", "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</span>", "field.chkPre":"배치전건강진단 결과지 <span class=\"hint\">선택</span>", "hint.chkUp":"결과지를 사진으로 찍거나 PDF·사진 파일로 올려 주세요. 여러 장이면 최대 3장까지 추가할 수 있어요. 담당자만 확인합니다.", "chk.file":"📁 파일 (PDF·사진)", "chk.busy":"결과지를 확인하는 중…", "chk.ok":"올렸어요 ({n}장)", "chk.retry":"다시 올려 주세요.", "chk.force":"그래도 이 파일로 올리기", "chk.bad.small":"해상도가 너무 낮아 글씨를 알아보기 어려워요.", "chk.bad.blur":"글씨가 흐리거나 뭉개져 보여요. 흔들리지 않게 다시 찍어 주세요.", "chk.bad.dark":"너무 어두워요. 밝은 곳에서 다시 찍어 주세요.", "chk.bad.contrast":"글씨가 흐릿하게 보여요(빛 반사·흐린 인쇄). 다시 찍어 주세요.", "chk.bad.read":"파일을 열 수 없어요.", "chk.full":"최대 3장까지 올릴 수 있어요.", "chk.type":"PDF 또는 사진 파일만 올릴 수 있어요.", "chk.pw":"이 PDF는 비밀번호가 걸려 있어요. 비밀번호를 입력해 주세요 (보통 생년월일 6자리 또는 8자리).", "chk.pwWrong":"비밀번호가 맞지 않아요. 다시 입력해 주세요.", "opt.th":"태국", "opt.ru":"러시아", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"신분증 또는 외국인등록증 사진 <span class=\"req\">*</span>", "visa.E9":"E-9 비전문취업", "visa.H2":"H-2 방문취업", "visa.F4":"F-4 재외동포", "visa.F2":"F-2 거주", "visa.F5":"F-5 영주", "visa.F6":"F-6 결혼이민", "visa.E7":"E-7 특정활동 (숙련기능 E-7-4 포함)", "visa.etc":"기타 (직접 입력)", "field.visaEtc":"체류자격 직접 입력", "start.bpNote":"혈압 측정은 <b>안전교육장에서 안전보건담당자<br>입회하에</b> 측정합니다.<br>미리 측정하지 마세요.", "bigtext":"글씨 크게 보기",
 "start.title":"안전교육 전<br>작성해 주세요","start.sub":"약 5분 걸립니다. 다 쓰면 저장 버튼을 누르세요.",
 "resume.title":"쓰다 만 내용이 있습니다","resume.go":"이어서 쓰기","resume.new":"처음부터","resume.at":"{n}단계까지 쓰셨습니다","already.title":"이미 제출하셨습니다","already.new":"다른 사람 것 작성하기","already.at":"제출 완료 · 현장에서 담당자가 확인합니다","already.again":"다른 업체로 다시 제출 (내용 그대로)","co.other":"목록에 없어요 · 직접 입력","co.list":"목록에서 고르기","photo.cam":"📷 사진 찍기","photo.gallery":"🖼 사진첩","photo.file":"📁 파일","addphoto.title":"사진을 나중에 올릴 수 있습니다","addphoto.desc":"신분증·이수증 사진을 지금 찍어 올리면 현장에서 바로 확인됩니다.","finphoto.title":"사진이 아직 없습니다","finphoto.desc":"지금 넣어 두면 현장에서 확인이 훨씬 빠릅니다. 나중에 올려도 됩니다.","consent.blockTitle":"현장에서 근무할 수 없습니다","consent.blockWhich":"에 동의하지 않으셨습니다.","consent.blockWhy":"이 정보는 산업안전보건법에 따라 근로자 안전 관리에 반드시 필요합니다. 동의하지 않으시면 <b>현장 출입과 근무가 불가능</b>합니다.","consent.blockAsk":"동의하시겠습니까? 궁금한 점은 소속 회사 담당자에게 문의해 주세요.","consent.blockClose":"닫기","consent.blockFix":"동의로 바꾸기","field.checkupUrl":"일반건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","hint.checkupUrl":"병원·검진기관에서 받은 결과 조회 링크를 붙여 넣으세요. 담당자만 확인하며, 인쇄 양식에는 들어가지 않습니다.","err.checkupUrl":"주소는 http:// 또는 https:// 로 시작해야 합니다.","field.preCheckupUrl":"배치전건강진단 결과 조회 주소 <span class=\"hint\">선택</span>","photo.sample":"예시 보기","start.prepTitle":"준비물","start.prep1":"· 신분증 (생년월일·국적 확인)","start.prep2":"· 기초안전보건교육 이수증","start.prep3":"· 혈압 측정 결과",
 "start.note":"작성한 내용은 <b>현장 안전보건팀만</b> 열람하며, 준공 후 3년간 보관 후 파기합니다.",
@@ -2063,8 +2072,8 @@ ko:{ "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</s
 "card.job":"담당 업무","field.trade":'공종 <span class="req">*</span>',"err.trade":"공종을 선택해 주세요.","opt.select":"선택하세요",
 "field.career":'해당 공종 경력 <span class="req">*</span>',"err.career":"경력을 입력해 주세요.","unit.year":"년","unit.month":"개월","unit.day":"일",
 "field.tradeEtc":"공종 직접입력",
-"hint.idPhoto":"관리자 확인용입니다. 선택 사항이지만 등록해 두면 확인이 빨라집니다.",
-"card.eduPhoto":"이수증 사진","hint.optional2":"선택","photo.take":"사진 촬영 · 선택",
+"hint.idPhoto":"필수입니다. 신분증 또는 외국인등록증 앞면이 잘 보이게 찍어 주세요. 1장 이상, 최대 4장까지 올릴 수 있어요. 관리자 확인용으로만 사용합니다.",
+"card.eduPhoto":"이수증 사진 <span class=\"req\">*</span>","hint.optional2":"선택","photo.take":"사진 촬영 · 선택",
 "lead.2.h":"교육 이수 및<br>직전 근무지","lead.2.p":"이수증이 있으면 보고 입력해 주세요.",
 "card.basicEdu":"건설업 기초안전보건교육","field.eduDone":'이수 여부 <span class="req">*</span>',
 "opt.eduO":"이수함","opt.eduX":"미이수","field.eduOrg":"교육업체","field.eduDate":"이수일",
@@ -2115,7 +2124,7 @@ ko:{ "field.chkGen":"일반건강진단 결과지 <span class=\"hint\">선택</s
 "lead.9.h":"저장되었습니다","lead.9.p":"안전관리자에게 알려 주세요. 출력은 사무실 컴퓨터에서 합니다.",
 "btn.newOne":"다른 사람 작성 시작","btn.prev":"이전","btn.next":"다음" },
 
-vi:{ "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"hint\">không bắt buộc</span>", "field.chkPre":"Kết quả khám sức khỏe trước khi bố trí <span class=\"hint\">không bắt buộc</span>", "hint.chkUp":"Chụp ảnh hoặc tải lên tệp PDF/ảnh của phiếu kết quả. Tối đa 3 trang. Chỉ người phụ trách xem.", "chk.file":"📁 Tệp (PDF·ảnh)", "chk.busy":"Đang kiểm tra…", "chk.ok":"Đã tải lên ({n} trang)", "chk.retry":"Vui lòng tải lên lại.", "chk.force":"Vẫn dùng tệp này", "chk.bad.small":"Độ phân giải quá thấp, khó đọc chữ.", "chk.bad.blur":"Chữ bị mờ hoặc nhòe. Hãy chụp lại, giữ máy chắc tay.", "chk.bad.dark":"Ảnh quá tối. Hãy chụp lại ở nơi sáng.", "chk.bad.contrast":"Chữ bị nhạt (lóa sáng hoặc in mờ). Hãy chụp lại.", "chk.bad.read":"Không mở được tệp.", "chk.full":"Tối đa 3 trang.", "chk.type":"Chỉ chấp nhận tệp PDF hoặc ảnh.", "chk.pw":"PDF này có mật khẩu. Hãy nhập mật khẩu (thường là ngày sinh 6 hoặc 8 số).", "chk.pwWrong":"Mật khẩu không đúng. Hãy nhập lại.", "opt.th":"Thái Lan", "opt.ru":"Nga", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài", "visa.E9":"E-9 Lao động phổ thông", "visa.H2":"H-2 Lao động thăm thân", "visa.F4":"F-4 Kiều bào", "visa.F2":"F-2 Cư trú", "visa.F5":"F-5 Thường trú", "visa.F6":"F-6 Kết hôn", "visa.E7":"E-7 Hoạt động đặc định (gồm E-7-4)", "visa.etc":"Khác (tự nhập)", "field.visaEtc":"Nhập loại visa", "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
+vi:{ "mph.count":"{n} ảnh / tối đa 4", "mph.full":"Chỉ tải được tối đa 4 ảnh.", "err.eduPhoto":"Vui lòng tải ít nhất 1 ảnh chứng chỉ.", "hint.eduPhoto":"Chụp rõ chứng chỉ. Tối thiểu 1, tối đa 4 ảnh.", "err.idPhoto":"Vui lòng tải ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài.", "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"hint\">không bắt buộc</span>", "field.chkPre":"Kết quả khám sức khỏe trước khi bố trí <span class=\"hint\">không bắt buộc</span>", "hint.chkUp":"Chụp ảnh hoặc tải lên tệp PDF/ảnh của phiếu kết quả. Tối đa 3 trang. Chỉ người phụ trách xem.", "chk.file":"📁 Tệp (PDF·ảnh)", "chk.busy":"Đang kiểm tra…", "chk.ok":"Đã tải lên ({n} trang)", "chk.retry":"Vui lòng tải lên lại.", "chk.force":"Vẫn dùng tệp này", "chk.bad.small":"Độ phân giải quá thấp, khó đọc chữ.", "chk.bad.blur":"Chữ bị mờ hoặc nhòe. Hãy chụp lại, giữ máy chắc tay.", "chk.bad.dark":"Ảnh quá tối. Hãy chụp lại ở nơi sáng.", "chk.bad.contrast":"Chữ bị nhạt (lóa sáng hoặc in mờ). Hãy chụp lại.", "chk.bad.read":"Không mở được tệp.", "chk.full":"Tối đa 3 trang.", "chk.type":"Chỉ chấp nhận tệp PDF hoặc ảnh.", "chk.pw":"PDF này có mật khẩu. Hãy nhập mật khẩu (thường là ngày sinh 6 hoặc 8 số).", "chk.pwWrong":"Mật khẩu không đúng. Hãy nhập lại.", "opt.th":"Thái Lan", "opt.ru":"Nga", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Ảnh CMND/CCCD hoặc thẻ đăng ký người nước ngoài <span class=\"req\">*</span>", "visa.E9":"E-9 Lao động phổ thông", "visa.H2":"H-2 Lao động thăm thân", "visa.F4":"F-4 Kiều bào", "visa.F2":"F-2 Cư trú", "visa.F5":"F-5 Thường trú", "visa.F6":"F-6 Kết hôn", "visa.E7":"E-7 Hoạt động đặc định (gồm E-7-4)", "visa.etc":"Khác (tự nhập)", "field.visaEtc":"Nhập loại visa", "start.bpNote":"Huyết áp sẽ được đo <b>tại phòng đào tạo an toàn, có cán bộ an toàn – sức khỏe giám sát</b>.<br>Vui lòng không đo trước.", "bigtext":"Phóng to chữ",
 "start.title":"Điền trước khi<br>huấn luyện an toàn","start.sub":"Mất khoảng 5 phút. Điền xong hãy nhấn Lưu.",
 "resume.title":"Bạn có phần chưa viết xong","resume.go":"Viết tiếp","resume.new":"Bắt đầu lại","resume.at":"Đã viết đến bước {n}","already.title":"Bạn đã nộp rồi","already.new":"Viết cho người khác","already.at":"Đã nộp · Cán bộ sẽ kiểm tra tại công trường","already.again":"Nộp lại cho công ty khác (giữ nội dung)","co.other":"Không có trong danh sách · Tự nhập","co.list":"Chọn từ danh sách","photo.cam":"📷 Chụp ảnh","photo.gallery":"🖼 Thư viện","photo.file":"📁 Tệp","addphoto.title":"Có thể tải ảnh lên sau","addphoto.desc":"Chụp và tải ảnh giấy tờ, chứng chỉ ngay bây giờ để công trường xác nhận nhanh.","finphoto.title":"Chưa có ảnh","finphoto.desc":"Thêm ngay sẽ được xác nhận nhanh hơn tại công trường. Cũng có thể tải lên sau.","consent.blockTitle":"Không thể làm việc tại công trường","consent.blockWhich":" — bạn chưa đồng ý.","consent.blockWhy":"Thông tin này là bắt buộc theo Luật An toàn vệ sinh lao động để quản lý an toàn người lao động. Nếu không đồng ý, bạn <b>không thể vào và làm việc tại công trường</b>.","consent.blockAsk":"Bạn có đồng ý không? Nếu có thắc mắc, vui lòng hỏi người phụ trách của công ty bạn.","consent.blockClose":"Đóng","consent.blockFix":"Chuyển sang đồng ý","field.checkupUrl":"Địa chỉ tra cứu kết quả khám sức khỏe <span class=\"hint\">tùy chọn</span>","hint.checkupUrl":"Dán đường link tra cứu kết quả do bệnh viện/cơ sở khám cung cấp. Chỉ người phụ trách xem, không in vào biểu mẫu.","err.checkupUrl":"Địa chỉ phải bắt đầu bằng http:// hoặc https://.","field.preCheckupUrl":"Địa chỉ tra cứu kết quả khám trước bố trí <span class=\"hint\">tùy chọn</span>","photo.sample":"Xem mẫu","start.prepTitle":"Cần chuẩn bị","start.prep1":"· Giấy tờ tùy thân (ngày sinh, quốc tịch)","start.prep2":"· Chứng chỉ đào tạo an toàn cơ bản","start.prep3":"· Kết quả đo huyết áp",
 "start.note":"Nội dung chỉ <b>Đội an toàn công trường</b> được xem, lưu 3 năm sau khi hoàn công rồi hủy.",
@@ -2133,8 +2142,8 @@ vi:{ "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"h
 "card.job":"Công việc","field.trade":'Loại công việc <span class="req">*</span>',"err.trade":"Vui lòng chọn loại công việc.","opt.select":"Chọn",
 "field.career":'Kinh nghiệm <span class="req">*</span>',"err.career":"Vui lòng nhập kinh nghiệm.","unit.year":"năm","unit.month":"tháng","unit.day":"ngày",
 "field.tradeEtc":"Nhập loại công việc",
-"hint.idPhoto":"Dùng để quản lý xác nhận. Không bắt buộc nhưng nên có để xác nhận nhanh hơn.",
-"card.eduPhoto":"Ảnh chứng chỉ","hint.optional2":"Không bắt buộc","photo.take":"Chụp ảnh · Chọn ảnh",
+"hint.idPhoto":"Bắt buộc. Chụp rõ mặt trước CMND/CCCD hoặc thẻ đăng ký người nước ngoài. Tối thiểu 1, tối đa 4 ảnh. Chỉ dùng để người quản lý xác nhận.",
+"card.eduPhoto":"Ảnh chứng chỉ <span class=\"req\">*</span>","hint.optional2":"Không bắt buộc","photo.take":"Chụp ảnh · Chọn ảnh",
 "lead.2.h":"Đào tạo &<br>Nơi làm trước đây","lead.2.p":"Nếu có chứng chỉ hãy xem rồi nhập.",
 "card.basicEdu":"Đào tạo an toàn cơ bản","field.eduDone":'Đã hoàn thành? <span class="req">*</span>',
 "opt.eduO":"Đã hoàn thành","opt.eduX":"Chưa hoàn thành","field.eduOrg":"Đơn vị đào tạo","field.eduDate":"Ngày hoàn thành",
@@ -2185,7 +2194,7 @@ vi:{ "field.chkGen":"Kết quả khám sức khỏe tổng quát <span class=\"h
 "lead.9.h":"Đã lưu thành công","lead.9.p":"Hãy báo cho quản lý an toàn. Việc in sẽ thực hiện ở máy tính văn phòng.",
 "btn.newOne":"Bắt đầu cho người khác","btn.prev":"Trước","btn.next":"Tiếp theo" },
 
-zh:{ "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</span>", "field.chkPre":"岗前健康检查结果单 <span class=\"hint\">选填</span>", "hint.chkUp":"请拍照或上传结果单的PDF/图片文件，最多3页。仅负责人查看。", "chk.file":"📁 文件（PDF·图片）", "chk.busy":"正在检查…", "chk.ok":"已上传（{n}页）", "chk.retry":"请重新上传。", "chk.force":"仍使用此文件", "chk.bad.small":"分辨率太低，文字难以辨认。", "chk.bad.blur":"文字模糊不清，请拿稳手机重新拍摄。", "chk.bad.dark":"太暗了，请在明亮处重新拍摄。", "chk.bad.contrast":"文字发淡（反光或打印不清），请重新拍摄。", "chk.bad.read":"无法打开文件。", "chk.full":"最多可上传3页。", "chk.type":"只能上传PDF或图片文件。", "chk.pw":"此PDF有密码，请输入密码（通常为6位或8位出生日期）。", "chk.pwWrong":"密码错误，请重新输入。", "opt.th":"泰国", "opt.ru":"俄罗斯", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"身份证或外国人登录证照片", "visa.E9":"E-9 非专业就业", "visa.H2":"H-2 访问就业", "visa.F4":"F-4 在外同胞", "visa.F2":"F-2 居住", "visa.F5":"F-5 永久居留", "visa.F6":"F-6 结婚移民", "visa.E7":"E-7 特定活动（含E-7-4）", "visa.etc":"其他（直接输入）", "field.visaEtc":"直接输入签证类型", "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
+zh:{ "mph.count":"{n}张 / 最多4张", "mph.full":"最多只能上传4张照片。", "err.eduPhoto":"请至少上传1张结业证照片。", "hint.eduPhoto":"请清楚拍摄结业证，至少1张，最多4张。", "err.idPhoto":"请上传身份证或外国人登录证照片。", "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</span>", "field.chkPre":"岗前健康检查结果单 <span class=\"hint\">选填</span>", "hint.chkUp":"请拍照或上传结果单的PDF/图片文件，最多3页。仅负责人查看。", "chk.file":"📁 文件（PDF·图片）", "chk.busy":"正在检查…", "chk.ok":"已上传（{n}页）", "chk.retry":"请重新上传。", "chk.force":"仍使用此文件", "chk.bad.small":"分辨率太低，文字难以辨认。", "chk.bad.blur":"文字模糊不清，请拿稳手机重新拍摄。", "chk.bad.dark":"太暗了，请在明亮处重新拍摄。", "chk.bad.contrast":"文字发淡（反光或打印不清），请重新拍摄。", "chk.bad.read":"无法打开文件。", "chk.full":"最多可上传3页。", "chk.type":"只能上传PDF或图片文件。", "chk.pw":"此PDF有密码，请输入密码（通常为6位或8位出生日期）。", "chk.pwWrong":"密码错误，请重新输入。", "opt.th":"泰国", "opt.ru":"俄罗斯", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"身份证或外国人登录证照片 <span class=\"req\">*</span>", "visa.E9":"E-9 非专业就业", "visa.H2":"H-2 访问就业", "visa.F4":"F-4 在外同胞", "visa.F2":"F-2 居住", "visa.F5":"F-5 永久居留", "visa.F6":"F-6 结婚移民", "visa.E7":"E-7 特定活动（含E-7-4）", "visa.etc":"其他（直接输入）", "field.visaEtc":"直接输入签证类型", "start.bpNote":"血压<b>在安全教育场所、由安全保健负责人在场时</b>测量。<br>请勿提前测量。", "bigtext":"放大字体",
 "start.title":"请在安全教育前<br>填写此表","start.sub":"大约需要5分钟。填完后请点击保存。",
 "resume.title":"有未填完的内容","resume.go":"继续填写","resume.new":"重新开始","resume.at":"已填写到第 {n} 步","already.title":"您已提交","already.new":"为他人填写","already.at":"已提交 · 现场负责人会确认","already.again":"以其他公司身份再次提交（内容不变）","co.other":"列表中没有 · 手动输入","co.list":"从列表中选择","photo.cam":"📷 拍照","photo.gallery":"🖼 相册","photo.file":"📁 文件","addphoto.title":"照片可以稍后上传","addphoto.desc":"现在拍摄并上传身份证、结业证照片，现场可立即确认。","finphoto.title":"还没有照片","finphoto.desc":"现在添加，现场确认会快很多。也可以稍后上传。","consent.blockTitle":"无法在现场工作","consent.blockWhich":"—您未同意。","consent.blockWhy":"根据《产业安全保健法》，这些信息是劳动者安全管理的必需项。若不同意，<b>将无法进入현场并工作</b>。","consent.blockAsk":"您同意吗？如有疑问，请咨询所属公司负责人。","consent.blockClose":"关闭","consent.blockFix":"改为同意","field.checkupUrl":"体检结果查询网址 <span class=\"hint\">选填</span>","hint.checkupUrl":"粘贴医院/体检机构提供的结果查询链接。仅负责人查看，不会打印到表格中。","err.checkupUrl":"网址须以 http:// 或 https:// 开头。","field.preCheckupUrl":"岗前体检结果查询网址 <span class=\"hint\">选填</span>","photo.sample":"查看示例","start.prepTitle":"准备事项","start.prep1":"· 身份证件（确认出生日期、国籍）","start.prep2":"· 基础安全保健教育结业证","start.prep3":"· 血压测量结果",
 "start.note":"填写内容仅供<b>现场安全保健组</b>查阅，竣工后保存3年后销毁。",
@@ -2203,8 +2212,8 @@ zh:{ "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</sp
 "card.job":"负责工种","field.trade":'工种 <span class="req">*</span>',"err.trade":"请选择工种。","opt.select":"请选择",
 "field.career":'该工种经验 <span class="req">*</span>',"err.career":"请输入工作经验。","unit.year":"年","unit.month":"个月","unit.day":"天",
 "field.tradeEtc":"直接输入工种",
-"hint.idPhoto":"供管理员确认使用。非必填，但登记后确认更快。",
-"card.eduPhoto":"结业证照片","hint.optional2":"选填","photo.take":"拍照 · 选择照片",
+"hint.idPhoto":"必填。请清楚拍摄身份证或外国人登录证正面，至少1张，最多4张，仅供管理人员确认。",
+"card.eduPhoto":"结业证照片 <span class=\"req\">*</span>","hint.optional2":"选填","photo.take":"拍照 · 选择照片",
 "lead.2.h":"教育结业及<br>此前工作单位","lead.2.p":"如有结业证请对照填写。",
 "card.basicEdu":"建筑业基础安全保健教育","field.eduDone":'是否结业 <span class="req">*</span>',
 "opt.eduO":"已结业","opt.eduX":"未结业","field.eduOrg":"教育机构","field.eduDate":"结业日期",
@@ -2255,7 +2264,7 @@ zh:{ "field.chkGen":"一般健康检查结果单 <span class=\"hint\">选填</sp
 "lead.9.h":"已保存","lead.9.p":"请告知安全管理员。打印将在办公室电脑上进行。",
 "btn.newOne":"开始为下一位填写","btn.prev":"上一步","btn.next":"下一步" },
 
-th:{ "field.chkGen":"ผลตรวจสุขภาพทั่วไป <span class=\"hint\">ไม่บังคับ</span>", "field.chkPre":"ผลตรวจสุขภาพก่อนเริ่มงาน <span class=\"hint\">ไม่บังคับ</span>", "hint.chkUp":"ถ่ายรูปหรืออัปโหลดไฟล์ PDF/รูปของใบผลตรวจ สูงสุด 3 หน้า เฉพาะเจ้าหน้าที่เท่านั้นที่ดูได้", "chk.file":"📁 ไฟล์ (PDF·รูป)", "chk.busy":"กำลังตรวจสอบ…", "chk.ok":"อัปโหลดแล้ว ({n} หน้า)", "chk.retry":"กรุณาอัปโหลดใหม่", "chk.force":"ใช้ไฟล์นี้ต่อไป", "chk.bad.small":"ความละเอียดต่ำเกินไป อ่านตัวอักษรได้ยาก", "chk.bad.blur":"ตัวอักษรเบลอ กรุณาถือให้นิ่งแล้วถ่ายใหม่", "chk.bad.dark":"มืดเกินไป กรุณาถ่ายใหม่ในที่สว่าง", "chk.bad.contrast":"ตัวอักษรจาง (แสงสะท้อนหรือพิมพ์ไม่ชัด) กรุณาถ่ายใหม่", "chk.bad.read":"ไม่สามารถเปิดไฟล์ได้", "chk.full":"อัปโหลดได้สูงสุด 3 หน้า", "chk.type":"อัปโหลดได้เฉพาะไฟล์ PDF หรือรูปภาพ", "chk.pw":"PDF นี้มีรหัสผ่าน กรุณาใส่รหัสผ่าน (มักเป็นวันเกิด 6 หรือ 8 หลัก)", "chk.pwWrong":"รหัสผ่านไม่ถูกต้อง กรุณาใส่อีกครั้ง", "opt.th":"ไทย", "opt.ru":"รัสเซีย", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"รูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ", "visa.E9":"E-9 แรงงานทั่วไป", "visa.H2":"H-2 เยี่ยมเยือนเพื่อทำงาน", "visa.F4":"F-4 ชาวเกาหลีโพ้นทะเล", "visa.F2":"F-2 ผู้พำนักอาศัย", "visa.F5":"F-5 ผู้พำนักถาวร", "visa.F6":"F-6 สมรสกับคนเกาหลี", "visa.E7":"E-7 กิจกรรมเฉพาะ (รวม E-7-4)", "visa.etc":"อื่น ๆ (พิมพ์เอง)", "field.visaEtc":"พิมพ์ประเภทวีซ่า", "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
+th:{ "mph.count":"{n} รูป / สูงสุด 4", "mph.full":"อัปโหลดได้สูงสุด 4 รูป", "err.eduPhoto":"กรุณาอัปโหลดรูปใบประกาศอย่างน้อย 1 รูป", "hint.eduPhoto":"ถ่ายใบประกาศให้ชัดเจน อย่างน้อย 1 รูป สูงสุด 4 รูป", "err.idPhoto":"กรุณาอัปโหลดรูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ", "field.chkGen":"ผลตรวจสุขภาพทั่วไป <span class=\"hint\">ไม่บังคับ</span>", "field.chkPre":"ผลตรวจสุขภาพก่อนเริ่มงาน <span class=\"hint\">ไม่บังคับ</span>", "hint.chkUp":"ถ่ายรูปหรืออัปโหลดไฟล์ PDF/รูปของใบผลตรวจ สูงสุด 3 หน้า เฉพาะเจ้าหน้าที่เท่านั้นที่ดูได้", "chk.file":"📁 ไฟล์ (PDF·รูป)", "chk.busy":"กำลังตรวจสอบ…", "chk.ok":"อัปโหลดแล้ว ({n} หน้า)", "chk.retry":"กรุณาอัปโหลดใหม่", "chk.force":"ใช้ไฟล์นี้ต่อไป", "chk.bad.small":"ความละเอียดต่ำเกินไป อ่านตัวอักษรได้ยาก", "chk.bad.blur":"ตัวอักษรเบลอ กรุณาถือให้นิ่งแล้วถ่ายใหม่", "chk.bad.dark":"มืดเกินไป กรุณาถ่ายใหม่ในที่สว่าง", "chk.bad.contrast":"ตัวอักษรจาง (แสงสะท้อนหรือพิมพ์ไม่ชัด) กรุณาถ่ายใหม่", "chk.bad.read":"ไม่สามารถเปิดไฟล์ได้", "chk.full":"อัปโหลดได้สูงสุด 3 หน้า", "chk.type":"อัปโหลดได้เฉพาะไฟล์ PDF หรือรูปภาพ", "chk.pw":"PDF นี้มีรหัสผ่าน กรุณาใส่รหัสผ่าน (มักเป็นวันเกิด 6 หรือ 8 หลัก)", "chk.pwWrong":"รหัสผ่านไม่ถูกต้อง กรุณาใส่อีกครั้ง", "opt.th":"ไทย", "opt.ru":"รัสเซีย", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"รูปบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติ <span class=\"req\">*</span>", "visa.E9":"E-9 แรงงานทั่วไป", "visa.H2":"H-2 เยี่ยมเยือนเพื่อทำงาน", "visa.F4":"F-4 ชาวเกาหลีโพ้นทะเล", "visa.F2":"F-2 ผู้พำนักอาศัย", "visa.F5":"F-5 ผู้พำนักถาวร", "visa.F6":"F-6 สมรสกับคนเกาหลี", "visa.E7":"E-7 กิจกรรมเฉพาะ (รวม E-7-4)", "visa.etc":"อื่น ๆ (พิมพ์เอง)", "field.visaEtc":"พิมพ์ประเภทวีซ่า", "start.bpNote":"การวัดความดันโลหิตจะทำ<b>ที่ห้องอบรมความปลอดภัย โดยมีเจ้าหน้าที่ความปลอดภัยและอาชีวอนามัยอยู่ด้วย</b><br>กรุณาอย่าวัดล่วงหน้า", "bigtext":"ขยายตัวอักษร",
 "start.title":"กรุณากรอกก่อน<br>อบรมความปลอดภัย","start.sub":"ใช้เวลาประมาณ 5 นาที เมื่อกรอกเสร็จให้กดบันทึก",
 "resume.title":"มีข้อมูลที่กรอกค้างไว้","resume.go":"กรอกต่อ","resume.new":"เริ่มใหม่","resume.at":"กรอกถึงขั้นตอนที่ {n}","already.title":"คุณส่งแล้ว","already.new":"กรอกให้คนอื่น","already.at":"ส่งแล้ว · เจ้าหน้าที่จะตรวจสอบที่หน่วยงาน","already.again":"ส่งใหม่ในนามบริษัทอื่น (เนื้อหาเดิม)","co.other":"ไม่มีในรายการ · พิมพ์เอง","co.list":"เลือกจากรายการ","photo.cam":"📷 ถ่ายรูป","photo.gallery":"🖼 อัลบั้ม","photo.file":"📁 ไฟล์","addphoto.title":"อัปโหลดรูปภายหลังได้","addphoto.desc":"ถ่ายและอัปโหลดรูปบัตรประชาชนและใบรับรองตอนนี้ เพื่อให้ตรวจสอบได้ทันที","finphoto.title":"ยังไม่มีรูป","finphoto.desc":"ใส่ตอนนี้จะตรวจสอบได้เร็วขึ้นที่หน่วยงาน หรือจะอัปโหลดภายหลังก็ได้","consent.blockTitle":"ไม่สามารถทำงานที่หน่วยงานได้","consent.blockWhich":" — คุณยังไม่ได้ยินยอม","consent.blockWhy":"ข้อมูลนี้จำเป็นตามกฎหมายความปลอดภัยฯ เพื่อดูแลความปลอดภัยของคนงาน หากไม่ยินยอม <b>จะเข้าและทำงานที่หน่วยงานไม่ได้</b>","consent.blockAsk":"คุณยินยอมหรือไม่? หากมีข้อสงสัยกรุณาสอบถามผู้รับผิดชอบของบริษัท","consent.blockClose":"ปิด","consent.blockFix":"เปลี่ยนเป็นยินยอม","field.checkupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพ <span class=\"hint\">ไม่บังคับ</span>","hint.checkupUrl":"วางลิงก์ดูผลตรวจที่ได้จากโรงพยาบาล/สถานตรวจ เจ้าหน้าที่เท่านั้นที่ดู และจะไม่พิมพ์ลงในแบบฟอร์ม","err.checkupUrl":"ที่อยู่ต้องขึ้นต้นด้วย http:// หรือ https://","field.preCheckupUrl":"ที่อยู่เว็บดูผลตรวจสุขภาพก่อนเข้างาน <span class=\"hint\">ไม่บังคับ</span>","photo.sample":"ดูตัวอย่าง","start.prepTitle":"สิ่งที่ต้องเตรียม","start.prep1":"· บัตรประจำตัว (วันเกิด/สัญชาติ)","start.prep2":"· ใบรับรองอบรมความปลอดภัยขั้นพื้นฐาน","start.prep3":"· ผลตรวจวัดความดันโลหิต",
 "start.note":"ข้อมูลที่กรอกจะเปิดให้เฉพาะ<b>ทีมความปลอดภัยของไซต์งาน</b>ดู จะเก็บไว้ 3 ปีหลังงานเสร็จแล้วทำลาย",
@@ -2273,8 +2282,8 @@ th:{ "field.chkGen":"ผลตรวจสุขภาพทั่วไป <spa
 "card.job":"งานที่รับผิดชอบ","field.trade":'ประเภทงาน <span class="req">*</span>',"err.trade":"กรุณาเลือกประเภทงาน","opt.select":"กรุณาเลือก",
 "field.career":'ประสบการณ์ในงานนี้ <span class="req">*</span>',"err.career":"กรุณากรอกประสบการณ์","unit.year":"ปี","unit.month":"เดือน","unit.day":"วัน",
 "field.tradeEtc":"ระบุประเภทงานเอง",
-"hint.idPhoto":"ใช้สำหรับผู้ดูแลตรวจสอบ ไม่บังคับแต่หากลงทะเบียนไว้จะตรวจสอบได้เร็วขึ้น",
-"card.eduPhoto":"รูปใบรับรอง","hint.optional2":"ไม่บังคับ","photo.take":"ถ่ายรูป · เลือกรูป",
+"hint.idPhoto":"จำเป็น ถ่ายด้านหน้าบัตรประชาชนหรือบัตรลงทะเบียนชาวต่างชาติให้ชัดเจน อย่างน้อย 1 รูป สูงสุด 4 รูป ใช้สำหรับเจ้าหน้าที่ตรวจสอบเท่านั้น",
+"card.eduPhoto":"รูปใบรับรอง <span class=\"req\">*</span>","hint.optional2":"ไม่บังคับ","photo.take":"ถ่ายรูป · เลือกรูป",
 "lead.2.h":"การอบรมและ<br>ที่ทำงานก่อนหน้า","lead.2.p":"หากมีใบรับรองกรุณาดูแล้วกรอก",
 "card.basicEdu":"อบรมความปลอดภัยขั้นพื้นฐานงานก่อสร้าง","field.eduDone":'ผ่านการอบรมหรือไม่ <span class="req">*</span>',
 "opt.eduO":"ผ่านแล้ว","opt.eduX":"ยังไม่ผ่าน","field.eduOrg":"หน่วยงานอบรม","field.eduDate":"วันที่ผ่านการอบรม",
@@ -2324,7 +2333,7 @@ th:{ "field.chkGen":"ผลตรวจสุขภาพทั่วไป <spa
 "lead.8.h":"ตรวจสอบขั้นสุดท้าย","lead.8.p":"กรุณาตรวจสอบอีกครั้งก่อนบันทึก",
 "lead.9.h":"บันทึกเรียบร้อยแล้ว","lead.9.p":"กรุณาแจ้งเจ้าหน้าที่ความปลอดภัย การพิมพ์จะทำที่คอมพิวเตอร์สำนักงาน",
 "btn.newOne":"เริ่มกรอกให้คนถัดไป","btn.prev":"ก่อนหน้า","btn.next":"ถัดไป" },
-ru:{ "field.chkGen":"Результат общего медосмотра <span class=\"hint\">необязательно</span>", "field.chkPre":"Результат медосмотра перед допуском <span class=\"hint\">необязательно</span>", "hint.chkUp":"Сфотографируйте бланк или загрузите PDF/фото. До 3 страниц. Видит только ответственный.", "chk.file":"📁 Файл (PDF·фото)", "chk.busy":"Проверяем…", "chk.ok":"Загружено ({n} стр.)", "chk.retry":"Загрузите заново.", "chk.force":"Всё равно загрузить этот файл", "chk.bad.small":"Слишком низкое разрешение, текст трудно прочитать.", "chk.bad.blur":"Текст размыт. Переснимите, держа телефон неподвижно.", "chk.bad.dark":"Слишком темно. Переснимите при хорошем освещении.", "chk.bad.contrast":"Текст бледный (блики или слабая печать). Переснимите.", "chk.bad.read":"Не удалось открыть файл.", "chk.full":"Можно загрузить не более 3 страниц.", "chk.type":"Можно загрузить только PDF или фото.", "chk.pw":"PDF защищён паролем. Введите пароль (обычно дата рождения, 6 или 8 цифр).", "chk.pwWrong":"Неверный пароль. Введите ещё раз.", "opt.th":"Таиланд", "opt.ru":"Россия", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Фото удостоверения личности или ID-карты иностранца", "visa.E9":"E-9 Неквалиф. труд", "visa.H2":"H-2 Визит с работой", "visa.F4":"F-4 Соотечественники", "visa.F2":"F-2 Проживание", "visa.F5":"F-5 ПМЖ", "visa.F6":"F-6 Брак с корейцем", "visa.E7":"E-7 Особая деят. (E-7-4)", "visa.etc":"Другое (ввести вручную)", "field.visaEtc":"Введите тип визы", "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
+ru:{ "mph.count":"{n} фото / макс. 4", "mph.full":"Можно загрузить не более 4 фото.", "err.eduPhoto":"Загрузите хотя бы 1 фото свидетельства.", "hint.eduPhoto":"Сфотографируйте свидетельство чётко. От 1 до 4 фото.", "err.idPhoto":"Загрузите фото удостоверения или ID-карты иностранца.", "field.chkGen":"Результат общего медосмотра <span class=\"hint\">необязательно</span>", "field.chkPre":"Результат медосмотра перед допуском <span class=\"hint\">необязательно</span>", "hint.chkUp":"Сфотографируйте бланк или загрузите PDF/фото. До 3 страниц. Видит только ответственный.", "chk.file":"📁 Файл (PDF·фото)", "chk.busy":"Проверяем…", "chk.ok":"Загружено ({n} стр.)", "chk.retry":"Загрузите заново.", "chk.force":"Всё равно загрузить этот файл", "chk.bad.small":"Слишком низкое разрешение, текст трудно прочитать.", "chk.bad.blur":"Текст размыт. Переснимите, держа телефон неподвижно.", "chk.bad.dark":"Слишком темно. Переснимите при хорошем освещении.", "chk.bad.contrast":"Текст бледный (блики или слабая печать). Переснимите.", "chk.bad.read":"Не удалось открыть файл.", "chk.full":"Можно загрузить не более 3 страниц.", "chk.type":"Можно загрузить только PDF или фото.", "chk.pw":"PDF защищён паролем. Введите пароль (обычно дата рождения, 6 или 8 цифр).", "chk.pwWrong":"Неверный пароль. Введите ещё раз.", "opt.th":"Таиланд", "opt.ru":"Россия", "opt.rhP":"Rh+", "opt.rhN":"Rh−", "card.idPhoto":"Фото удостоверения личности или ID-карты иностранца <span class=\"req\">*</span>", "visa.E9":"E-9 Неквалиф. труд", "visa.H2":"H-2 Визит с работой", "visa.F4":"F-4 Соотечественники", "visa.F2":"F-2 Проживание", "visa.F5":"F-5 ПМЖ", "visa.F6":"F-6 Брак с корейцем", "visa.E7":"E-7 Особая деят. (E-7-4)", "visa.etc":"Другое (ввести вручную)", "field.visaEtc":"Введите тип визы", "start.bpNote":"Давление измеряют <b>в классе по охране труда в присутствии ответственного по охране труда</b>.<br>Не измеряйте давление заранее.", "bigtext":"Крупный шрифт",
 "start.title":"Заполните до<br>инструктажа по охране труда","start.sub":"Займёт около 5 минут. В конце нажмите кнопку «Сохранить».",
 "resume.title":"Есть незаконченная анкета","resume.go":"Продолжить","resume.new":"Начать заново","resume.at":"Заполнено до шага {n}","already.title":"Вы уже отправили анкету","already.new":"Заполнить для другого человека","already.at":"Отправлено · ответственный проверит на объекте","already.again":"Отправить ещё раз от другой компании (те же данные)","co.other":"Нет в списке · ввести вручную","co.list":"Выбрать из списка","photo.cam":"📷 Сфотографировать","photo.gallery":"🖼 Галерея","photo.file":"📁 Файл","addphoto.title":"Фото можно добавить позже","addphoto.desc":"Если сейчас сфотографировать удостоверение личности и свидетельство об обучении, их сразу проверят на объекте.","finphoto.title":"Фото ещё не добавлены","finphoto.desc":"Если добавить их сейчас, проверка на объекте пройдёт гораздо быстрее. Можно загрузить и позже.","consent.blockTitle":"Вы не сможете работать на объекте","consent.blockWhich":": вы не дали согласие.","consent.blockWhy":"Эти данные обязательны для обеспечения безопасности работников по Закону об охране труда. Без согласия <b>вход на объект и работа невозможны</b>.","consent.blockAsk":"Дать согласие? С вопросами обращайтесь к ответственному в вашей компании.","consent.blockClose":"Закрыть","consent.blockFix":"Изменить на «Согласен»","field.checkupUrl":"Ссылка на результаты общего медосмотра <span class=\"hint\">необязательно</span>","hint.checkupUrl":"Вставьте ссылку на результаты из больницы или медцентра. Её видит только ответственный, в печатную форму она не попадает.","err.checkupUrl":"Ссылка должна начинаться с http:// или https://","field.preCheckupUrl":"Ссылка на результаты медосмотра перед допуском <span class=\"hint\">необязательно</span>","photo.sample":"Посмотреть пример","start.prepTitle":"Что нужно иметь при себе","start.prep1":"· Удостоверение личности (дата рождения, гражданство)","start.prep2":"· Свидетельство о базовом обучении по охране труда","start.prep3":"· Результат измерения давления",
 "start.note":"Заполненные данные видит <b>только отдел охраны труда объекта</b>. Они хранятся 3 года после сдачи объекта, затем уничтожаются.",
@@ -2342,8 +2351,8 @@ ru:{ "field.chkGen":"Результат общего медосмотра <span 
 "card.job":"Выполняемая работа","field.trade":'Вид работ <span class="req">*</span>',"err.trade":"Выберите вид работ.","opt.select":"Выберите",
 "field.career":'Опыт по этому виду работ <span class="req">*</span>',"err.career":"Укажите опыт работы.","unit.year":"лет","unit.month":"мес.","unit.day":"дн.",
 "field.tradeEtc":"Вид работ (вручную)",
-"hint.idPhoto":"Для проверки ответственным. Необязательно, но с фото проверка идёт быстрее.",
-"card.eduPhoto":"Фото свидетельства об обучении","hint.optional2":"необязательно","photo.take":"Сфотографировать · необязательно",
+"hint.idPhoto":"Обязательно. Сфотографируйте лицевую сторону удостоверения или ID-карты иностранца чётко. От 1 до 4 фото. Используется только для проверки.",
+"card.eduPhoto":"Фото свидетельства об обучении <span class=\"req\">*</span>","hint.optional2":"необязательно","photo.take":"Сфотографировать · необязательно",
 "lead.2.h":"Обучение и<br>предыдущее место работы","lead.2.p":"Если есть свидетельство, заполняйте по нему.",
 "card.basicEdu":"Базовое обучение по охране труда в строительстве","field.eduDone":'Пройдено ли обучение <span class="req">*</span>',
 "opt.eduO":"Пройдено","opt.eduX":"Не пройдено","field.eduOrg":"Учебный центр","field.eduDate":"Дата окончания",
@@ -2605,7 +2614,7 @@ const Store = (() => {
           // 건강진단 결과지는 결과지마다 문서 하나 (photos/{id}~chkGen, ~chkPre)
           const cd = rec.__chkData;
           if(cd){
-            for(const ck of ["chkGen","chkPre"]){
+            for(const ck of ["chkGen","chkPre","idMore","eduMore"]){
               if(!cd[ck] || !cd[ck].length) continue;
               if(JSON.stringify(cd[ck]).length > 950000)
                 throw new Error("건강진단 결과지 용량이 너무 큽니다. 장 수를 줄여 다시 올려 주세요.");
@@ -2700,7 +2709,7 @@ const Store = (() => {
             }catch(e){ console.warn("삭제 기록 실패:", e); }
             await db.collection("records").doc(id).delete();
             try{ await db.collection("photos").doc(id).delete(); }catch(e){}   // 사진 문서도 함께
-            for(const ck of ["chkGen","chkPre"]){ try{ await db.collection("photos").doc(id + "~" + ck).delete(); }catch(e){} }
+            for(const ck of ["chkGen","chkPre","idMore","eduMore"]){ try{ await db.collection("photos").doc(id + "~" + ck).delete(); }catch(e){} }
           }
           ok = true;
         }catch(e){ firstErr = { where:"Firebase", message:(e && e.message) || String(e) }; }
@@ -2968,11 +2977,11 @@ wireChk("gen"); wireChk("pre");
 /* 관리자 화면: 결과지 불러와 보여 주기 */
 async function loadChkPages(r){
   if(r.__chk) return r.__chk;
-  const out = { chkGen:[], chkPre:[] };
-  if(r.__chkData){ out.chkGen = r.__chkData.chkGen || []; out.chkPre = r.__chkData.chkPre || []; }
-  else if(fbEnabled() && (r.chkGenPages || r.chkPrePages)){
+  const out = { chkGen:[], chkPre:[], idMore:[], eduMore:[] };
+  if(r.__chkData){ ["chkGen","chkPre","idMore","eduMore"].forEach(k => out[k] = r.__chkData[k] || []); }
+  else if(fbEnabled() && (r.chkGenPages || r.chkPrePages || r.idMorePages || r.eduMorePages)){
     const db = await loadFirebase();
-    for(const ck of ["chkGen","chkPre"]){
+    for(const ck of ["chkGen","chkPre","idMore","eduMore"]){
       if(!r[ck + "Pages"]) continue;
       const d = await db.collection("photos").doc(docId(r) + "~" + ck).get();
       if(d.exists) out[ck] = ((d.data() || {}).pages || []).filter(isPhotoData);
@@ -2983,7 +2992,7 @@ async function loadChkPages(r){
 }
 async function fillChkAdmin(r){
   const el = document.getElementById("chkAdmin"); if(!el) return;
-  if(!r || !(r.chkGenPages || r.chkPrePages)){ el.innerHTML = ""; return; }
+  if(!r || !(r.chkGenPages || r.chkPrePages || r.idMorePages || r.eduMorePages)){ el.innerHTML = ""; return; }
   el.innerHTML = '<div class="chkAdminBox"><div class="photoPanelTitle">건강진단 결과지 <span>불러오는 중…</span></div></div>';
   let c;
   try{ c = await loadChkPages(r); }
@@ -2992,8 +3001,12 @@ async function fillChkAdmin(r){
     ? '<div style="margin-top:10px"><b style="font-size:.9rem">' + lab + ' (' + arr.length + '장)</b><div class="chkPages">'
       + arr.map((src, i) => '<div class="chkThumb"><img src="' + src + '" alt="' + lab + ' ' + (i+1) + '"><i>' + (i+1) + '</i></div>').join("") + '</div></div>'
     : '';
-  el.innerHTML = '<div class="chkAdminBox"><div class="photoPanelTitle">건강진단 결과지 <span>근로자가 올린 결과지입니다. 눌러서 크게 보세요. 인쇄 양식에는 들어가지 않습니다.</span></div>'
-    + part("일반건강진단", c.chkGen) + part("배치전건강진단", c.chkPre) + '</div>';
+  el.innerHTML = ((c.idMore.length || c.eduMore.length)
+      ? '<div class="chkAdminBox"><div class="photoPanelTitle">추가 사진 <span>첫 장은 위 첨부 사진 칸에 있고, 나머지 장입니다.</span></div>'
+        + part("신분증·외국인등록증 (2장째부터)", c.idMore) + part("이수증 (2장째부터)", c.eduMore) + '</div>' : '')
+    + ((c.chkGen.length || c.chkPre.length)
+      ? '<div class="chkAdminBox"><div class="photoPanelTitle">건강진단 결과지 <span>근로자가 올린 결과지입니다. 눌러서 크게 보세요. 인쇄 양식에는 들어가지 않습니다.</span></div>'
+        + part("일반건강진단", c.chkGen) + part("배치전건강진단", c.chkPre) + '</div>' : '');
   el.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
 }
 
@@ -3069,6 +3082,58 @@ function sampleFor(prefix){
 
 /* 사진 넣기: 📷 사진 찍기(카메라 바로) · 🖼 사진첩 · 📁 파일 세 갈래.
    전에는 카메라만 열려서 이미 찍어 둔 신분증 사진을 못 골랐다. */
+/* 신분증·이수증은 여러 장 (1~4장). 첫 장은 기존 칸(인쇄·사진대지)에 쓰고, 나머지는 따로 저장한다 */
+const MPH = { id:[], edu:[] };
+const MPH_MAX = 4;
+function mphT(k, n){ const t = (I18N[LANG] && I18N[LANG][k]) || I18N.ko[k] || k; return n == null ? t : t.replace("{n}", n); }
+function renderMultiPhoto(prefix, key){
+  const list = document.getElementById(prefix + "List"); if(!list) return;
+  const arr = MPH[key];
+  PHOTO[key] = arr[0] || "";
+  const single = document.getElementById(prefix + "Thumb"); if(single) single.classList.add("hidden");
+  list.innerHTML = arr.map((src, i) =>
+      '<div class="photoThumb"><img src="' + src + '" alt="' + (i+1) + '"><button type="button" class="photoDel" data-i="' + i + '" aria-label="삭제">✕</button><i class="mphNo">' + (i+1) + '</i></div>').join("")
+    + (arr.length ? '<span class="mphCount">' + esc(mphT("mph.count", arr.length)) + '</span>' : '');
+  list.querySelectorAll("img").forEach(im => im.addEventListener("click", () => openLightbox(im.src)));
+  list.querySelectorAll(".photoDel").forEach(b => b.addEventListener("click", () => {
+    arr.splice(+b.dataset.i, 1); renderMultiPhoto(prefix, key); saveDraft();
+  }));
+  const btns = document.getElementById(prefix + "Btn"); if(btns) btns.classList.toggle("hidden", arr.length >= MPH_MAX);
+}
+function wireMultiPhoto(prefix, key){
+  const btns = document.getElementById(prefix + "Btn");
+  const row = document.getElementById(prefix + "Row");
+  if(row && !document.getElementById(prefix + "List")) row.insertAdjacentHTML("afterend", '<div class="mphList" id="' + prefix + 'List"></div>');
+  ["Cam","Pick","File"].forEach(kind => {
+    const input = document.getElementById(prefix + kind);
+    if(!input) return;
+    if(kind !== "Cam") input.multiple = true;
+    input.addEventListener("change", async () => {
+      const files = Array.from(input.files || []); input.value = "";
+      if(!files.length) return;
+      const room = MPH_MAX - MPH[key].length;
+      if(room <= 0){ alert(mphT("mph.full")); return; }
+      if(files.length > room) alert(mphT("mph.full"));
+      btns.classList.add("busy");
+      for(const f of files.slice(0, room)){
+        if(f.type && !/^image\//.test(f.type) && !/\.(jpe?g|png|heic|heif|webp|gif|bmp)$/i.test(f.name||"")){
+          alert("사진 파일만 넣을 수 있습니다. (JPG·PNG 등)"); continue;
+        }
+        try{ MPH[key].push(await compressImage(f, 1000, 190000)); }
+        catch(e){ alert("사진을 불러오지 못했습니다: " + (e && e.message || e)); }
+      }
+      btns.classList.remove("busy");
+      renderMultiPhoto(prefix, key);
+      if(MPH[key].length){ clearErr(row.closest(".f")); clearErr(row.closest(".card")); }
+      if(step === 8) renderFinPhoto();
+      saveDraft();
+    });
+  });
+  const slot = document.querySelector('.sampleSlot[data-for="'+prefix+'"]');
+  if(slot){ slot.innerHTML = sampleFor(prefix); const b = slot.querySelector(".sampleBtn");
+    if(b) b.addEventListener("click", () => openLightbox(SAMPLE_IMG[b.dataset.sample])); }
+  renderMultiPhoto(prefix, key);
+}
 function wirePhoto(prefix, key){
   const btns = document.getElementById(prefix+"Btn");
   const slot = document.querySelector('.sampleSlot[data-for="'+prefix+'"]');
@@ -3077,6 +3142,7 @@ function wirePhoto(prefix, key){
   const thumb = document.getElementById(prefix+"Thumb");
   const img = document.getElementById(prefix+"Img");
   const del = document.getElementById(prefix+"Del");
+  if(MPH[key]){ wireMultiPhoto(prefix, key); return; }
   ["Cam","Pick","File"].forEach(kind => {
     const input = document.getElementById(prefix+kind);
     if(!input) return;
@@ -3090,6 +3156,7 @@ function wirePhoto(prefix, key){
         const data = await compressImage(f, 1000, 190000);   // 약 190KB 이하로 맞춘다
         PHOTO[key] = data;
         img.src = data; thumb.classList.remove("hidden");
+        clearErr(thumb.closest(".card"));
         if(step === 8) renderFinPhoto();
       }catch(e){ alert("사진을 불러오지 못했습니다: " + (e && e.message || e)); }
       btns.classList.remove("busy");
@@ -3244,6 +3311,7 @@ function validate(){
   if(step===1){
     const b=$("#birth"); /^\d{6}$/.test(b.value.trim()) ? setErr(b.closest(".f"),false) : fail(b.closest(".f"));
     needPick("gender",'[data-pick=gender]'); needPick("nation",'[data-pick=nation]');
+    { const ic = $("#idPhotoCard"); MPH.id.length ? setErr(ic,false) : fail(ic); }   // 신분증 사진 1장 이상 필수
     need("phone"); need("guardian"); need("address");
     const t=$("#trade"); const tf=t.closest(".f");
     let tradeOk = !!t.value;
@@ -3253,6 +3321,7 @@ function validate(){
   }
   if(step===2){
     needPick("basicEdu",'[data-pick=basicEdu]'); needPick("heatPrev",'[data-pick=heatPrev]');
+    if(pick.basicEdu === "O"){ const ef = $("#eduPhotoRow").closest(".f"); MPH.edu.length ? setErr(ef,false) : fail(ef); }   // 이수함 → 이수증 1장 이상
     if(!$("#cInterview").classList.contains("hidden")) needPick("interview",'[data-pick=interview]');
   }
   if(step===3){
@@ -3316,7 +3385,7 @@ function collectDraft(){
   DRAFT_FIELDS.forEach(id => { const el = document.getElementById(id); if(el) f[id] = el.value; });
   const sigs = {};
   Object.keys(PADS).forEach(k => { try{ if(PADS[k].inked) sigs[k] = PADS[k].data(); }catch(e){} });
-  return { v:2, at:Date.now(), step, lang:LANG, f, chk:{ gen:CHK.gen.slice(), pre:CHK.pre.slice() },
+  return { v:2, at:Date.now(), step, lang:LANG, f, chk:{ gen:CHK.gen.slice(), pre:CHK.pre.slice() }, mph:{ id:MPH.id.slice(), edu:MPH.edu.slice() },
            pick:Object.assign({},pick), multi:JSON.parse(JSON.stringify(multi)),
            photo:Object.assign({},PHOTO), sigs };
 }
@@ -3328,12 +3397,12 @@ function saveDraft(){
     try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); }
     catch(e){
       // 결과지 그림 때문에 넘치면 그림만 빼고 다시 저장한다
-      try{ const d = collectDraft(); delete d.chk; localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e2){}
+      try{ const d = collectDraft(); delete d.chk; delete d.mph; localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e2){}
     }
   }, 250);
 }
 function clearDraft(){ clearTimeout(draftTimer); try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }   // 예약된 저장도 함께 취소
-function saveDraftNow(){ clearTimeout(draftTimer); try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); }catch(e){ try{ const d = collectDraft(); delete d.chk; localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e2){} } }
+function saveDraftNow(){ clearTimeout(draftTimer); try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft())); }catch(e){ try{ const d = collectDraft(); delete d.chk; delete d.mph; localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e2){} } }
 function readDraft(){
   try{
     const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null");
@@ -3355,6 +3424,9 @@ function applyDraft(d){
   // 이걸 빼먹으면 숨겨야 할 필수 칸이 열린 채 남아 다음 단계로 못 넘어간다.
   Object.keys(pick).forEach(k => { try{ onPick(k, pick[k]); }catch(e){} });
   Object.keys(d.photo||{}).forEach(k => { PHOTO[k] = d.photo[k]; });
+  if(d.mph){ MPH.id = (d.mph.id||[]).filter(isPhotoData); MPH.edu = (d.mph.edu||[]).filter(isPhotoData); }
+  else { if(isPhotoData(PHOTO.id)) MPH.id = [PHOTO.id]; if(isPhotoData(PHOTO.edu)) MPH.edu = [PHOTO.edu]; }
+  try{ renderMultiPhoto("idPhoto","id"); renderMultiPhoto("eduPhoto","edu"); }catch(e){}
   if(d.chk){ CHK.gen = (d.chk.gen||[]).filter(isPhotoData); CHK.pre = (d.chk.pre||[]).filter(isPhotoData); try{ renderChk("gen"); renderChk("pre"); }catch(e){} }
   // 화면의 선택 버튼·사진 미리보기를 저장된 값에 맞춘다
   $$("[data-pick]").forEach(w => {
@@ -3365,7 +3437,7 @@ function applyDraft(d){
     const arr = multi[w.dataset.multi] || [];
     w.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", String(arr.includes(o.dataset.v))));
   });
-  [["idPhoto","id"],["eduPhoto","edu"],["bpPhoto","bp"]].forEach(([prefix,key]) => {
+  [["bpPhoto","bp"]].forEach(([prefix,key]) => {   // 신분증·이수증은 여러 장 목록으로 따로 그린다
     const t = document.getElementById(prefix+"Thumb"), im = document.getElementById(prefix+"Img");
     if(t && im && PHOTO[key]){ im.src = PHOTO[key]; t.classList.remove("hidden"); }
   });
@@ -3425,7 +3497,11 @@ function buildRecord(){
   };
   // 건강진단 결과지: 장 수만 기록에 남기고, 그림은 따로 저장한다 (JSON 에는 안 들어가게 숨김 속성)
   rec.chkGenPages = CHK.gen.length; rec.chkPrePages = CHK.pre.length;
-  Object.defineProperty(rec, "__chkData", { value:{ chkGen:CHK.gen.slice(), chkPre:CHK.pre.slice() }, enumerable:false, writable:true });
+  rec.idPhotoCount = MPH.id.length; rec.eduPhotoCount = pick.basicEdu === "O" ? MPH.edu.length : 0;
+  rec.idMorePages = Math.max(0, MPH.id.length - 1); rec.eduMorePages = Math.max(0, rec.eduPhotoCount - 1);
+  if(pick.basicEdu !== "O") rec.eduCertPhoto = "";
+  Object.defineProperty(rec, "__chkData", { value:{ chkGen:CHK.gen.slice(), chkPre:CHK.pre.slice(),
+    idMore:MPH.id.slice(1), eduMore: pick.basicEdu === "O" ? MPH.edu.slice(1) : [] }, enumerable:false, writable:true });
   return rec;
 }
 function flags(r){
@@ -6831,7 +6907,7 @@ function renderFinPhoto(){
   const miss = [
     { key:"id",  lab:"신분증",  prefix:"idPhoto" },
     { key:"edu", lab:"이수증",  prefix:"eduPhoto" },
-  ].filter(x => !PHOTO[x.key]);
+  ].filter(x => !PHOTO[x.key] && (x.key !== "edu" || pick.basicEdu === "O"));
   card.classList.toggle("hidden", !miss.length);
   if(!miss.length) return;
   row.innerHTML = miss.map(x =>
