@@ -33,6 +33,9 @@ try:
     # Absence of a matching event is deliberately not treated as a verified all-clear
     # until the live region code and API response format have been confirmed.
     result['status']='warning' if 'warning' in levels else 'advisory' if levels else 'unknown'
+except urllib.error.HTTPError as e:
+     print('HTTP status:', e.code)
+     print('HTTP reason:', e.reason)
 except Exception as e:
-    print('Weather lookup needs verification:',type(e).__name__)
+     print('Weather lookup needs verification:', type(e).__name__)
 Path('weather.json').write_text(json.dumps(result,ensure_ascii=False)+'\n',encoding='utf-8')
