@@ -4130,7 +4130,9 @@ $("#zoomFitBtn").addEventListener("click", () => setZoomMode(true));
 $("#zoomWideBtn").addEventListener("click", () => setZoomMode(false));
 window.addEventListener("resize", () => { if($("#sheetWrap").classList.contains("on")) fitSheetView(); });
 
-function switchSheetKind(kind){
+async function switchSheetKind(kind){
+  // 사진대지는 사진이 있어야 하므로, 아직 안 불러온 사진이 있으면 먼저 가져온다
+  if(kind === "photoboard" && current) await hydratePhotos(current);
   sheetKind = kind;
   $("#tabDocForm").setAttribute("aria-pressed", String(kind==="form"));
   $("#tabDocPhoto").setAttribute("aria-pressed", String(kind==="photoboard"));
@@ -6122,6 +6124,14 @@ function applyLiveSnapshot(arr){
   LIVE.on = true; LIVE.error = null;
   Store.source = "server"; Store.loadError = null;
   Store.remember(arr);
+  // 서버에서 새로 온 목록에는 사진 대신 "@photo" 표시만 있다.
+  // 이미 불러와 둔 사진은 새 목록의 같은 사람에게 옮겨 줘야 사진대지가 비지 않는다.
+  const oldById = {};
+  submissions.concat(current ? [current] : []).forEach(o => { if(o) oldById[docId(o)] = o; });
+  arr.forEach(n => {
+    const o = oldById[docId(n)]; if(!o || o === n) return;
+    PHOTO_KEYS.forEach(k => { if(n[k] === PHOTO_MARK && isPhotoData(o[k])) n[k] = o[k]; });
+  });
   submissions = arr;
 
   // 열어 놓고 보던 근로자가 있으면 새 목록의 같은 사람으로 다시 연결한다
@@ -6297,6 +6307,7 @@ async function quickExport(code, kind){
     wrap.classList.add("on");
   }
   try{
+    await hydratePhotos(rec);   // 표에서 바로 내보낼 때도 사진을 먼저 불러온다
     current = rec; sheetKind = kind;
     renderSheetDOM();
     fillActiveSheet(rec);
