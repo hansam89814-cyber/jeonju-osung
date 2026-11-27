@@ -4,9 +4,11 @@ from pathlib import Path
 now = datetime.now(timezone.utc).isoformat()
 result = {'status':'unknown','checkedAt':now,'source':'KMA','region':'전주'}
 try:
-    url='https://apihub.kma.go.kr/api/typ01/url/wrn_now_data_new.php?'+urllib.parse.urlencode({'fe':'e','tm':'','disp':'1','help':'0','authKey':os.environ['KMA_API_KEY']})
+    url='https://apihub.kma.go.kr/api/typ01/url/wrn_now_data.php?'+urllib.parse.urlencode({'fe':'e','tm':'','disp':'0','help':'1','authKey':os.environ['KMA_API_KEY']})
     with urllib.request.urlopen(url,timeout=25) as response:
-        data=json.load(response)
+         raw = response.read().decode('utf-8', errors='replace')
+         print('KMA response:', raw[:5000].replace(os.environ['KMA_API_KEY'], '[REDACTED]'))
+         data = json.loads(raw)
     # Accept only a recognizable list of warning records; unknown schemas fail closed.
     def records(x):
         if isinstance(x,list) and x and all(isinstance(r,dict) for r in x):
