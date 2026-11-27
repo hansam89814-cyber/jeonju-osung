@@ -1380,6 +1380,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
         <button class="opt" type="button" data-v="고관절" data-i18n="opt.s7">고관절</button><button class="opt" type="button" data-v="없음" data-i18n="opt.s8">없음</button></div></div></div>
 </section>
 
+<section class="step" data-step="10"><div class="lead"><h2 data-i18n="cold.title"></h2><p data-i18n="cold.sub"></p></div><div class="card"><div id="coldIdentity"></div><div class="note info"><b data-i18n="cold.weather"></b> : <span id="coldWeather"></span><br>전주시 완산구 삼천동 · 기상청</div></div><div class="card"><div class="f"><label><span data-i18n="cold.q1"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold1"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q2"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold2"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q3"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold3"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q4"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold4"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q5"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold5"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q6"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold6"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q7"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold7"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q8"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold8"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div><div class="f"><label><span data-i18n="cold.q9"></span><span class="req">*</span></label><div class="opts grid2" data-pick="cold9"><button type="button" class="opt neg" data-v="yes" data-i18n="cold.yes"></button><button type="button" class="opt" data-v="no" data-i18n="cold.no"></button></div><div class="err" data-i18n="err.pick"></div></div></div></section>
 <!-- 4 ─ 생활습관 -->
 <section class="step" data-step="4">
   <div class="lead"><h2 data-i18n="lead.4.h">생활습관</h2><p data-i18n="lead.4.p">건강관리 상담에만 사용합니다.</p></div>
@@ -1820,7 +1821,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
   </div>
   <div class="docTabs hidden" id="docTabs">
     <button type="button" id="tabDocForm" aria-pressed="true" style="white-space:nowrap">양식</button>
-    <button type="button" id="tabDocPhoto" aria-pressed="false" style="white-space:nowrap">사진대지</button>
+    <button type="button" id="tabDocPhoto" aria-pressed="false" style="white-space:nowrap">사진대지</button><button type="button" id="tabDocCold" class="hidden" aria-pressed="false">한랭 자가진단</button>
   </div>
   <div id="sheetScroll"><div id="sheetPage"></div></div>
   <div class="sheetPhotos hidden flagNote" id="sheetFlag"></div>
@@ -2448,7 +2449,9 @@ ru:{ "field.nameEn":"Имя латиницей (как в ID-карте инос
 const PH_I18N = {"nameEn": {"ko": "예) NGUYEN VAN AN", "vi": "VD: NGUYEN VAN AN", "zh": "例：ZHANG WEI", "th": "เช่น SOMCHAI JAIDEE", "ru": "Напр.: IVANOV IVAN"}, "visaEtc": {"ko": "예) G-1", "vi": "VD: G-1", "zh": "例：G-1", "th": "เช่น G-1", "ru": "Напр.: G-1"}, "company": {"ko": "회사명을 정확히 적어 주세요", "vi": "Nhập chính xác tên công ty", "zh": "请准确填写公司名称", "th": "กรอกชื่อบริษัทให้ถูกต้อง", "ru": "Точное название компании"}, "name": {"ko": "예) 홍길동", "vi": "VD: Nguyễn Văn A", "zh": "例：张伟", "th": "เช่น สมชาย ใจดี", "ru": "Напр.: Иванов Иван"}, "nationEtc": {"ko": "예) 우즈베키스탄", "vi": "VD: Uzbekistan", "zh": "例：乌兹别克斯坦", "th": "เช่น อุซเบกิสถาน", "ru": "Напр.: Узбекистан"}, "visa": {"ko": "예) E-9", "vi": "VD: E-9", "zh": "例：E-9", "th": "เช่น E-9", "ru": "Напр.: E-9"}, "address": {"ko": "예) 전주시 완산구 삼천동 123-4", "vi": "Địa chỉ đang ở tại Hàn Quốc", "zh": "在韩国的居住地址", "th": "ที่อยู่ปัจจุบันในเกาหลี", "ru": "Адрес проживания в Корее"}, "tradeEtc": {"ko": "예) 용접", "vi": "VD: Hàn", "zh": "例：焊接", "th": "เช่น งานเชื่อม", "ru": "Напр.: сварка"}, "eduOrg": {"ko": "예) 대한산업안전협회", "vi": "VD: tên trung tâm đào tạo", "zh": "例：培训机构名称", "th": "เช่น ชื่อสถาบันฝึกอบรม", "ru": "Напр.: название учебного центра"}, "prevSite": {"ko": "없으면 비워 두세요", "vi": "Để trống nếu không có", "zh": "没有请留空", "th": "ถ้าไม่มีให้เว้นว่าง", "ru": "Если нет — оставьте пустым"}, "prevWork": {"ko": "예) 철근 조립", "vi": "VD: Lắp cốt thép", "zh": "例：钢筋绑扎", "th": "เช่น ผูกเหล็กเสริม", "ru": "Напр.: вязка арматуры"}, "itvReason": {"ko": "예) 통역 담당자 ○○○ 배치 조건부 채용", "vi": "VD: Tuyển với điều kiện có phiên dịch", "zh": "例：安排翻译人员后录用", "th": "เช่น จ้างโดยมีล่ามประจำ", "ru": "Напр.: приём при наличии переводчика"}, "injuryPart": {"ko": "예) 허리", "vi": "VD: Lưng", "zh": "例：腰部", "th": "เช่น หลัง", "ru": "Напр.: поясница"}, "injuryCause": {"ko": "예) 자재 낙하", "vi": "VD: Vật liệu rơi", "zh": "例：材料坠落", "th": "เช่น วัสดุตกใส่", "ru": "Напр.: падение материала"}, "diseaseEtc": {"ko": "그 밖의 질병이 있으면 적어 주세요", "vi": "Ghi bệnh khác nếu có", "zh": "如有其他疾病请填写", "th": "หากมีโรคอื่นโปรดระบุ", "ru": "Другие заболевания, если есть"}, "drug": {"ko": "예) 혈압약 1일 1회", "vi": "VD: Thuốc huyết áp, 1 lần/ngày", "zh": "例：降压药 每日1次", "th": "เช่น ยาความดัน วันละ 1 ครั้ง", "ru": "Напр.: от давления, 1 раз в день"}, "etcName": {"ko": "예) 각반, 보안경", "vi": "VD: Xà cạp, kính bảo hộ", "zh": "例：绑腿、护目镜", "th": "เช่น สนับแข้ง แว่นตานิรภัย", "ru": "Напр.: гетры, защитные очки"}};
 const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào tạo · Kinh nghiệm", "Phỏng vấn sức khỏe", "Thói quen sinh hoạt", "Đo huyết áp", "Cam kết · Đồng ý", "Nhận đồ bảo hộ", "Kiểm tra cuối", "Hoàn tất"], "zh": ["开始", "个人信息", "培训·经历", "健康面谈", "生活习惯", "测量血压", "承诺·同意", "领取防护用品", "最终确认", "完成"], "th": ["เริ่มต้น", "ข้อมูลส่วนตัว", "การอบรม·ประสบการณ์", "สัมภาษณ์สุขภาพ", "พฤติกรรมสุขภาพ", "วัดความดัน", "คำมั่น·ยินยอม", "รับอุปกรณ์ป้องกัน", "ตรวจสอบครั้งสุดท้าย", "เสร็จสิ้น"], "ru": ["Начало", "Личные данные", "Обучение · опыт", "Беседа о здоровье", "Образ жизни", "Давление", "Обязательство · согласие", "Получение СИЗ", "Проверка", "Готово"]};
 const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
-function stepName(st){ const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
+const COLD_I18N = {"ko": {"cold.title": "작업 전 건강상태 자가진단(한랭)", "cold.sub": "모든 문항에 답변해 주세요. 이상이 있으면 작업 전 담당자에게 알리세요.", "cold.yes": "예", "cold.no": "아니오", "cold.date": "작성일자", "cold.weather": "기상특보", "cold.unknown": "조회 불가 · 담당자 확인 필요", "cold.none": "한파특보 미발효", "cold.advisory": "한파주의보", "cold.warning": "한파경보", "cold.loading": "조회 중", "cold.q1": "오늘 아침 체온이 평소보다 낮거나, 심한 오한을 느꼈다.", "cold.q2": "최근(지난 3일 이내) 감기, 독감, 발열 등 감염 증상이 있었다.", "cold.q3": "고혈압, 심장질환(협심증, 부정맥 등), 뇌혈관질환 등의 병력이 있다.", "cold.q4": "당뇨병, 갑상선 기능 저하, 레이노병(혈관 수축 질환) 등을 앓고 있다.", "cold.q5": "최근 수면 부족(6시간 이하) 또는 과도한 피로감을 느낀다.", "cold.q6": "작업 중 현기증, 실신, 극심한 손발 저림 또는 감각 이상을 경험한 적이 있다.", "cold.q7": "신규 배치자이거나, 올 겨울 첫 저온작업에 투입된다.", "cold.q8": "현재 복용 중인 약물이 체온조절에 영향을 줄 수 있다. (항고혈압제, 갑상선호르몬제 등).", "cold.q9": "과거에 저체온증, 동상 등 한랭질환을 경험한 적이 있다."}, "vi": {"cold.title": "Tự kiểm tra sức khỏe trước khi làm việc (trời lạnh)", "cold.sub": "Trả lời tất cả câu hỏi. Báo người phụ trách trước khi làm việc nếu có bất thường.", "cold.yes": "Có", "cold.no": "Không", "cold.date": "Ngày", "cold.weather": "Cảnh báo thời tiết", "cold.unknown": "Không tra cứu được · cần xác nhận", "cold.none": "Không có cảnh báo rét", "cold.advisory": "Cảnh báo rét mức chú ý", "cold.warning": "Cảnh báo rét nghiêm trọng", "cold.loading": "Đang tra cứu", "cold.q1": "Sáng nay thân nhiệt thấp hơn bình thường hoặc tôi bị ớn lạnh dữ dội.", "cold.q2": "Trong 3 ngày qua tôi có triệu chứng nhiễm bệnh như cảm lạnh, cúm hoặc sốt.", "cold.q3": "Tôi có tiền sử tăng huyết áp, bệnh tim (đau thắt ngực, rối loạn nhịp tim), bệnh mạch máu não.", "cold.q4": "Tôi mắc bệnh tiểu đường, suy giáp hoặc bệnh Raynaud (co thắt mạch máu).", "cold.q5": "Gần đây tôi thiếu ngủ (6 giờ trở xuống) hoặc cảm thấy quá mệt mỏi.", "cold.q6": "Tôi từng bị chóng mặt, ngất, tê tay chân nghiêm trọng hoặc rối loạn cảm giác khi làm việc.", "cold.q7": "Tôi mới được bố trí công việc hoặc lần đầu làm việc trong môi trường lạnh mùa đông này.", "cold.q8": "Thuốc tôi đang dùng có thể ảnh hưởng đến điều hòa thân nhiệt (thuốc hạ huyết áp, hormone tuyến giáp, v.v.).", "cold.q9": "Tôi từng mắc bệnh do lạnh như hạ thân nhiệt hoặc tê cóng."}, "zh": {"cold.title": "作业前健康自查（寒冷）", "cold.sub": "请回答所有问题。如有异常，作业前告知负责人。", "cold.yes": "是", "cold.no": "否", "cold.date": "填写日期", "cold.weather": "气象警报", "cold.unknown": "查询失败 · 需负责人确认", "cold.none": "无生效寒潮警报", "cold.advisory": "寒潮注意报", "cold.warning": "寒潮警报", "cold.loading": "查询中", "cold.q1": "今天早晨体温低于平时，或感到严重寒战。", "cold.q2": "最近（过去3天内）出现过感冒、流感、发热等感染症状。", "cold.q3": "有高血压、心脏病（心绞痛、心律失常等）、脑血管疾病等病史。", "cold.q4": "患有糖尿病、甲状腺功能减退、雷诺病（血管收缩性疾病）等。", "cold.q5": "近期睡眠不足（6小时及以下）或感到过度疲劳。", "cold.q6": "工作中曾出现眩晕、昏厥、手脚严重麻木或感觉异常。", "cold.q7": "属于新安排上岗人员，或今年冬季首次从事低温作业。", "cold.q8": "目前服用的药物可能影响体温调节（降压药、甲状腺激素药物等）。", "cold.q9": "过去曾发生低体温症、冻伤等寒冷相关疾病。"}, "th": {"cold.title": "การประเมินสุขภาพตนเองก่อนทำงาน (อากาศหนาว)", "cold.sub": "ตอบทุกข้อ หากมีอาการผิดปกติให้แจ้งผู้รับผิดชอบก่อนทำงาน", "cold.yes": "ใช่", "cold.no": "ไม่ใช่", "cold.date": "วันที่", "cold.weather": "ประกาศเตือนสภาพอากาศ", "cold.unknown": "ตรวจสอบไม่ได้ · ให้ผู้รับผิดชอบตรวจสอบ", "cold.none": "ไม่มีประกาศเตือนคลื่นความหนาว", "cold.advisory": "ประกาศเฝ้าระวังคลื่นความหนาว", "cold.warning": "ประกาศเตือนคลื่นความหนาวรุนแรง", "cold.loading": "กำลังตรวจสอบ", "cold.q1": "เช้าวันนี้อุณหภูมิร่างกายต่ำกว่าปกติหรือรู้สึกหนาวสั่นอย่างรุนแรง", "cold.q2": "ในช่วง 3 วันที่ผ่านมามีอาการติดเชื้อ เช่น หวัด ไข้หวัดใหญ่ หรือมีไข้", "cold.q3": "มีประวัติความดันโลหิตสูง โรคหัวใจ (เจ็บหน้าอกจากหัวใจขาดเลือด หัวใจเต้นผิดจังหวะ) หรือโรคหลอดเลือดสมอง", "cold.q4": "เป็นโรคเบาหวาน ภาวะไทรอยด์ทำงานต่ำ หรือโรคเรย์โนด์ (โรคหลอดเลือดหดตัว)", "cold.q5": "ช่วงนี้นอนหลับไม่เพียงพอ (ไม่เกิน 6 ชั่วโมง) หรือรู้สึกอ่อนเพลียมาก", "cold.q6": "เคยเวียนศีรษะ เป็นลม ชามือเท้าอย่างรุนแรง หรือมีความรู้สึกผิดปกติขณะทำงาน", "cold.q7": "เพิ่งได้รับมอบหมายงานใหม่ หรือเริ่มทำงานในที่หนาวเย็นครั้งแรกในฤดูหนาวนี้", "cold.q8": "ยาที่ใช้อยู่ในปัจจุบันอาจส่งผลต่อการควบคุมอุณหภูมิร่างกาย (ยาลดความดันโลหิต ฮอร์โมนไทรอยด์ เป็นต้น)", "cold.q9": "เคยมีภาวะตัวเย็นเกินหรือเนื้อเยื่อถูกความเย็นจัดทำลาย หรือโรคจากความหนาวอื่น ๆ"}, "ru": {"cold.title": "Самопроверка здоровья перед работой (холод)", "cold.sub": "Ответьте на все вопросы. При отклонениях сообщите ответственному до начала работы.", "cold.yes": "Да", "cold.no": "Нет", "cold.date": "Дата", "cold.weather": "Метеопредупреждение", "cold.unknown": "Нет данных · требуется проверка", "cold.none": "Предупреждение о холоде не действует", "cold.advisory": "Предупреждение о похолодании", "cold.warning": "Предупреждение о сильном похолодании", "cold.loading": "Загрузка", "cold.q1": "Сегодня утром температура тела была ниже обычной или был сильный озноб.", "cold.q2": "За последние 3 дня были симптомы инфекции: простуда, грипп, повышенная температура и т. п.", "cold.q3": "В анамнезе есть гипертония, болезни сердца (стенокардия, аритмия и др.) или цереброваскулярные заболевания.", "cold.q4": "Имеются диабет, гипотиреоз, болезнь Рейно (сужение сосудов) и т. п.", "cold.q5": "В последнее время недосыпаю (6 часов или меньше) или чувствую чрезмерную усталость.", "cold.q6": "Во время работы ранее возникали головокружение, обморок, сильное онемение рук или ног либо нарушения чувствительности.", "cold.q7": "Я недавно назначен на работу или впервые этой зимой приступаю к работе на холоде.", "cold.q8": "Принимаемые сейчас лекарства могут влиять на терморегуляцию (гипотензивные препараты, гормоны щитовидной железы и др.).", "cold.q9": "Ранее были заболевания, связанные с холодом, например переохлаждение или обморожение."}};
+Object.keys(COLD_I18N).forEach(l=>Object.assign(I18N[l],COLD_I18N[l]));
+function stepName(st){ if(st===10) return I18N[LANG]["cold.title"]; const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
 let LANG = "ko";
 function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -2783,7 +2786,20 @@ const STEP_NAME = ["시작","인적사항","교육·경력","보건면담","생�
    근로자는 집에서 혈압계가 없으므로 이 단계를 아예 건너뛴다.
    (현장에서 근로자가 직접 넣게 하려면 아래를 false 로 바꾸면 된다) */
 const BP_AT_SITE = true;
+const coldDate = () => new Intl.DateTimeFormat("sv-SE",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const coldActive = () => coldDate() <= "2027-03-15";
 const FLOW = BP_AT_SITE ? [0,1,2,3,4,6,7,8,9] : [0,1,2,3,4,5,6,7,8,9];
+if(coldActive()) FLOW.splice(4,0,10);
+let coldWeather = {status:"unknown",checkedAt:""};
+const coldAnswers = () => Array.from({length:9},(_,i)=>pick["cold"+(i+1)]||"");
+const coldFlag = r => !!(r.cold && Array.isArray(r.cold.answers) && r.cold.answers.includes("yes"));
+function coldText(k){return I18N[LANG]["cold."+k]||I18N.ko["cold."+k];}
+function coldDisplay(){ const el=$("#coldWeather"); if(el) el.textContent=coldText(coldWeather.status); }
+async function refreshCold(){
+  $("#coldIdentity").textContent = coldText("date")+": "+coldDate()+" · "+[val("name"),val("birth"),val("company"),val("trade")==="기타"?val("tradeEtc"):val("trade"),pick.hasDisease==="유"?[...(multi.diseaseTags||[]),val("diseaseEtc")].filter(Boolean).join(", "):coldText("no")].join(" · ");
+  coldWeather={status:"loading",checkedAt:""}; coldDisplay();
+  try {const res=await fetch("https://raw.githubusercontent.com/hansam89814-cyber/jeonju-osung/main/weather.json?t="+Date.now(),{cache:"no-store",signal:AbortSignal.timeout(8000)}); if(!res.ok) throw Error(); const w=await res.json(); const age=Date.now()-Date.parse(w.checkedAt); if(!["none","advisory","warning"].includes(w.status)||!Number.isFinite(age)||age< -60000||age> 45*60000) throw Error(); coldWeather={status:w.status,checkedAt:w.checkedAt}; } catch(e){coldWeather={status:"unknown",checkedAt:""};} coldDisplay();
+}
 const flowIdx  = st => Math.max(0, FLOW.indexOf(st));
 const nextStep = st => FLOW[Math.min(FLOW.length-1, flowIdx(st)+1)];
 const prevStep = st => FLOW[Math.max(0, flowIdx(st)-1)];
@@ -2802,7 +2818,7 @@ function paintNextLabel(){
 function paint(){
   $("main").style.display = "";
   document.body.classList.remove("admmode");
-  if(step > 0 && step < 9) saveDraft();
+  if(step > 0 && step !== 9) saveDraft();
   const fi = flowIdx(step);
   $$("#prog i").forEach((el,i)=>{ el.className = i===fi ? "on" : (i<fi ? "done" : ""); });
   $("#hStep").textContent = (fi+1)+" / "+FLOW.length;
@@ -2822,6 +2838,7 @@ function paint(){
   if(step===6) PADS.padSign.fit();
   if(step===7) syncPpeSigns();
   if(step===8) renderReview();
+  if(step===10) refreshCold();
   window.scrollTo({top:0,behavior:"instant"});
 }
 
@@ -3484,6 +3501,7 @@ function validate(){
   const need = id => { const el=$("#"+id), f=el.closest(".f"); el.value.trim() ? setErr(f,false) : fail(f); };
   const needPick = (k,sel) => { const f=$(sel).closest(".f"); pick[k] ? setErr(f,false) : fail(f); };
 
+  if(step===10){ for(let i=1;i<=9;i++) needPick("cold"+i,'[data-pick=cold'+i+']'); }
   if(step===0){ need("company"); need("name"); }
   if(step===1){
     const b=$("#birth"); /^\d{6}$/.test(b.value.trim()) ? setErr(b.closest(".f"),false) : fail(b.closest(".f"));
@@ -3599,7 +3617,7 @@ function applyDraft(d){
     const el = document.getElementById(id);
     if(el && d.f[id] != null && d.f[id] !== ""){ el.value = d.f[id]; el.dispatchEvent(new Event("change",{bubbles:true})); }
   });
-  Object.keys(d.pick||{}).forEach(k => { pick[k] = d.pick[k]; });
+  Object.keys(d.pick||{}).forEach(k => { if(!k.startsWith("cold")) pick[k] = d.pick[k]; });
   Object.keys(d.multi||{}).forEach(k => { multi[k] = d.multi[k]; });
   // 선택값에 따라 열리고 닫히는 칸(외국인 면담, 지병 상세 등)을 다시 맞춘다.
   // 이걸 빼먹으면 숨겨야 할 필수 칸이 열린 채 남아 다음 단계로 못 넘어간다.
@@ -3683,6 +3701,7 @@ function buildRecord(){
          sigHelmet:PADS.sHelmetPad.data(), sigShoes:PADS.sShoesPad.data(), sigBelt:PADS.sBeltPad.data(), sigEtc:PADS.sEtcPad.data()}
   };
   // 건강진단 결과지: 장 수만 기록에 남기고, 그림은 따로 저장한다 (JSON 에는 안 들어가게 숨김 속성)
+  if(coldActive() && coldAnswers().every(Boolean)) rec.cold={date:coldDate(),answers:coldAnswers(),weather:["none","advisory","warning"].includes(coldWeather.status)&&Date.now()-Date.parse(coldWeather.checkedAt)<=45*60000?coldWeather.status:"unknown",checkedAt:coldWeather.checkedAt||"",version:"attachment4-v1"};
   rec.chkGenPages = CHK.gen.length; rec.chkPrePages = CHK.pre.length;
   rec.idPhotoCount = MPH.id.length; rec.eduPhotoCount = pick.basicEdu === "O" ? MPH.edu.length : 0;
   rec.idMorePages = Math.max(0, MPH.id.length - 1); rec.eduMorePages = Math.max(0, rec.eduPhotoCount - 1);
@@ -3693,6 +3712,7 @@ function buildRecord(){
 }
 function flags(r){
   const o = [];
+  if(coldFlag(r)) o.push("⚠ 한랭 자가진단 — 담당자 확인 필요");
   if(r.basicEdu==="X") o.push("기초안전보건교육 미이수 — 출입 제한 확인");
   if(["고혈압","위기"].indexOf((r.bp||{}).level) >= 0) o.push("혈압 "+r.bp.level+" ("+(r.bp.sys2||r.bp.sys1)+"/"+(r.bp.dia2||r.bp.dia1)+") — 보건관리자 상담 후 배치");
   if(r.hasDisease==="유") o.push("지병 보유 — 작업 배치 검토");
@@ -3790,6 +3810,7 @@ $("#btnPrev").addEventListener("click", () => { if(step>0){ step = prevStep(step
 $("#btnNext").addEventListener("click", async () => {
   if(!validate()) return;
   if(step===8){
+    if(coldActive() && coldAnswers().some(a=>!a)){step=10;paint();return;}
     const btn = $("#btnNext");
     btn.disabled = true; const oldTxt = btn.textContent; btn.textContent = "저장 중…";
     try{ saveDraftNow(); }catch(e){}       // 전송 중 앱이 꺼져도 적은 내용은 남는다
@@ -4071,15 +4092,17 @@ function fillPhotoBoard(r){
 
 let sheetKind = "form"; // "form" | "photoboard"
 function activeSheetTemplate(){
+  if(sheetKind === "cold") return {totalPx:740};
   if(sheetKind === "photoboard") return PHOTO_BOARD_TEMPLATE;
   // 사용자가 직접 올린 커스텀 양식이 적용된 경우엔 그것을 그대로 쓴다
   if(!ACTIVE_TEMPLATE.isDefault) return ACTIVE_TEMPLATE;
   // 기본 양식이면 취약근로자 여부에 따라 전용 파일을 고른다
   return isRisk(current) ? RISK_TEMPLATE : DEFAULT_TEMPLATE;
 }
-function fillActiveSheet(r){ sheetKind === "photoboard" ? fillPhotoBoard(r) : fillSheet(r); }
+function fillActiveSheet(r){ if(sheetKind==="cold") return fillColdSheet(r); sheetKind === "photoboard" ? fillPhotoBoard(r) : fillSheet(r); }
 
 function renderSheetDOM(){
+  if(sheetKind==="cold"){ $("#sheetPage").style.width="740px"; return; }
   const tpl = activeSheetTemplate();
   const page = $("#sheetPage");
   page.style.width = tpl.totalPx + "px";
@@ -4130,7 +4153,25 @@ $("#zoomFitBtn").addEventListener("click", () => setZoomMode(true));
 $("#zoomWideBtn").addEventListener("click", () => setZoomMode(false));
 window.addEventListener("resize", () => { if($("#sheetWrap").classList.contains("on")) fitSheetView(); });
 
+const COLD_DRAFT_KO = {"cold.title": "작업 전 건강상태 자가진단(한랭)", "cold.sub": "모든 문항에 답변해 주세요. 이상이 있으면 작업 전 담당자에게 알리세요.", "cold.yes": "예", "cold.no": "아니오", "cold.date": "작성일자", "cold.weather": "기상특보", "cold.unknown": "조회 불가 · 담당자 확인 필요", "cold.none": "한파특보 미발효", "cold.advisory": "한파주의보", "cold.warning": "한파경보", "cold.loading": "조회 중", "cold.q1": "현재 심한 떨림이나 오한이 있습니까?", "cold.q2": "손발이 저리거나 감각이 둔합니까?", "cold.q3": "손발 또는 피부가 창백하거나 통증이 있습니까?", "cold.q4": "어지러움이나 두통이 있습니까?", "cold.q5": "심한 피로 또는 졸음이 있습니까?", "cold.q6": "가슴 통증이나 답답함이 있습니까?", "cold.q7": "숨쉬기 어렵습니까?", "cold.q8": "몸의 균형을 잡거나 움직이기 어렵습니까?", "cold.q9": "오늘 몸 상태가 좋지 않아 작업이 어렵다고 느낍니까?"};
+function fillColdDraftSheet(r){
+ if(!r || !r.cold || !isGC()) return;
+ const c=r.cold, qs=COLD_DRAFT_KO; const row=(a,b)=>'<tr><td style="border:1px solid;padding:12px">'+esc(a)+'</td><td colspan="2" style="border:1px solid;padding:12px">'+esc(b)+'</td></tr>';
+ $("#sheetPage").innerHTML='<div style="padding:30px;font-family:var(--form);color:#000"><h2 style="text-align:center">작업 전 건강상태 자가진단(한랭)</h2><p>임시 양식 · 첨부4 대조 필요</p><table style="width:100%;border-collapse:collapse;font-size:16px">'+row("작성일자",c.date)+row("성명 / 생년월일",r.name+" / "+r.birth)+row("소속 / 공종",r.company+" / "+r.trade)+row("개인지병",r.hasDisease==="유"?(r.diseases||[]).join(", ")||"유":"무")+row("기상특보",qs["cold."+c.weather]||qs["cold.unknown"])+ '<tr><th style="border:1px solid;padding:10px">문항</th><th style="border:1px solid;width:55px">예</th><th style="border:1px solid;width:55px">아니오</th></tr>'+c.answers.map((a,i)=>'<tr><td style="border:1px solid;padding:12px">'+esc((i+1)+". "+qs["cold.q"+(i+1)])+'</td><td style="border:1px solid;text-align:center">'+(a==="yes"?"✓":"")+'</td><td style="border:1px solid;text-align:center">'+(a==="no"?"✓":"")+'</td></tr>').join("")+'</table><p>'+ (coldFlag(r)?"⚠ 담당자 확인 필요":"자가진단 응답 이상 없음")+'</p></div>';
+}
+function fillColdSheet(r){
+ if(!r || !r.cold || !isGC()) return;
+ if(r.cold.version!=="attachment4-v1") return fillColdDraftSheet(r);
+ const c=r.cold, qs=COLD_I18N.ko;
+ const fields=[["이름",r.name],["생년월일",String(r.birth||"").replace(/^(\d{2})(\d{2})(\d{2})$/,"$1.$2.$3")],["개인지병",r.hasDisease==="유"?(r.diseases||[]).join(", ")||"유":r.hasDisease||""],["소속",r.company],["공종",r.trade]];
+ const cell='border:1px solid #888;padding:8px;';
+ const weather=[["none","특이사항 없음"],["advisory","한파주의보"],["warning","한파경보"],["unknown","기타(조회 불가 · 확인 필요)"]].map(([k,v])=>'<div style="margin:8px 0">'+(c.weather===k?'☑':'□')+' '+v+'</div>').join('');
+ const rows=fields.map(([k,v],i)=>'<tr style="height:42px">'+(i===0?'<td rowspan="5" style="'+cell+'background:#eeece1;text-align:center;font-weight:700">인적<br>사항</td>':'')+'<td style="'+cell+'background:#f0f0f0;text-align:center;font-weight:700">'+k+'</td><td style="'+cell+'overflow-wrap:anywhere">'+esc(v)+'</td>'+(i===0?'<td rowspan="5" style="'+cell+'background:#eeece1;text-align:center;font-weight:700">기상<br>특보</td><td rowspan="5" colspan="2" style="'+cell+'font-size:14px">'+weather+'</td>':'')+'</tr>').join('');
+ $("#sheetPage").innerHTML='<div style="box-sizing:border-box;width:740px;min-height:990px;padding:0 32px 12px;background:white;color:#000;font-family:var(--form)"><div style="background:#f0f0f0;margin:0 -32px 22px;padding:8px 18px 30px;border-bottom:1px solid #aaa"><div style="text-align:right;font-size:12px">'+esc(c.date)+'</div><h2 style="text-align:center;font-size:25px;margin:22px 0 8px">첨부4. 작업 전 건강상태 자가진단표</h2></div><table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px"><colgroup><col style="width:12.4%"><col style="width:20.5%"><col style="width:28.5%"><col style="width:12.4%"><col style="width:13.1%"><col style="width:13.1%"></colgroup>'+rows+'<tr style="height:64px"><td colspan="4" style="'+cell+'text-align:center;font-size:18px">점검 항목</td><td style="'+cell+'text-align:center">예<br>(✓)</td><td style="'+cell+'text-align:center">아니오<br>(✓)</td></tr>'+Array.from({length:9},(_,i)=>'<tr style="height:63px"><td colspan="4" style="'+cell+'line-height:1.6;word-break:keep-all">'+esc(qs["cold.q"+(i+1)])+'</td><td style="'+cell+'text-align:center;font-size:25px">'+(c.answers[i]==="yes"?"✓":"")+'</td><td style="'+cell+'text-align:center;font-size:25px">'+(c.answers[i]==="no"?"✓":"")+'</td></tr>').join('')+'</table></div>';
+}
 async function switchSheetKind(kind){
+  if(kind==="cold" && (!current?.cold || !isGC())) return;
+  $("#tabDocCold").setAttribute("aria-pressed",String(kind==="cold"));
   // 사진대지는 사진이 있어야 하므로, 아직 안 불러온 사진이 있으면 먼저 가져온다
   if(kind === "photoboard" && current) await hydratePhotos(current);
   sheetKind = kind;
@@ -4138,10 +4179,11 @@ async function switchSheetKind(kind){
   $("#tabDocPhoto").setAttribute("aria-pressed", String(kind==="photoboard"));
   renderSheetDOM();
   fillActiveSheet(current);
-  $("#sheetTitleText").textContent = (current ? current.name+" · " : "") + (kind==="photoboard" ? "사진대지" : "신규채용자준수사항");
+  $("#sheetTitleText").textContent = (current ? current.name+" · " : "") + (kind==="cold" ? "한랭 자가진단" : kind==="photoboard" ? "사진대지" : "신규채용자준수사항");
   $("#sheetRisk").classList.toggle("hidden", kind==="photoboard");
   fitSheetView();
 }
+$("#tabDocCold").addEventListener("click",()=>switchSheetKind("cold"));
 $("#tabDocForm").addEventListener("click", () => switchSheetKind("form"));
 $("#tabDocPhoto").addEventListener("click", () => switchSheetKind("photoboard"));
 /* ── 취약 근로자 판정 패널 ────────────────────────────────────
@@ -4222,6 +4264,7 @@ async function setRisk(r, override){
 async function openSheetFor(r, title){
   await hydratePhotos(r);
   current = r;
+  $("#tabDocCold").classList.toggle("hidden",!r.cold || !isGC()); $("#tabDocCold").setAttribute("aria-pressed","false");
   sheetKind = "form";
   zoomFit = true;
   $("#zoomFitBtn").setAttribute("aria-pressed","true");
@@ -4685,6 +4728,7 @@ function renderFind(){
 
   // 현황 요약 (업체 필터가 걸려 있으면 그 업체 기준)
   const base = findCo ? pool.filter(r => r.company === findCo) : pool;
+  const nCold = base.filter(coldFlag).length;
   const nNoBp   = base.filter(r => !bpDone(r)).length;
   const nMiss   = base.filter(r => missingItems(r).length).length;
   const nRisk   = base.filter(r => isRisk(r)).length;
@@ -4695,6 +4739,7 @@ function renderFind(){
     + (findOnly===key) + '"><b>'+num+'</b><u>'+label+'</u></button>';
   $("#statRow").innerHTML =
       stat("", base.length, "전체", false)
+    + (isGC() ? stat("cold", nCold, "한랭 확인", nCold>0) : "")
     + stat("bp", nNoBp, "혈압 미측정", nNoBp>0)
     + stat("miss", nMiss, "서류 미비", nMiss>0)
     + stat("risk", nRisk, "취약 검토", nRisk>0)
@@ -4708,6 +4753,7 @@ function renderFind(){
   const q = findQ.trim().toLowerCase();
   let list = pool.slice();
   if(findCo) list = list.filter(r => r.company === findCo);
+  if(findOnly === "cold" && isGC()) list = list.filter(coldFlag);
   if(findOnly === "bp")   list = list.filter(r => !bpDone(r));
   if(findOnly === "miss") list = list.filter(r => missingItems(r).length);
   if(findOnly === "risk") list = list.filter(r => isRisk(r));
@@ -4744,6 +4790,7 @@ function renderFind(){
                         : '<span class="okline">준비 완료</span>')
     + '</span>'
     + '<span class="flags">'
+    + (isGC() && coldFlag(r) ? '<span class="fl warn">⚠ 한랭 확인</span>' : "")
     +   (dup[dupKey(r)] > 1 ? '<span class="fl warn">중복 의심</span>' : '')
     +   (r.flag && r.flag.type === "company" ? '<span class="fl warn">소속 확인 요청</span>' : '')
     +   (r.prevCode ? '<span class="fl">재제출</span>' : '')
@@ -5250,7 +5297,7 @@ async function copySheetImage(r){
       const blob = await (captureSheet().then(cv => new Promise(res => cv.toBlob(res, "image/png"))));
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      const kind = sheetKind === "photoboard" ? "사진대지" : "준수사항";
+      const kind = sheetKind === "cold" ? "한랭자가진단" : sheetKind === "photoboard" ? "사진대지" : "준수사항";
       a.download = safeName(r.name) + "_" + kind + "_" + safeName(r.code) + ".png";
       document.body.appendChild(a); a.click(); a.remove();
       setBusy(false);
@@ -5311,7 +5358,7 @@ async function exportSheetToPdf(r){
     pdf.addImage(canvas.toDataURL("image/jpeg", 0.94), "JPEG",
       (PW - iw)/2, (PH - ih)/2, iw, ih);
 
-    const kind = sheetKind === "photoboard" ? "사진대지" : "준수사항";
+    const kind = sheetKind === "cold" ? "한랭자가진단" : sheetKind === "photoboard" ? "사진대지" : "준수사항";
     pdf.save(safeName(r.name)+"_"+kind+"_"+safeName(r.code)+".pdf");
   }catch(e){
     console.error(e);
@@ -7022,7 +7069,7 @@ function kioskArm(){
   if(!isKiosk()) return;
   // 10분 동안 아무도 안 만지면 쓰다 만 서류를 지우고 처음으로
   const reset = () => { clearTimeout(__idleT); __idleT = setTimeout(() => {
-    if(step > 0 && step < 9 && !document.body.classList.contains("admmode")){ kioskWipe(); location.reload(); }
+    if(step > 0 && step !== 9 && !document.body.classList.contains("admmode")){ kioskWipe(); location.reload(); }
   }, 10 * 60 * 1000); };
   ["click","keydown","touchstart","pointerdown","input"].forEach(ev => document.addEventListener(ev, reset, { passive:true }));
   reset();
@@ -7068,12 +7115,12 @@ function showStartNotices(){
 }
 /* 단계를 넘길 때만 저장하면, 지금 화면에 방금 친 내용은 빠진다.
    입력·선택이 일어날 때마다 (0.25초 묶어서) 저장한다. */
-document.querySelector("main").addEventListener("input", () => { if(step>0 && step<9) saveDraft(); });
+document.querySelector("main").addEventListener("input", () => { if(step>0 && step!==9) saveDraft(); });
 document.querySelector("main").addEventListener("click", e => {
-  if(e.target.closest(".opt,.photoBtn,[data-clear]") && step>0 && step<9) setTimeout(saveDraft, 60);
+  if(e.target.closest(".opt,.photoBtn,[data-clear]") && step>0 && step!==9) setTimeout(saveDraft, 60);
 });
 document.querySelector("main").addEventListener("pointerup", e => {
-  if(e.target.tagName === "CANVAS" && step>0 && step<9) setTimeout(saveDraft, 60);
+  if(e.target.tagName === "CANVAS" && step>0 && step!==9) setTimeout(saveDraft, 60);
 });
 
 $("#resumeGo").addEventListener("click", () => { const d = readDraft(); if(d) applyDraft(d); });
