@@ -1395,9 +1395,23 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
             <button class="opt" type="button" data-v="연초" data-i18n="opt.st1">연초 (일반담배)</button><button class="opt" type="button" data-v="궐련형" data-i18n="opt.st2">궐련형 전자담배</button>
             <button class="opt" type="button" data-v="액상형" data-i18n="opt.st3">액상형 전자담배</button></div>
           <div class="err" data-i18n="err.smokeType">흡연 종류를 골라 주세요.</div></div>
-        <div class="row">
+        <div class="row hidden" id="smokePast">
         <div class="unit"><input type="number" id="smokeY" inputmode="numeric" min="0" placeholder="0"><b data-i18n="unit.yearsSuffix">년간</b></div>
-        <div class="unit"><input type="number" id="smokeD" inputmode="numeric" min="0" placeholder="0"><b data-i18n="unit.cigDay">개비/일</b></div></div></div>
+        <div class="unit"><input type="number" id="smokeD" inputmode="numeric" min="0" placeholder="0"><b data-i18n="unit.cigDay">개비/일</b></div></div>
+        <div id="smokeDetailsFields">
+          <div class="f hidden" id="smoke_cigarette" style="margin:12px 0 0"><label><span data-i18n="opt.st1">연초 (일반담배)</span> <span class="req">*</span></label>
+            <div class="row"><div class="unit"><input type="number" id="smoke_cigarette_y" min="0" step="0.1" inputmode="decimal" placeholder="0" aria-label="흡연 기간"><b data-i18n="unit.yearsSuffix">년간</b></div>
+            <div class="unit"><input type="number" id="smoke_cigarette_d" min="0" step="1" inputmode="numeric" placeholder="0" aria-label="하루 사용량"><b data-i18n="unit.cigDay">개비/일</b></div></div>
+            <div class="err" data-i18n="err.smokeDetails">기간과 하루 사용량을 입력해 주세요.</div></div>
+          <div class="f hidden" id="smoke_heated" style="margin:12px 0 0"><label><span data-i18n="opt.st2">궐련형 전자담배</span> <span class="req">*</span></label>
+            <div class="row"><div class="unit"><input type="number" id="smoke_heated_y" min="0" step="0.1" inputmode="decimal" placeholder="0" aria-label="흡연 기간"><b data-i18n="unit.yearsSuffix">년간</b></div>
+            <div class="unit"><input type="number" id="smoke_heated_d" min="0" step="1" inputmode="numeric" placeholder="0" aria-label="하루 사용량"><b data-i18n="unit.cigDay">개비/일</b></div></div>
+            <div class="err" data-i18n="err.smokeDetails">기간과 하루 사용량을 입력해 주세요.</div></div>
+          <div class="f hidden" id="smoke_liquid" style="margin:12px 0 0"><label><span data-i18n="opt.st3">액상형 전자담배</span> <span class="req">*</span></label>
+            <div class="row"><div class="unit"><input type="number" id="smoke_liquid_y" min="0" step="0.1" inputmode="decimal" placeholder="0" aria-label="흡연 기간"><b data-i18n="unit.yearsSuffix">년간</b></div>
+            <div class="unit"><input type="number" id="smoke_liquid_d" min="0" step="0.1" inputmode="decimal" placeholder="0" aria-label="하루 사용량"><b data-i18n="unit.mlDay">mL/일</b></div></div>
+            <div class="err" data-i18n="err.smokeDetails">기간과 하루 사용량을 입력해 주세요.</div></div>
+        </div></div>
       <div class="err" data-i18n="err.pick">선택해 주세요.</div></div></div>
   <div class="card"><h3 data-i18n="card.drink">음주</h3>
     <div class="f"><label data-i18n="field.drinkDays">1주일에 며칠 마십니까? <span class="req">*</span></label>
@@ -1446,6 +1460,7 @@ header{background:#fff;color:var(--ink);border-bottom:1px solid var(--line-2)}
       <div><label data-i18n="field.sys">수축기</label><input type="number" id="sys2" inputmode="numeric" placeholder="—"></div>
       <div class="sep">/</div>
       <div><label data-i18n="field.dia">이완기</label><input type="number" id="dia2" inputmode="numeric" placeholder="—"></div></div>
+    <div class="f" style="margin:14px 0 0"><label data-i18n="field.pulse">맥박</label><div class="unit"><input type="number" id="pulse2" inputmode="numeric" min="20" max="220" placeholder="72"><b data-i18n="unit.bpm">회/분</b></div></div>
     <div class="verdict" id="v2"></div></div>
   <div class="card"><h3 data-i18n="card.bpBy">측정 확인</h3>
     <div class="f" style="margin:0"><label data-i18n="field.bpBy">측정 방식 <span class="req">*</span></label>
@@ -2451,6 +2466,8 @@ const STEP_NAME_I18N = {"vi": ["Bắt đầu", "Thông tin cá nhân", "Đào t�
 const BTN_I18N = {"vi": ["Kiểm tra", "Lưu"], "zh": ["确认", "保存"], "th": ["ตรวจสอบ", "บันทึก"], "ru": ["Проверить", "Сохранить"]};
 const COLD_I18N = {"ko": {"cold.title": "작업 전 건강상태 자가진단(한랭)", "cold.sub": "모든 문항에 답변해 주세요. 이상이 있으면 작업 전 담당자에게 알리세요.", "cold.yes": "예", "cold.no": "아니오", "cold.date": "작성일자", "cold.weather": "기상특보", "cold.unknown": "조회 불가 · 담당자 확인 필요", "cold.none": "한파특보 미발효", "cold.advisory": "한파주의보", "cold.warning": "한파경보", "cold.loading": "조회 중", "cold.q1": "오늘 아침 체온이 평소보다 낮거나, 심한 오한을 느꼈다.", "cold.q2": "최근(지난 3일 이내) 감기, 독감, 발열 등 감염 증상이 있었다.", "cold.q3": "고혈압, 심장질환(협심증, 부정맥 등), 뇌혈관질환 등의 병력이 있다.", "cold.q4": "당뇨병, 갑상선 기능 저하, 레이노병(혈관 수축 질환) 등을 앓고 있다.", "cold.q5": "최근 수면 부족(6시간 이하) 또는 과도한 피로감을 느낀다.", "cold.q6": "작업 중 현기증, 실신, 극심한 손발 저림 또는 감각 이상을 경험한 적이 있다.", "cold.q7": "신규 배치자이거나, 올 겨울 첫 저온작업에 투입된다.", "cold.q8": "현재 복용 중인 약물이 체온조절에 영향을 줄 수 있다. (항고혈압제, 갑상선호르몬제 등).", "cold.q9": "과거에 저체온증, 동상 등 한랭질환을 경험한 적이 있다."}, "vi": {"cold.title": "Tự kiểm tra sức khỏe trước khi làm việc (trời lạnh)", "cold.sub": "Trả lời tất cả câu hỏi. Báo người phụ trách trước khi làm việc nếu có bất thường.", "cold.yes": "Có", "cold.no": "Không", "cold.date": "Ngày", "cold.weather": "Cảnh báo thời tiết", "cold.unknown": "Không tra cứu được · cần xác nhận", "cold.none": "Không có cảnh báo rét", "cold.advisory": "Cảnh báo rét mức chú ý", "cold.warning": "Cảnh báo rét nghiêm trọng", "cold.loading": "Đang tra cứu", "cold.q1": "Sáng nay thân nhiệt thấp hơn bình thường hoặc tôi bị ớn lạnh dữ dội.", "cold.q2": "Trong 3 ngày qua tôi có triệu chứng nhiễm bệnh như cảm lạnh, cúm hoặc sốt.", "cold.q3": "Tôi có tiền sử tăng huyết áp, bệnh tim (đau thắt ngực, rối loạn nhịp tim), bệnh mạch máu não.", "cold.q4": "Tôi mắc bệnh tiểu đường, suy giáp hoặc bệnh Raynaud (co thắt mạch máu).", "cold.q5": "Gần đây tôi thiếu ngủ (6 giờ trở xuống) hoặc cảm thấy quá mệt mỏi.", "cold.q6": "Tôi từng bị chóng mặt, ngất, tê tay chân nghiêm trọng hoặc rối loạn cảm giác khi làm việc.", "cold.q7": "Tôi mới được bố trí công việc hoặc lần đầu làm việc trong môi trường lạnh mùa đông này.", "cold.q8": "Thuốc tôi đang dùng có thể ảnh hưởng đến điều hòa thân nhiệt (thuốc hạ huyết áp, hormone tuyến giáp, v.v.).", "cold.q9": "Tôi từng mắc bệnh do lạnh như hạ thân nhiệt hoặc tê cóng."}, "zh": {"cold.title": "作业前健康自查（寒冷）", "cold.sub": "请回答所有问题。如有异常，作业前告知负责人。", "cold.yes": "是", "cold.no": "否", "cold.date": "填写日期", "cold.weather": "气象警报", "cold.unknown": "查询失败 · 需负责人确认", "cold.none": "无生效寒潮警报", "cold.advisory": "寒潮注意报", "cold.warning": "寒潮警报", "cold.loading": "查询中", "cold.q1": "今天早晨体温低于平时，或感到严重寒战。", "cold.q2": "最近（过去3天内）出现过感冒、流感、发热等感染症状。", "cold.q3": "有高血压、心脏病（心绞痛、心律失常等）、脑血管疾病等病史。", "cold.q4": "患有糖尿病、甲状腺功能减退、雷诺病（血管收缩性疾病）等。", "cold.q5": "近期睡眠不足（6小时及以下）或感到过度疲劳。", "cold.q6": "工作中曾出现眩晕、昏厥、手脚严重麻木或感觉异常。", "cold.q7": "属于新安排上岗人员，或今年冬季首次从事低温作业。", "cold.q8": "目前服用的药物可能影响体温调节（降压药、甲状腺激素药物等）。", "cold.q9": "过去曾发生低体温症、冻伤等寒冷相关疾病。"}, "th": {"cold.title": "การประเมินสุขภาพตนเองก่อนทำงาน (อากาศหนาว)", "cold.sub": "ตอบทุกข้อ หากมีอาการผิดปกติให้แจ้งผู้รับผิดชอบก่อนทำงาน", "cold.yes": "ใช่", "cold.no": "ไม่ใช่", "cold.date": "วันที่", "cold.weather": "ประกาศเตือนสภาพอากาศ", "cold.unknown": "ตรวจสอบไม่ได้ · ให้ผู้รับผิดชอบตรวจสอบ", "cold.none": "ไม่มีประกาศเตือนคลื่นความหนาว", "cold.advisory": "ประกาศเฝ้าระวังคลื่นความหนาว", "cold.warning": "ประกาศเตือนคลื่นความหนาวรุนแรง", "cold.loading": "กำลังตรวจสอบ", "cold.q1": "เช้าวันนี้อุณหภูมิร่างกายต่ำกว่าปกติหรือรู้สึกหนาวสั่นอย่างรุนแรง", "cold.q2": "ในช่วง 3 วันที่ผ่านมามีอาการติดเชื้อ เช่น หวัด ไข้หวัดใหญ่ หรือมีไข้", "cold.q3": "มีประวัติความดันโลหิตสูง โรคหัวใจ (เจ็บหน้าอกจากหัวใจขาดเลือด หัวใจเต้นผิดจังหวะ) หรือโรคหลอดเลือดสมอง", "cold.q4": "เป็นโรคเบาหวาน ภาวะไทรอยด์ทำงานต่ำ หรือโรคเรย์โนด์ (โรคหลอดเลือดหดตัว)", "cold.q5": "ช่วงนี้นอนหลับไม่เพียงพอ (ไม่เกิน 6 ชั่วโมง) หรือรู้สึกอ่อนเพลียมาก", "cold.q6": "เคยเวียนศีรษะ เป็นลม ชามือเท้าอย่างรุนแรง หรือมีความรู้สึกผิดปกติขณะทำงาน", "cold.q7": "เพิ่งได้รับมอบหมายงานใหม่ หรือเริ่มทำงานในที่หนาวเย็นครั้งแรกในฤดูหนาวนี้", "cold.q8": "ยาที่ใช้อยู่ในปัจจุบันอาจส่งผลต่อการควบคุมอุณหภูมิร่างกาย (ยาลดความดันโลหิต ฮอร์โมนไทรอยด์ เป็นต้น)", "cold.q9": "เคยมีภาวะตัวเย็นเกินหรือเนื้อเยื่อถูกความเย็นจัดทำลาย หรือโรคจากความหนาวอื่น ๆ"}, "ru": {"cold.title": "Самопроверка здоровья перед работой (холод)", "cold.sub": "Ответьте на все вопросы. При отклонениях сообщите ответственному до начала работы.", "cold.yes": "Да", "cold.no": "Нет", "cold.date": "Дата", "cold.weather": "Метеопредупреждение", "cold.unknown": "Нет данных · требуется проверка", "cold.none": "Предупреждение о холоде не действует", "cold.advisory": "Предупреждение о похолодании", "cold.warning": "Предупреждение о сильном похолодании", "cold.loading": "Загрузка", "cold.q1": "Сегодня утром температура тела была ниже обычной или был сильный озноб.", "cold.q2": "За последние 3 дня были симптомы инфекции: простуда, грипп, повышенная температура и т. п.", "cold.q3": "В анамнезе есть гипертония, болезни сердца (стенокардия, аритмия и др.) или цереброваскулярные заболевания.", "cold.q4": "Имеются диабет, гипотиреоз, болезнь Рейно (сужение сосудов) и т. п.", "cold.q5": "В последнее время недосыпаю (6 часов или меньше) или чувствую чрезмерную усталость.", "cold.q6": "Во время работы ранее возникали головокружение, обморок, сильное онемение рук или ног либо нарушения чувствительности.", "cold.q7": "Я недавно назначен на работу или впервые этой зимой приступаю к работе на холоде.", "cold.q8": "Принимаемые сейчас лекарства могут влиять на терморегуляцию (гипотензивные препараты, гормоны щитовидной железы и др.).", "cold.q9": "Ранее были заболевания, связанные с холодом, например переохлаждение или обморожение."}};
 Object.keys(COLD_I18N).forEach(l=>Object.assign(I18N[l],COLD_I18N[l]));
+const SMOKE_I18N = {"ko": {"unit.mlDay": "mL/일", "err.smokeDetails": "기간과 하루 사용량을 입력해 주세요.", "field.smokeYears": "흡연 기간", "field.smokeAmount": "하루 사용량"}, "vi": {"unit.mlDay": "mL/ngày", "err.smokeDetails": "Vui lòng nhập thời gian và lượng sử dụng mỗi ngày.", "field.smokeYears": "Thời gian hút", "field.smokeAmount": "Lượng sử dụng mỗi ngày"}, "zh": {"unit.mlDay": "mL/天", "err.smokeDetails": "请输入吸烟年限和每日使用量。", "field.smokeYears": "吸烟年限", "field.smokeAmount": "每日使用量"}, "th": {"unit.mlDay": "มล./วัน", "err.smokeDetails": "กรุณากรอกระยะเวลาและปริมาณที่ใช้ต่อวัน", "field.smokeYears": "ระยะเวลาที่สูบ", "field.smokeAmount": "ปริมาณที่ใช้ต่อวัน"}, "ru": {"unit.mlDay": "мл/день", "err.smokeDetails": "Укажите стаж и количество в день.", "field.smokeYears": "Стаж курения", "field.smokeAmount": "Количество в день"}};
+Object.keys(SMOKE_I18N).forEach(l=>Object.assign(I18N[l],SMOKE_I18N[l]));
 const PHOTO_CHECK_SKIP = {"ko": "자동 판독을 완료하지 못했습니다. 담당자가 확인합니다.", "vi": "Không thể hoàn tất kiểm tra tự động. Người phụ trách sẽ xác nhận.", "zh": "未能完成自动识别，负责人将核对。", "th": "ตรวจสอบอัตโนมัติไม่สำเร็จ เจ้าหน้าที่จะตรวจสอบ", "ru": "Не удалось завершить автоматическую проверку. Ответственный проверит вручную."};
 function stepName(st){ if(st===10) return I18N[LANG]["cold.title"]; const l = STEP_NAME_I18N[LANG]; return (l && l[st]) || STEP_NAME[st]; }
 let LANG = "ko";
@@ -2459,6 +2476,7 @@ function applyLang(){
     const k = el.dataset.i18n, d = (I18N[LANG] && I18N[LANG][k]) || I18N.ko[k];
     if(d != null) el.innerHTML = d;
   });
+  document.querySelectorAll("[id^=smoke_][id$=_y], [id^=smoke_][id$=_d]").forEach(el=>el.setAttribute("aria-label", I18N[LANG][el.id.endsWith("_y")?"field.smokeYears":"field.smokeAmount"]));
   document.documentElement.lang = LANG;
   Object.keys(PH_I18N).forEach(id => { const el = document.getElementById(id); if(el) el.placeholder = PH_I18N[id][LANG] || PH_I18N[id].ko; });
   try{ if(!document.body.classList.contains("admmode")){ $("#hTitle").textContent = stepName(step); paintNextLabel(); } }catch(e){}
@@ -2861,6 +2879,7 @@ document.addEventListener("click", e => {
     else if(on){ multi[k]=multi[k].filter(x=>x!==v); b.setAttribute("aria-pressed","false"); }
     else { multi[k]=multi[k].filter(x=>x!=="없음").concat(v); b.setAttribute("aria-pressed","true");
            const n = wrap.querySelector('[data-v="없음"]'); if(n) n.setAttribute("aria-pressed","false"); }
+    if(k==="smokeType") syncSmokeFields();
   }
   clearErr(b.closest(".f"));
 });
@@ -3102,6 +3121,48 @@ $$("#drinkRows .drow").forEach(row => {
   row.querySelector(".dq").addEventListener("input", () => { clearErr($("#fGlass")); saveDraft(); });
 });
 document.getElementById("visa").addEventListener("change", e => { document.getElementById("wVisaEtc").classList.toggle("hidden", e.target.value!=="기타"); });
+const SMOKE_TYPES = [["cigarette","연초","개비"],["heated","궐련형","개비"],["liquid","액상형","mL"]];
+function syncSmokeFields(){
+  const current=pick.smoke==="현재흡연", past=pick.smoke==="과거흡연";
+  show("wSmoke",current||past);
+  $("#fSmokeType").classList.toggle("hidden",!current);
+  $("#smokePast").classList.toggle("hidden",!past);
+  SMOKE_TYPES.forEach(([k,name])=>{
+    const active=current && (multi.smokeType||[]).includes(name), el=$("#smoke_"+k);
+    el.classList.toggle("hidden",!active);
+    el.querySelectorAll("input").forEach(inp=>inp.disabled=!active);
+    if(!active) clearErr(el);
+  });
+}
+function smokeDetailsFromForm(){
+  const out={};
+  if(pick.smoke!=="현재흡연") return out;
+  SMOKE_TYPES.forEach(([k,name])=>{ if((multi.smokeType||[]).includes(name)) out[k]={years:val("smoke_"+k+"_y"),daily:val("smoke_"+k+"_d")}; });
+  return out;
+}
+function validSmokeDetail(k, v){
+  if(!v || String(v.years).trim()==="" || String(v.daily).trim()==="") return false;
+  const y=Number(v.years), d=Number(v.daily);
+  return Number.isFinite(y)&&y>=0&&Number.isFinite(d)&&d>0&&(k==="liquid"||Number.isInteger(d));
+}
+function smokeFormValid(){
+  if(pick.smoke!=="현재흡연") return true;
+  const d=smokeDetailsFromForm(), keys=Object.keys(d);
+  return keys.length>0 && keys.every(k=>validSmokeDetail(k,d[k]));
+}
+function smokeDetailText(r){
+  if(r.smoke!=="현재흡연" || !r.smokeDetails || !Object.keys(r.smokeDetails).length) return "";
+  return SMOKE_TYPES.filter(([k])=>r.smokeDetails[k]).map(([k,name,unit])=>{
+    const d=r.smokeDetails[k];
+    return name+" "+(d.years==null||d.years===""?"미입력":d.years+"년")+"/"+(d.daily==null||d.daily===""?"미입력":d.daily+unit+"/일");
+  }).join(" · ");
+}
+function smokeRecordText(r){
+  const detail=smokeDetailText(r);
+  if(detail) return r.smoke+" ("+detail+")";
+  if(r.smoke==="현재흡연"||r.smoke==="과거흡연") return r.smoke+" (총 "+(r.smokeY||" ")+"년, 하루 "+(r.smokeD||" ")+"개비"+((r.smokeType||[]).length?", "+r.smokeType.join("·"):"")+")";
+  return r.smoke||"";
+}
 function onPick(k,v){
   if(k==="nation"){ show("wNation", !!v && v!=="대한민국"); $("#cInterview").classList.toggle("hidden", !v || v==="대한민국");
     const ne = document.getElementById("wNationEtc"); if(ne) ne.classList.toggle("hidden", v!=="기타"); }
@@ -3111,7 +3172,7 @@ function onPick(k,v){
   if(k==="accident") show("wAccident", v==="유");
   if(k==="surgery") show("wSurgery", v==="유");
   if(k==="hasDisease") show("wDisease", v==="유");
-  if(k==="smoke"){ show("wSmoke", v==="과거흡연"||v==="현재흡연"); const st = document.getElementById("fSmokeType"); if(st) st.classList.toggle("hidden", v!=="현재흡연"); }
+  if(k==="smoke") syncSmokeFields();
   if(k==="drinkDays") $("#fGlass").classList.toggle("hidden", v==="0");
 }
 
@@ -3535,7 +3596,11 @@ function validate(){
     (multi.checkup||[]).length ? setErr(cf,false) : fail(cf);
   }
   if(step===4){ needPick("smoke",'[data-pick=smoke]'); needPick("drinkDays",'[data-pick=drinkDays]');
-    if(pick.smoke === "현재흡연"){ const sf = $("#fSmokeType"); (multi.smokeType||[]).length ? setErr(sf,false) : fail(sf); }
+    if(pick.smoke === "현재흡연"){
+      const sf=$("#fSmokeType"), details=smokeDetailsFromForm();
+      Object.keys(details).length ? setErr(sf,false) : fail(sf);
+      Object.keys(details).forEach(k=>{const el=$("#smoke_"+k); validSmokeDetail(k,details[k])?setErr(el,false):fail(el);});
+    }
     if(pick.drinkDays && pick.drinkDays !== "0"){ const gf = $("#fGlass"); const dl = drinkList(); (dl.length && dl.every(x => +x.q > 0)) ? setErr(gf,false) : fail(gf); }
   }
   if(step===5 && !BP_AT_SITE){
@@ -3586,7 +3651,8 @@ function hasLocalStorage(){
 }
 const DRAFT_KEY = "hd4_draft";
 const DRAFT_FIELDS = ["company","name","birth","phone","guardian","address","trade","tradeEtc","checkupUrl","preCheckupUrl",
-  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName","nationEtc","visa","visaEtc","nameEn"];
+  "carY","carM","eduOrg","eduDate","prevSite","prevWork","etcName","nationEtc","visa","visaEtc","nameEn",
+  "smokeY","smokeD","smoke_cigarette_y","smoke_cigarette_d","smoke_heated_y","smoke_heated_d","smoke_liquid_y","smoke_liquid_d"];
 
 function collectDraft(){
   const f = {};
@@ -3698,11 +3764,11 @@ function buildRecord(){
     surgery:{has:pick.surgery||"",ym:val("surgeryYm"),part:val("surgeryPart"),cause:val("surgeryCause")},
     checkup: multi.checkup||[], fitGeneral: pick.fitGeneral||"", fitPre: pick.fitPre||"", vascular: pick.vascular||"",
     hasDisease: pick.hasDisease||"", diseases: dz, drug: val("drug"), symptoms: multi.symptoms||[],
-    smoke: pick.smoke||"", smokeY: val("smokeY"), smokeD: val("smokeD"),
-    smokeType: pick.smoke==="현재흡연" ? (multi.smokeType||[]).slice() : [],
+    smoke: pick.smoke||"", smokeY: pick.smoke==="과거흡연"?val("smokeY"):"", smokeD: pick.smoke==="과거흡연"?val("smokeD"):"",
+    smokeType: pick.smoke==="현재흡연" ? (multi.smokeType||[]).slice() : [], smokeDetails:smokeDetailsFromForm(),
     drinkDays: pick.drinkDays||"", drinkList: pick.drinkDays==="0" ? [] : drinkList(),
     drinkGlass: pick.drinkDays==="0" ? "0" : drinkText(drinkList()),
-    bp:{sys1:val("sys1"),dia1:val("dia1"),pulse1:val("pulse1"),sys2:val("sys2"),dia2:val("dia2"),
+    bp:{sys1:val("sys1"),dia1:val("dia1"),pulse1:val("pulse1"),sys2:val("sys2"),dia2:val("dia2"),pulse2:val("pulse2"),
         by:pick.bpBy||"", level:j.lv||"", note:j.t||""},
     consentPersonal: pick.cPersonal||"", consentUnique: pick.cUnique||"", consentSensitive: pick.cSensitive||"",
     signature: PADS.padSign.data(),
@@ -3820,6 +3886,7 @@ $("#btnNext").addEventListener("click", async () => {
   if(!validate()) return;
   if(step===8){
     if(coldActive() && coldAnswers().some(a=>!a)){step=10;paint();return;}
+    if(!smokeFormValid()){step=4;paint();validate();return;}
     if(["idPhotoBtn","eduPhotoBtn"].some(id => document.getElementById(id)?.classList.contains("busy"))) return; // 첨부 처리 중인 파일이 누락되지 않도록 보호
     const btn = $("#btnNext");
     btn.disabled = true; const oldTxt = btn.textContent; btn.textContent = "저장 중…";
@@ -4006,7 +4073,8 @@ function fillDefault(r){
   [["B16","목"],["C16","허리"],["D16","팔"],["F16","손목"],["G16","무릎"],["H16","발목"],["I16","고관절"]]
     .forEach(([ref,part]) => { const on = sym.indexOf(part) >= 0; setCell(ref,(on?CH:UN)+part); markCell(ref,on); });
   let sm = ORIG.C17;
-  if(g("smoke")==="비흡연") sm = sm.replace(UN+" 비흡연", CH+" 비흡연");
+  if(smokeDetailText(r)) sm = UN+" 비흡연   "+UN+" 과거흡연   "+CH+" 현재흡연: "+smokeDetailText(r);
+  else if(g("smoke")==="비흡연") sm = sm.replace(UN+" 비흡연", CH+" 비흡연");
   else if(g("smoke")){
     const tag = g("smoke")==="과거흡연" ? UN+" 과거흡연" : UN+" 현재흡연";
     const i = sm.indexOf(tag);
@@ -4061,7 +4129,7 @@ function valuesFor(r){
     checkup:(r.checkup||[]).join(", "), fitGeneral:g("fitGeneral"), fitPre:g("fitPre"), vascular:g("vascular"),
     disease:(r.diseases||[]).join(", ")||"없음", sym_목:sy(r,"목"), sym_허리:sy(r,"허리"), sym_팔:sy(r,"팔"),
     sym_손목:sy(r,"손목"), sym_무릎:sy(r,"무릎"), sym_발목:sy(r,"발목"), sym_고관절:sy(r,"고관절"),
-    smoke:g("smoke")+(g("smoke")==="현재흡연"||g("smoke")==="과거흡연" ? " (총 "+g("smokeY")+"년, 하루 "+g("smokeD")+"개비"+((r.smokeType||[]).length?", "+r.smokeType.join("·"):"")+")":""),
+    smoke:smokeRecordText(r),
     drink:g("drinkDays")+"일/주"+(g("drinkDays")!=="0"?(", "+(r.drinkList ? drinkText(r.drinkList) : g("drinkGlass")+"잔")):""),
     consentPersonal:g("consentPersonal"), consentUnique:g("consentUnique"), consentSensitive:g("consentSensitive"),
     pledgeDate:dateStr(r.submittedAt), pledgeSign:"",
@@ -4094,7 +4162,9 @@ function fillPhotoBoard(r){
   const nm = "["+(r.name||"")+"]";
   setCell("B20", nm+" 신분증");
   setCell("G20", nm+" 기초안전교육 이수증");
-  setCell("B39", nm+" 혈압용지 ("+fmtDot(r.submittedAt)+")");
+  const bp=r.bp||{};
+  const pulseInfo=[bp.pulse1?"1차 "+bp.pulse1+"회/분":"",bp.pulse2?"2차 "+bp.pulse2+"회/분":""].filter(Boolean).join(" · ");
+  setCell("B39", nm+" 혈압용지 ("+fmtDot(r.submittedAt)+")"+(pulseInfo?" · 맥박 "+pulseInfo:""));
   putImg("B6", photoSrc(r.idPhoto), "cover");
   putImg("G6", photoSrc(r.eduCertPhoto), "cover");
   putImg("B25", photoSrc(r.bpPhoto), "cover");
@@ -4838,7 +4908,7 @@ function renderSheetBp(r){
   el.classList.remove("hidden");
   const bp = r.bp || {};
   const j1 = judge(+bp.sys1, +bp.dia1);
-  const need2 = !!(j1 && (j1.lv==="고혈압" || j1.lv==="위기"));
+  const need2 = !!(j1 && (j1.lv==="고혈압" || j1.lv==="위기")) || !!(bp.sys2||bp.dia2||bp.pulse2);
   const j2 = judge(+bp.sys2, +bp.dia2);
   const fin = j2 || j1;
 
@@ -4849,25 +4919,27 @@ function renderSheetBp(r){
     +   '<span>/</span>'
     +   '<input type="number" id="bpD1" inputmode="numeric" placeholder="80" value="'+esc(bp.dia1||"")+'">'
     + '</div>'
+    + '<div class="bpRow2"><label for="bpP1">1차 맥박 (회/분 · 선택)</label><input type="number" id="bpP1" inputmode="numeric" min="20" max="220" step="1" placeholder="예) 72" value="'+esc(bp.pulse1||"")+'"></div>'
     + (need2
-        ? '<div class="bpRow"><b>2차</b>'
+        ? '<div class="bpRow"><b>2차</b>' 
         +   '<input type="number" id="bpS2" inputmode="numeric" placeholder="120" value="'+esc(bp.sys2||"")+'">'
         +   '<span>/</span>'
         +   '<input type="number" id="bpD2" inputmode="numeric" placeholder="80" value="'+esc(bp.dia2||"")+'">'
         + '</div>'
-        + '<div class="bpNote">140/90 이상입니다. 5분 안정 후 2차 측정을 해 주세요.</div>'
+        + '<div class="bpRow2"><label for="bpP2">2차 맥박 (회/분 · 선택)</label><input type="number" id="bpP2" inputmode="numeric" min="20" max="220" step="1" placeholder="예) 72" value="'+esc(bp.pulse2||"")+'"></div>'
+        + ((j1 && (j1.lv==="고혈압" || j1.lv==="위기")) ? '<div class="bpNote">140/90 이상입니다. 5분 안정 후 2차 측정을 해 주세요.</div>' : '')
         : '')
     + (fin ? '<div class="verdict on '+fin.cls+'"><b>'+esc(fin.lv)+' · '+esc(fin.t)+'</b><span>'+esc(fin.m)+'</span></div>' : '')
     + '<div class="bpRow2"><label>측정자</label><input type="text" id="bpBy2" placeholder="예) 안전관리자 김철수" value="'+esc(bp.by||"")+'"></div>'
-    + '<button class="btn small padd" type="button" id="bpSave">혈압 저장</button>'
+    + '<button class="btn small padd" type="button" id="bpSave">혈압 · 맥박 저장</button>'
     + '</div>';
 
   const live = () => {
     const s1=+($("#bpS1").value), d1=+($("#bpD1").value);
     const jj = judge(s1,d1);
-    const want2 = !!(jj && (jj.lv==="고혈압"||jj.lv==="위기"));
+    const want2 = !!(jj && (jj.lv==="고혈압"||jj.lv==="위기")) || !!(val("bpS2")||val("bpD2")||val("bpP2"));
     if(want2 !== need2){   // 2차 칸이 새로 필요해졌거나 필요 없어짐 → 다시 그린다
-      const draft = Object.assign({}, r.bp||{}, {sys1:$("#bpS1").value, dia1:$("#bpD1").value});
+      const draft = Object.assign({}, r.bp||{}, {sys1:val("bpS1"), dia1:val("bpD1"), pulse1:val("bpP1"), sys2:val("bpS2"),dia2:val("bpD2"),pulse2:val("bpP2"),by:val("bpBy2")});
       const tmp = Object.assign({}, r, {bp:draft});
       renderSheetBp(tmp);
       const inp = $("#bpD1"); if(inp){ inp.focus(); }
@@ -4881,12 +4953,16 @@ function renderSheetBp(r){
     if(!(+s1>=50 && +d1>=30)){ alert("혈압을 확인해 주세요. 수축기(높은쪽)와 이완기(낮은쪽)를 모두 넣어야 합니다."); return; }
     const s2 = $("#bpS2") ? $("#bpS2").value.trim() : "";
     const d2 = $("#bpD2") ? $("#bpD2").value.trim() : "";
+    const p1=val("bpP1"), p2=val("bpP2");
+    const validPulse=p=>p===""||(Number.isInteger(+p)&&+p>=20&&+p<=220);
+    if(!validPulse(p1)||!validPulse(p2)){alert("맥박을 확인해 주세요. 20~220회/분의 정수로 입력하거나 미측정 시 비워 두세요.");return;}
+    if(p2 && !(+s2>=50 && +d2>=30)){alert("2차 맥박과 함께 2차 혈압을 입력해 주세요.");return;}
     const jFin = judge(+s2,+d2) || judge(+s1,+d1) || {};
     const btn = $("#bpSave"); btn.disabled = true; const t=btn.textContent; btn.textContent="저장 중…";
 
     const rec = submissions.find(x => docId(x) === docId(r)) || r;
     const backup = rec.bp;
-    const next = { sys1:s1, dia1:d1, pulse1:(rec.bp&&rec.bp.pulse1)||"", sys2:s2, dia2:d2,
+    const next = { sys1:s1, dia1:d1, pulse1:p1, sys2:s2, dia2:d2, pulse2:p2,
                    by:$("#bpBy2").value.trim(), level:jFin.lv||"", note:jFin.t||"" };
     rec.bp = next; r.bp = next;
     const res = await Store.saveRecord(rec, submissions);
@@ -4895,7 +4971,7 @@ function renderSheetBp(r){
       rec.bp = backup; r.bp = backup;
       alert("혈압을 저장하지 못했습니다.\n\n" + ((res && res.message) || "알 수 없는 오류"));
     } else {
-      showToast("혈압을 저장했습니다 ("+(jFin.lv||"")+")");
+      showToast("혈압 · 맥박을 저장했습니다 ("+(jFin.lv||"")+")");
     }
     renderSheetBp(r);
     renderSheetDOM(); fillActiveSheet(r); fitSheetView();
@@ -4965,6 +5041,10 @@ const EDIT_FIELDS = [
   { k:"smoke",      label:"흡연" },
   { k:"smokeY",     label:"흡연 기간 (년)" },
   { k:"smokeD",     label:"하루 흡연량 (개비)" },
+  ...SMOKE_TYPES.flatMap(([k,name,unit])=>[
+    {k:"smokeDetails."+k+".years",label:name+" 흡연 기간 (년)",smokeKey:k,smokePart:"years"},
+    {k:"smokeDetails."+k+".daily",label:name+" 하루 사용량 ("+unit+")",smokeKey:k,smokePart:"daily"}
+  ]),
   { k:"drinkDays",  label:"주당 음주 (일)" },
   { k:"drinkGlass", label:"주량 (예: 소주 1병, 맥주 2잔)" },
 
@@ -4982,7 +5062,8 @@ function setPath(o, k, v){
 }
 function editFieldsFor(){
   const gc = !authReady() || isGC();
-  return EDIT_FIELDS.filter(f => f.g || gc || !f.gcOnly);
+  const detail=current && current.smokeDetails && Object.keys(current.smokeDetails).length;
+  return EDIT_FIELDS.filter(f => (f.g || gc || !f.gcOnly) && (!f.smokeKey || (detail && current.smokeDetails[f.smokeKey])) && !(detail && (f.k==="smokeY" || f.k==="smokeD")));
 }
 function openEdit(r){
   if(!r) return;
@@ -5051,6 +5132,7 @@ $("#editSave").addEventListener("click", async () => {
   for(const f of editFieldsFor()){
     if(f.g) continue;
     const v = readVal(f); if(v === null) continue;
+    if(f.smokeKey && !validSmokeDetail(f.smokeKey,Object.assign({},getPath(rec,"smokeDetails."+f.smokeKey),{[f.smokePart]:v}))){const e=$("#editErr");e.textContent="흡연 기간과 하루 사용량을 확인해 주세요.";e.classList.add("on");return;}
     if(!same(getPath(rec, f.k), v)){ before[f.k] = getPath(rec, f.k); changed.push(f); }
   }
   if(!changed.length){ $("#editOverlay").classList.add("hidden"); return; }
@@ -6823,12 +6905,12 @@ function doExportCsv(){
     ["주소","address"],["경력년","careerY"],["경력월","careerM"],["기초안전교육","basicEdu"],["교육업체","eduOrg"],
     ["교육이수일","eduDate"],["직전근무지","prevSite"],["온열질환경험","heatPrev"],["복용약물","drug"],
     ["흡연","smoke"],["음주일수","drinkDays"],["개인정보동의","consentPersonal"],["고유식별동의","consentUnique"],["민감정보동의","consentSensitive"]];
-  const head = cols.map(c=>c[0]).concat(["지병","신체증상","혈압","혈압판정","안전모","안전화","안전벨트","기타보호구","취약근로자","관리자확인필요"]);
+  const head = cols.map(c=>c[0]).concat(["지병","신체증상","혈압","혈압판정","안전모","안전화","안전벨트","기타보호구","취약근로자","관리자확인필요","흡연 상세","1차 맥박(회/분)","2차 맥박(회/분)"]);
   const q = v => '"'+String(v==null?"":v).replace(/"/g,'""')+'"';
   const lines = list.map(r => cols.map(c=>q(c[1].split(".").reduce((o,k)=>o==null?o:o[k], r))).concat([
     q((r.diseases||[]).join(" ")), q((r.symptoms||[]).join(" ")),
     q((r.bp.sys2||r.bp.sys1)+"/"+(r.bp.dia2||r.bp.dia1)), q(r.bp.level),
-    q(r.ppe.helmet), q(r.ppe.shoes), q(r.ppe.belt), q(r.ppe.etcName), q(isRisk(r)?"Y":""), q(flags(r).join(" / "))
+    q(r.ppe.helmet), q(r.ppe.shoes), q(r.ppe.belt), q(r.ppe.etcName), q(isRisk(r)?"Y":""), q(flags(r).join(" / ")), q(smokeRecordText(r)), q((r.bp||{}).pulse1), q((r.bp||{}).pulse2)
   ]).join(","));
   dl("신규채용자명부_"+sc.label+".csv", head.join(",")+"\n"+lines.join("\n"), "text/csv;charset=utf-8");
 }
