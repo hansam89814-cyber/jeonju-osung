@@ -1,1 +1,12 @@
-{"status": "unknown", "checkedAt": "2026-11-27T23:39:21.554501+00:00", "source": "KMA", "region": "전주"}
+{
+  "status": "unknown",
+  "checkedAt": "",
+  "attemptedAt": "2026-11-28T00:03:04.093633+00:00",
+  "source": "KMA",
+  "region": "전주",
+  "regionCode": "L1061300",
+  "location": "전북특별자치도 전주시 완산구 삼천동",
+  "basis": "effective",
+  "errorCode": "WARNING_CODE",
+  "errorMessage": "문서에서 확인되지 않은 특보 코드가 반환되었습니다."
+}
