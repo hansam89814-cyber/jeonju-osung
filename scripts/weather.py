@@ -40,7 +40,7 @@ WARNING_TYPES = {
     "해일": "O", "지진해일": "N", "풍랑": "V", "태풍": "T", "대설": "S",
     "황사": "Y", "폭염": "H", "안개": "F", "열대야": "K",
 }
-LEVELS = {"예비특보": "1", "주의보": "2", "경보": "3"}
+LEVELS = {"예비": "1", "예비특보": "1", "주의": "2", "주의보": "2", "경보": "3"}
 COMMANDS = {"발표": "1", "대치": "2", "해제": "3", "대치해제": "4", "연장": "5", "변경": "6", "변경해제": "7"}
 ACTIVE_COMMANDS = {"1", "2", "5", "6"}
 CANCEL_COMMANDS = {"3", "4", "7"}
@@ -73,7 +73,7 @@ def fetch_document(key, opener=None, sleeper=time.sleep):
     params = {"fe": "e", "disp": "1", "authKey": key}
     request = urllib.request.Request(
         ENDPOINT + "?" + urllib.parse.urlencode(params),
-        headers={"User-Agent": "Jeonju-Osung-Weather/2.0", "Accept": "application/json", "Accept-Encoding": "identity"},
+        headers={"User-Agent": "Jeonju-Osung-Weather/2.1", "Accept": "application/json", "Accept-Encoding": "identity"},
     )
     opener = opener or urllib.request.build_opener(NoRedirect())
     for attempt in range(1, MAX_ATTEMPTS + 1):
@@ -221,20 +221,28 @@ def classify(rows, now):
             fail("REGION_SCHEMA", "특보구역 코드 형식을 확인할 수 없습니다.")
         if (name in REGION_NAMES) != (region == REGION_ID):
             fail("REGION_MISMATCH", "전주 특보구역 코드와 명칭이 일치하지 않습니다.")
+        # Other regions cannot affect the Jeonju cold-warning result.
+        # A province-wide cold warning is unusual; require human verification.
+        if region != REGION_ID:
+            if region == "L1060000" and WARNING_TYPES.get(str(row["WRN"]).strip(), str(row["WRN"]).strip()) == "C":
+                fail("REGION_SCOPE", "전북 전체 한파특보의 전주 적용 여부를 확인해야 합니다.")
+            continue
         wrn = scalar(row["WRN"])
         wrn = WARNING_TYPES.get(wrn, wrn)
+        if wrn not in set(WARNING_TYPES.values()):
+            fail("WARNING_CODE", "전주 지역의 미확인 특보종류입니다.")
+        if wrn != "C":
+            continue
         level = scalar(row["LVL"])
         level = LEVELS.get(level, level)
         command = scalar(row["CMD"])
         command = COMMANDS.get(command, command)
-        if wrn not in set(WARNING_TYPES.values()) or level not in {"1", "2", "3"} or command not in ACTIVE_COMMANDS | CANCEL_COMMANDS:
-            fail("WARNING_CODE", "문서에서 확인되지 않은 특보 코드가 반환되었습니다.")
+        if level not in {"1", "2", "3"} or command not in ACTIVE_COMMANDS | CANCEL_COMMANDS:
+            fail("WARNING_CODE", "전주 한파특보의 수준 또는 명령을 확인할 수 없습니다.")
         announced = kst_time(row["TM_FC"])
         effective = kst_time(row["TM_EF"])
         if announced > now + timedelta(minutes=2):
-            fail("FUTURE_PUBLICATION", "조회시각 이후의 특보 발표 자료가 포함되어 있습니다.")
-        if region != REGION_ID or wrn != "C":
-            continue
+            fail("FUTURE_PUBLICATION", "조회시각 이후의 전주 한파특보 발표 자료가 포함되어 있습니다.")
         target_rows += 1
         if level == "1":
             preliminary = preliminary or command in ACTIVE_COMMANDS
